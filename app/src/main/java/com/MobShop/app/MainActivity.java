@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 public class MainActivity extends Activity
@@ -34,7 +35,18 @@ public class MainActivity extends Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        //setContentView(R.layout.activity_main);
+        FrameLayout baseFrame;
+        baseFrame=new FrameLayout(this);
+        setContentView(baseFrame);
+
+        LayoutInflater inflater = (LayoutInflater)baseFrame.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View mainView = inflater.inflate(R.layout.activity_main, null);
+        View secondView = inflater.inflate(R.layout.overlay_view, null);
+
+        baseFrame.addView(mainView);
+        baseFrame.addView(secondView);
+
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -73,7 +85,9 @@ public class MainActivity extends Activity
         ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mTitle);
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setTitle("Dashboard");
+        actionBar.setLogo(R.drawable.logodash);
     }
 
 

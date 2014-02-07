@@ -1,25 +1,27 @@
 <resources>
 
-    <!-- Base application theme. -->
+    <!-- Base application theme.-->
     <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
         <item name="android:popupMenuStyle">@style/PopupMenu</item>
         <item name="android:actionBarStyle">@style/ActionBar</item>
     </style>
-    <!-- Base application theme. -->
+    <!-- Base application theme.-->
     <style name="AppThemeNoBar" parent="android:Theme.Holo.Light.NoActionBar">
-        <!-- Customize your theme here. -->
+        <!-- Customize your theme here.-->
     </style>
 
-    <!-- The beef: background color for Action Bar overflow menu -->
+    <!-- The beef: background color for Action Bar overflow menu-->
     <style name="PopupMenu" parent="android:Widget.Holo.Light.ListPopupWindow">
         <item name="android:popupBackground">@drawable/menu_dropdown</item>
     </style>
 
-    <!-- Bonus: if you want to style whole Action Bar, not just the menu -->
+    <!-- Bonus: if you want to style whole Action Bar, not just the menu-->
     <style name="ActionBar" parent="android:Widget.Holo.Light.ActionBar.Solid">
-        <!-- Blue background color & black bottom border -->
+        <!-- Blue background color & black bottom border-->
         <item name="android:background">@drawable/menu_dropdown</item>
-    </style>
+    </style>-
+
+    <!-- the theme applied to the application or activity -->
 
     <style name="Widget.GifMoviewView" parent="@android:style/Widget"></style>
 
