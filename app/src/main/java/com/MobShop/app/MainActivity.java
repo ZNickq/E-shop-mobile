@@ -35,8 +35,8 @@ public class MainActivity extends Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_main);
-        FrameLayout baseFrame;
+        setContentView(R.layout.activity_main);
+        /*FrameLayout baseFrame;
         baseFrame=new FrameLayout(this);
         setContentView(baseFrame);
 
@@ -46,7 +46,7 @@ public class MainActivity extends Activity
 
         baseFrame.addView(mainView);
         baseFrame.addView(secondView);
-
+        getActionBar().hide();*/
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.navigation_drawer);
