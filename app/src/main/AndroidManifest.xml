@@ -18,13 +18,22 @@
             </intent-filter>
         </activity>
         <activity
-            android:theme="@style/AppTheme"
             android:name="com.MobShop.app.MainActivity"
             android:label="@string/title_activity_main"
-            android:parentActivityName="com.MobShop.app.LoadingScreen" >
+            android:parentActivityName="com.MobShop.app.LoadingScreen"
+            android:theme="@style/AppTheme" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="LoadingScreen" />
+        </activity>
+        <activity
+            android:name=".HelpOverlay"
+            android:label="@string/title_activity_help_overlay"
+            android:theme="@style/AppThemeNoBar"
+            android:parentActivityName="com.MobShop.app.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="MainActivity" />
         </activity>
     </application>
 

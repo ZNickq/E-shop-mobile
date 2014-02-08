@@ -5,10 +5,17 @@ import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.widget.ViewDragHelper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -26,6 +33,8 @@ import java.lang.reflect.Field;
 public class MainActivity extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
+    public static Bitmap originalScreen;
+
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -42,6 +51,28 @@ public class MainActivity extends Activity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+       View mainView = findViewById(android.R.id.content);
+        mainView = mainView.getRootView();
+
+        mainView.refreshDrawableState();
+        mainView.setDrawingCacheEnabled(true);
+
+        final View rView = mainView;
+        Handler h = new Handler(Looper.getMainLooper());
+        h.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                Bitmap b = rView.getDrawingCache();
+                originalScreen = b;
+
+                Intent it = new Intent(getApplicationContext(), HelpOverlay.class);
+                startActivity(it);
+
+            }
+        }, 2000);
+
         /*FrameLayout baseFrame;
         baseFrame=new FrameLayout(this);
         setContentView(baseFrame);
@@ -178,7 +209,7 @@ public class MainActivity extends Activity
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+           View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
