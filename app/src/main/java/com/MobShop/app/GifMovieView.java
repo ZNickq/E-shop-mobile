@@ -14,9 +14,9 @@ import android.view.View;
  * This is a View class that wraps Android {@link Movie} object and displays it.
  * You can set GIF as a Movie object or as a resource id from XML or by calling
  * {@link #setMovie(Movie)} or {@link #setMovieResource(int)}.
- * <p>
+ * <p/>
  * You can pause and resume GIF animation by calling {@link #setPaused(boolean)}.
- * <p>
+ * <p/>
  * The animation is drawn in the center inside of the measured view bounds.
  *
  * @author Sergey Bakhtiarov
@@ -136,7 +136,7 @@ public class GifMovieView extends View {
             int movieHeight = mMovie.height();
 
 			/*
-			 * Calculate horizontal scaling
+             * Calculate horizontal scaling
 			 */
             float scaleH = 1f;
             int measureModeWidth = MeasureSpec.getMode(widthMeasureSpec);
@@ -209,11 +209,10 @@ public class GifMovieView extends View {
      * Invalidates view only if it is visible.
      * <br>
      * {@link #postInvalidateOnAnimation()} is used for Jelly Bean and higher.
-     *
      */
     @SuppressLint("NewApi")
     private void invalidateView() {
-        if(mVisible) {
+        if (mVisible) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 postInvalidateOnAnimation();
             } else {

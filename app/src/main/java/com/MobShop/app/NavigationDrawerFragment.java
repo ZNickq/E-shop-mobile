@@ -1,26 +1,31 @@
 package com.MobShop.app;
 
 
-import android.app.Activity;
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.Fragment;
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.RelativeLayout;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -52,11 +57,20 @@ public class NavigationDrawerFragment extends Fragment {
 
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerListView;
+    private ExpandableListView mDrawerExpandableListView;
     private View mFragmentContainerView;
+
+    private DisplayMetrics metrics;
+
+    List<String> groupList;
+    List<String> childList;
+    Map<String, List<String>> categoryCollection;
+    ExpandableListView expListView;
 
     private int mCurrentSelectedPosition = 0;
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
+    private int width;
 
     public NavigationDrawerFragment() {
     }
@@ -80,7 +94,7 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
     @Override
-    public void onActivityCreated (Bundle savedInstanceState) {
+    public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         // Indicate that this fragment would like to influence the set of actions in the action bar.
         setHasOptionsMenu(true);
@@ -88,9 +102,15 @@ public class NavigationDrawerFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-        mDrawerListView = (ListView) inflater.inflate(
-                R.layout.fragment_navigation_drawer, container, false);
+                             Bundle savedInstanceState) {
+
+        View v = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
+        RelativeLayout item = (RelativeLayout) v.findViewById(R.id.relativeLayoutNavigationDrawer);
+        mDrawerExpandableListView = (ExpandableListView) item.findViewById(R.id.slideMenuExpandableListView);
+        createGroupList(); createCollection();
+        final ExpandableListAdapter expListAdapter = new ExpandableListAdapter(getActivity(), groupList, categoryCollection);
+        mDrawerExpandableListView.setAdapter(expListAdapter);
+        /*
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -107,7 +127,46 @@ public class NavigationDrawerFragment extends Fragment {
                         getString(R.string.title_section3),
                 }));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
-        return mDrawerListView;
+        */
+        return item;
+
+    }
+
+    private void createCollection() {
+        String[] categories = { "HCL S2101", "HCL L2102", "HCL V2002", "IdeaPad Z Series", "Essential G Series",
+                "ThinkPad X Series", "Ideapad Z Series" , "IdeaPad Z Series", "Essential G Series",
+                "ThinkPad X Series", "Ideapad Z Series" , "IdeaPad Z Series", "Essential G Series",
+                "ThinkPad X Series", "Ideapad Z Series"  };
+        categoryCollection = new LinkedHashMap<String, List<String>>();
+
+        for (String item : groupList) {
+            childList = new ArrayList<String>();
+            if (item.equals("Categorii"))
+                loadChild(categories);
+            categoryCollection.put(item, childList);
+        }
+    }
+
+    private void loadChild(String[] laptopModels) {
+        for (String model : laptopModels)
+            childList.add(model);
+    }
+
+    private void createGroupList() {
+        groupList = new ArrayList<String>();
+        groupList.add("Acasa");
+        groupList.add("Categorii");
+        groupList.add("Cont");
+        groupList.add("Comenzi");
+        groupList.add("Harta");
+        groupList.add("Log in/Log out");
+    }
+
+    public int GetDipsFromPixel(float pixels){
+        // Get the screen's density scale
+        final float scale = getResources().getDisplayMetrics().density;
+        // Convert the dps to pixels, based on density scale
+        return (int) (pixels * scale + 0.5f);
     }
 
     public boolean isDrawerOpen() {

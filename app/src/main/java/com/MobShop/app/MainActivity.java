@@ -1,10 +1,10 @@
 package com.MobShop.app;
 
-import android.app.Activity;
-
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+<<<<<<< HEAD
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
@@ -16,16 +16,17 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+=======
+import android.graphics.Point;
+import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+>>>>>>> drawer categories exte
 import android.support.v4.widget.ViewDragHelper;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import java.lang.reflect.Field;
@@ -208,8 +209,13 @@ public class MainActivity extends Activity
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
+<<<<<<< HEAD
                 Bundle savedInstanceState) {
            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+=======
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+>>>>>>> drawer categories exte
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;

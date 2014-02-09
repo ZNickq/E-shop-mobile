@@ -19,7 +19,8 @@
     <style name="ActionBar" parent="android:Widget.Holo.Light.ActionBar.Solid">
         <!-- Blue background color & black bottom border-->
         <item name="android:background">@drawable/menu_dropdown</item>
-    </style>-
+    </style>
+    -
 
     <!-- the theme applied to the application or activity -->
 

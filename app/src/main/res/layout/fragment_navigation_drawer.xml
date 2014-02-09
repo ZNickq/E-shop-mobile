@@ -1,9 +1,32 @@
-<ListView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:choiceMode="singleChoice"
-    android:divider="@android:color/transparent"
-    android:dividerHeight="0dp"
-    android:background="#cccc"
-    tools:context="com.MobShop.app.NavigationDrawerFragment" />
+    android:background="#0c3b54"
+    android:id="@+id/relativeLayoutNavigationDrawer"
+    tools:context="com.MobShop.app.NavigationDrawerFragment">
+
+
+    <ExpandableListView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/slideMenuExpandableListView"
+        android:groupIndicator="@drawable/group_expandablelistview_state_list"
+        android:layout_alignParentTop="true"
+        android:transcriptMode="disabled"
+        android:paddingBottom="45dp"
+
+
+        />
+
+    <ImageButton
+        android:id="@+id/cartSlidingButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/cartslidingbutton"
+        android:background="#05a5f9" />
+</RelativeLayout>
