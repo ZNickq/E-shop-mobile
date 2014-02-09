@@ -209,13 +209,8 @@ public class MainActivity extends Activity
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
-<<<<<<< HEAD
-                Bundle savedInstanceState) {
-           View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-=======
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
->>>>>>> drawer categories exte
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
