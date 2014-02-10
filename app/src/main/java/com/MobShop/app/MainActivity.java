@@ -4,7 +4,6 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
-<<<<<<< HEAD
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
@@ -16,11 +15,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-=======
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
->>>>>>> drawer categories exte
 import android.support.v4.widget.ViewDragHelper;
 import android.view.LayoutInflater;
 import android.view.Menu;
