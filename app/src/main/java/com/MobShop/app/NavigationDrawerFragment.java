@@ -11,7 +11,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,8 +19,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -56,21 +56,23 @@ public class NavigationDrawerFragment extends Fragment {
     private ActionBarDrawerToggle mDrawerToggle;
 
     private DrawerLayout mDrawerLayout;
-    private ListView mDrawerListView;
     private ExpandableListView mDrawerExpandableListView;
     private View mFragmentContainerView;
-
-    private DisplayMetrics metrics;
+    private RelativeLayout item, item2;
+    private View firstView, secondView;
 
     List<String> groupList;
     List<String> childList;
-    Map<String, List<String>> categoryCollection;
-    ExpandableListView expListView;
+    Map<String, List<String>> menuCollection;
+
+    String[] pubCategories;
 
     private int mCurrentSelectedPosition = 0;
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
-    private int width;
+    public boolean ok = true;
+    public String groupName;
+    public String category;
 
     public NavigationDrawerFragment() {
     }
@@ -103,31 +105,51 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        /*
+            This is the first view of the slide menu
+            It inflates the relative layout, and checks the expandablelist for various clicks
+            Also it checks the cart button activity
+            Coded by: Calin Segarceanu: csegarceanu@gmail.com
+        */
+        Log.d("ceva", String.valueOf(ok));
+        Log.d("ceva", "inainte");
+        firstView = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
+        secondView = inflater.inflate(R.layout.fragment_second_navigation_drawer, container, false);
+        if(ok == false){
+            item2 = (RelativeLayout) secondView.findViewById(R.id.relativeLayoutNavigationDrawerSecond);
+            TextView txt = (TextView) secondView.findViewById(R.id.categoryNavigationDrawer);
+            txt.setText(category);
+            return item2;
+        }
 
-        View v = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
-        RelativeLayout item = (RelativeLayout) v.findViewById(R.id.relativeLayoutNavigationDrawer);
+        item = (RelativeLayout) firstView.findViewById(R.id.relativeLayoutNavigationDrawer);
         mDrawerExpandableListView = (ExpandableListView) item.findViewById(R.id.slideMenuExpandableListView);
         createGroupList(); createCollection();
-        final ExpandableListAdapter expListAdapter = new ExpandableListAdapter(getActivity(), groupList, categoryCollection);
+        final ExpandableListAdapter expListAdapter = new ExpandableListAdapter(getActivity(), groupList, menuCollection);
         mDrawerExpandableListView.setAdapter(expListAdapter);
-        /*
-        mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        ok = true;
+        mDrawerExpandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener(){
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectItem(position);
+            public boolean onChildClick(ExpandableListView parent, View v, int group_position, int child_position, long id)
+            {
+                groupName = groupList.get(group_position);
+                if(groupName.equals("Categorii")){
+                    category = pubCategories[child_position];
+
+                    item2 = (RelativeLayout) secondView.findViewById(R.id.relativeLayoutNavigationDrawerSecond);
+                    TextView txt = (TextView) secondView.findViewById(R.id.categoryNavigationDrawer);
+                    txt.setText(category);
+                    ok = false;
+                    Log.d("ceva", "Am pus in item2");
+                }
+                return false;
             }
         });
-        mDrawerListView.setAdapter(new ArrayAdapter<String>(
-                getActionBar().getThemedContext(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-                new String[]{
-                        getString(R.string.title_section1),
-                        getString(R.string.title_section2),
-                        getString(R.string.title_section3),
-                }));
-        mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
-        */
+        Log.d("ceva", String.valueOf(ok));
+        if(ok == false){
+            Log.d("ceva", "Am returnat item2");
+            return item2;
+        }
         return item;
 
     }
@@ -137,13 +159,16 @@ public class NavigationDrawerFragment extends Fragment {
                 "ThinkPad X Series", "Ideapad Z Series" , "IdeaPad Z Series", "Essential G Series",
                 "ThinkPad X Series", "Ideapad Z Series" , "IdeaPad Z Series", "Essential G Series",
                 "ThinkPad X Series", "Ideapad Z Series"  };
-        categoryCollection = new LinkedHashMap<String, List<String>>();
+
+        this.pubCategories = categories;
+
+        menuCollection = new LinkedHashMap<String, List<String>>();
 
         for (String item : groupList) {
             childList = new ArrayList<String>();
             if (item.equals("Categorii"))
                 loadChild(categories);
-            categoryCollection.put(item, childList);
+            menuCollection.put(item, childList);
         }
     }
 
@@ -162,12 +187,6 @@ public class NavigationDrawerFragment extends Fragment {
         groupList.add("Log in/Log out");
     }
 
-    public int GetDipsFromPixel(float pixels){
-        // Get the screen's density scale
-        final float scale = getResources().getDisplayMetrics().density;
-        // Convert the dps to pixels, based on density scale
-        return (int) (pixels * scale + 0.5f);
-    }
 
     public boolean isDrawerOpen() {
         return mDrawerLayout != null && mDrawerLayout.isDrawerOpen(mFragmentContainerView);
@@ -249,8 +268,8 @@ public class NavigationDrawerFragment extends Fragment {
 
     private void selectItem(int position) {
         mCurrentSelectedPosition = position;
-        if (mDrawerListView != null) {
-            mDrawerListView.setItemChecked(position, true);
+        if (mDrawerExpandableListView != null) {
+            mDrawerExpandableListView.setItemChecked(position, true);
         }
         if (mDrawerLayout != null) {
             mDrawerLayout.closeDrawer(mFragmentContainerView);

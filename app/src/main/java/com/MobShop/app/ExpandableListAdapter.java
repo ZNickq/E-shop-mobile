@@ -13,17 +13,17 @@ import java.util.Map;
 
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private Activity context;
-    private Map<String, List<String>> laptopCollections;
-    private List<String> laptops;
+    private Map<String, List<String>> menuCollection;
+    private List<String> groupParent;
 
-    public ExpandableListAdapter(Activity context, List<String> laptops, Map<String, List<String>> laptopCollections) {
+    public ExpandableListAdapter(Activity context, List<String> groupParent, Map<String, List<String>> menuCollection) {
         this.context = context;
-        this.laptopCollections = laptopCollections;
-        this.laptops = laptops;
+        this.menuCollection = menuCollection;
+        this.groupParent = groupParent;
     }
 
     public Object getChild(int groupPosition, int childPosition) {
-        return laptopCollections.get(laptops.get(groupPosition)).get(childPosition);
+        return menuCollection.get(groupParent.get(groupPosition)).get(childPosition);
     }
 
     public long getChildId(int groupPosition, int childPosition) {
@@ -38,7 +38,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = inflater.inflate(R.layout.child_item_navigation_drawer, null);
         }
 
-        TextView item = (TextView) convertView.findViewById(R.id.laptop);
+        TextView item = (TextView) convertView.findViewById(R.id.childNavigationDrawer);
         item.setText(laptop);
 
         return convertView;
@@ -47,7 +47,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     public int getChildrenCount(int groupPosition) {
         int var;
         try{
-            var = laptopCollections.get(laptops.get(groupPosition)).size();
+            var = menuCollection.get(groupParent.get(groupPosition)).size();
         }catch(NullPointerException npe){
             var = 0;
         }
@@ -55,11 +55,11 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     public Object getGroup(int groupPosition) {
-        return laptops.get(groupPosition);
+        return groupParent.get(groupPosition);
     }
 
     public int getGroupCount() {
-        return laptops.size();
+        return groupParent.size();
     }
 
     public long getGroupId(int groupPosition) {
@@ -72,7 +72,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             LayoutInflater infalInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.group_item_navigation_drawer, null);
         }
-        TextView item = (TextView) convertView.findViewById(R.id.laptop);
+        TextView item = (TextView) convertView.findViewById(R.id.parentNavigationDrawer);
        // item.setTypeface(null, Typeface.BOLD);
         item.setText(laptopName);
         return convertView;
