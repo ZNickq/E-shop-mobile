@@ -11,7 +11,6 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -111,16 +110,9 @@ public class NavigationDrawerFragment extends Fragment {
             Also it checks the cart button activity
             Coded by: Calin Segarceanu: csegarceanu@gmail.com
         */
-        Log.d("ceva", String.valueOf(ok));
-        Log.d("ceva", "inainte");
+
         firstView = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
         secondView = inflater.inflate(R.layout.fragment_second_navigation_drawer, container, false);
-        if(ok == false){
-            item2 = (RelativeLayout) secondView.findViewById(R.id.relativeLayoutNavigationDrawerSecond);
-            TextView txt = (TextView) secondView.findViewById(R.id.categoryNavigationDrawer);
-            txt.setText(category);
-            return item2;
-        }
 
         item = (RelativeLayout) firstView.findViewById(R.id.relativeLayoutNavigationDrawer);
         mDrawerExpandableListView = (ExpandableListView) item.findViewById(R.id.slideMenuExpandableListView);
@@ -135,21 +127,14 @@ public class NavigationDrawerFragment extends Fragment {
                 groupName = groupList.get(group_position);
                 if(groupName.equals("Categorii")){
                     category = pubCategories[child_position];
-
                     item2 = (RelativeLayout) secondView.findViewById(R.id.relativeLayoutNavigationDrawerSecond);
                     TextView txt = (TextView) secondView.findViewById(R.id.categoryNavigationDrawer);
                     txt.setText(category);
-                    ok = false;
-                    Log.d("ceva", "Am pus in item2");
+
                 }
                 return false;
             }
         });
-        Log.d("ceva", String.valueOf(ok));
-        if(ok == false){
-            Log.d("ceva", "Am returnat item2");
-            return item2;
-        }
         return item;
 
     }

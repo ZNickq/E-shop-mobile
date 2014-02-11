@@ -25,7 +25,13 @@
         android:layout_marginTop="30dp"
         android:layout_below="@+id/progress_bar"
         android:id="@+id/blue_team" />
-
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/cerc"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="5dp"/>
     <com.MobShop.app.GifMovieView
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
