@@ -4,22 +4,12 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
-<<<<<<< HEAD
-=======
-import android.app.FragmentTransaction;
-import android.content.Context;
->>>>>>> 1360d063fd24fed65bbfc3a1b28907984b6df6a7
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-<<<<<<< HEAD
-=======
-import android.graphics.Point;
-import android.os.Bundle;
->>>>>>> 1360d063fd24fed65bbfc3a1b28907984b6df6a7
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.ViewDragHelper;
 import android.view.LayoutInflater;
