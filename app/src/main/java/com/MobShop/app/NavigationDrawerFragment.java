@@ -1,6 +1,5 @@
 package com.MobShop.app;
 
-
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
@@ -11,18 +10,23 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -53,25 +57,31 @@ public class NavigationDrawerFragment extends Fragment {
      * Helper component that ties the action bar to the navigation drawer.
      */
     private ActionBarDrawerToggle mDrawerToggle;
+    public WebApiModel api;
 
     private DrawerLayout mDrawerLayout;
     private ExpandableListView mDrawerExpandableListView;
     private View mFragmentContainerView;
-    private RelativeLayout item, item2;
-    private View firstView, secondView;
+    public RelativeLayout item;
+    public LinearLayout subcategoryView;
+    public View firstView;
+    public Button backNavigationDrawer;
+    public ImageButton cartSlidingButton;
+    public ListView listSubcategory;
 
     List<String> groupList;
-    List<String> childList;
-    Map<String, List<String>> menuCollection;
+    ArrayList<HashMap<String, String>> childList;
+    Map<String, ArrayList<HashMap<String, String>>> menuCollection;
 
-    String[] pubCategories;
+    ArrayList<HashMap<String, String>> pubCategories;
 
     private int mCurrentSelectedPosition = 0;
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
     public boolean ok = true;
     public String groupName;
-    public String category;
+    public HashMap<String, String> category = null;
+    public String categoryString;
 
     public NavigationDrawerFragment() {
     }
@@ -112,54 +122,79 @@ public class NavigationDrawerFragment extends Fragment {
         */
 
         firstView = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
-        secondView = inflater.inflate(R.layout.fragment_second_navigation_drawer, container, false);
 
         item = (RelativeLayout) firstView.findViewById(R.id.relativeLayoutNavigationDrawer);
         mDrawerExpandableListView = (ExpandableListView) item.findViewById(R.id.slideMenuExpandableListView);
-        createGroupList(); createCollection();
+        subcategoryView = (LinearLayout) firstView.findViewById(R.id.layout_drawer_subcategory);
+        backNavigationDrawer = (Button) firstView.findViewById(R.id.backButtonNavigationDrawer);
+        cartSlidingButton = (ImageButton) firstView.findViewById(R.id.cartSlidingButton);
+        listSubcategory = (ListView) firstView.findViewById(R.id.listViewNavigationDrawer);
+        createGroupList();
+        try {
+            createCollection();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         final ExpandableListAdapter expListAdapter = new ExpandableListAdapter(getActivity(), groupList, menuCollection);
         mDrawerExpandableListView.setAdapter(expListAdapter);
-        ok = true;
+
         mDrawerExpandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener(){
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int group_position, int child_position, long id)
             {
                 groupName = groupList.get(group_position);
                 if(groupName.equals("Categorii")){
-                    category = pubCategories[child_position];
-                    item2 = (RelativeLayout) secondView.findViewById(R.id.relativeLayoutNavigationDrawerSecond);
-                    TextView txt = (TextView) secondView.findViewById(R.id.categoryNavigationDrawer);
-                    txt.setText(category);
+                    category = pubCategories.get(child_position);
+                    categoryString = category.get(WebApiModel.CATEGORY_NAME);
+                    mDrawerExpandableListView.setVisibility(View.GONE);
+                    cartSlidingButton.setVisibility(View.GONE);
+                    ArrayList<HashMap<String, String>> subCategories = api.getSubCategories("getsubcategorybyname", categoryString);
+                    Log.d("URL", "ok");
+                    subcategoryView.setVisibility(View.VISIBLE);
 
                 }
                 return false;
+            }
+        });
+
+        backNavigationDrawer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                subcategoryView.setVisibility(View.GONE);
+                mDrawerExpandableListView.setVisibility(View.VISIBLE);
+                cartSlidingButton.setVisibility(View.VISIBLE);
             }
         });
         return item;
 
     }
 
-    private void createCollection() {
-        String[] categories = { "HCL S2101", "HCL L2102", "HCL V2002", "IdeaPad Z Series", "Essential G Series",
-                "ThinkPad X Series", "Ideapad Z Series" , "IdeaPad Z Series", "Essential G Series",
-                "ThinkPad X Series", "Ideapad Z Series" , "IdeaPad Z Series", "Essential G Series",
-                "ThinkPad X Series", "Ideapad Z Series"  };
+    private void createCollection() throws IOException {
+        api = new WebApiModel("http://dragomircristian.net/calin/api/");
+        ArrayList<HashMap<String, String>> categories =  api.getCategories("getallcategories");
 
         this.pubCategories = categories;
 
-        menuCollection = new LinkedHashMap<String, List<String>>();
+        menuCollection = new HashMap<String, ArrayList < HashMap<String, String> >>();
 
         for (String item : groupList) {
-            childList = new ArrayList<String>();
-            if (item.equals("Categorii"))
-                loadChild(categories);
-            menuCollection.put(item, childList);
+            childList = new ArrayList<HashMap<String, String>>();
+            if (item.equals("Categorii")){
+                //loadChild(categories);
+                menuCollection.put(item, pubCategories);
+            }else{
+                menuCollection.put(item, childList);
+            }
         }
     }
 
-    private void loadChild(String[] laptopModels) {
-        for (String model : laptopModels)
-            childList.add(model);
+    private void loadChild( ArrayList<HashMap<String, String>> categories) {
+        for(int i = 0; i < categories.size(); i++){
+            HashMap<String, String> map= categories.get(i);
+            childList.add(map);
+        }
+
     }
 
     private void createGroupList() {
@@ -343,3 +378,4 @@ public class NavigationDrawerFragment extends Fragment {
         void onNavigationDrawerItemSelected(int position);
     }
 }
+

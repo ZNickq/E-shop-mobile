@@ -2,7 +2,6 @@ package com.MobShop.app;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -12,14 +11,9 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.ViewDragHelper;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
-import com.jfeinstein.jazzyviewpager.JazzyViewPager;
 
 import java.lang.reflect.Field;
 
@@ -84,10 +78,10 @@ public class MainActivity extends Activity
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-       // setDrawerLeftEdgeSize(this, mDrawerLayout, 0.5f);
+        setDrawerLeftEdgeSize(this, mDrawerLayout, 0.3f);
     }
 
-   /* public static void setDrawerLeftEdgeSize(Activity activity, DrawerLayout drawerLayout, float displayWidthPercentage) {
+    public static void setDrawerLeftEdgeSize(Activity activity, DrawerLayout drawerLayout, float displayWidthPercentage) {
         if (activity == null || drawerLayout == null)
             return;
 
@@ -111,7 +105,7 @@ public class MainActivity extends Activity
         } catch (IllegalAccessException e) {
             // ignore
         }
-    }*/
+    }
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
