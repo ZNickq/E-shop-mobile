@@ -40,7 +40,6 @@ public class WebApiModel {
     public static final String CATEGORY_NAME = "name";
     public static final String SUBCATEGORY_ID = "id";
     public static final String SUBCATEGORY_NAME = "name";
-    public ArrayList<HashMap<String, String>> jsonlist = new ArrayList<HashMap<String, String>>();
 
     public DefaultHttpClient httpClient;
 
@@ -63,13 +62,11 @@ public class WebApiModel {
         HttpResponse httpResponse = null;
         HttpPost httpPost = new HttpPost(url);
 
-
         try {
             // Add your data
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
             nameValuePairs.add(new BasicNameValuePair("category", categoryString));
             httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
             try {
                 httpResponse = httpClient.execute(httpPost);
                 StatusLine statusLine = httpResponse.getStatusLine();
@@ -94,23 +91,21 @@ public class WebApiModel {
             // TODO Auto-generated catch block
             Log.i("HTTP Failed", e.toString());
         }
-
         // Parse String to JSON object
         try {
             jarray = new JSONArray( builder.toString());
         } catch (JSONException e) {
             Log.e("JSON Parser", "Error parsing data " + e.toString());
         }
-        jsonlist.clear();
+       ArrayList<HashMap<String, String>> jsonlist = new ArrayList<HashMap<String, String>>();
+        try{
         //add data to jsonlist, in order to easily proccessing
         for (int i = 0; i < jarray.length(); i++) {
-
             try {
                 JSONObject c = jarray.getJSONObject(i);
                 String id = c.getString(SUBCATEGORY_ID);
                 String name = c.getString(SUBCATEGORY_NAME);
                 HashMap<String, String> map = new HashMap<String, String>();
-                Log.d("URL", name);
                 map.put(SUBCATEGORY_ID, id);
                 map.put(SUBCATEGORY_NAME, name);
                 jsonlist.add(map);
@@ -119,7 +114,9 @@ public class WebApiModel {
                 e.printStackTrace();
             }
         }
-
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
         return jsonlist;
 
     }
@@ -168,23 +165,27 @@ public class WebApiModel {
         } catch (JSONException e) {
             Log.e("JSON Parser", "Error parsing data " + e.toString());
         }
-
+        ArrayList<HashMap<String, String>> jsonlist = new ArrayList<HashMap<String, String>>();
         //add data to jsonlist, in order to easily proccessing
-        for (int i = 0; i < jarray.length(); i++) {
+        try{
+            for (int i = 0; i < jarray.length(); i++) {
 
-            try {
-                JSONObject c = jarray.getJSONObject(i);
-                String id = c.getString(CATEGORY_ID);
-                String name = c.getString(CATEGORY_NAME);
-                HashMap<String, String> map = new HashMap<String, String>();
+                try {
+                    JSONObject c = jarray.getJSONObject(i);
+                    String id = c.getString(CATEGORY_ID);
+                    String name = c.getString(CATEGORY_NAME);
+                    HashMap<String, String> map = new HashMap<String, String>();
 
-                map.put(CATEGORY_ID, id);
-                map.put(CATEGORY_NAME, name);
-                jsonlist.add(map);
+                    map.put(CATEGORY_ID, id);
+                    map.put(CATEGORY_NAME, name);
+                    jsonlist.add(map);
+                }
+                catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
-            catch (JSONException e) {
-                e.printStackTrace();
-            }
+        }catch (NullPointerException e){
+            e.printStackTrace();
         }
         return jsonlist;
     }

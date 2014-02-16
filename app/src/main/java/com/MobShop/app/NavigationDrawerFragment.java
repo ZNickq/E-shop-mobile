@@ -10,7 +10,6 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -150,7 +149,6 @@ public class NavigationDrawerFragment extends Fragment {
                     mDrawerExpandableListView.setVisibility(View.GONE);
                     cartSlidingButton.setVisibility(View.GONE);
                     ArrayList<HashMap<String, String>> subCategories = api.getSubCategories("getsubcategorybyname", categoryString);
-                    Log.d("URL", "ok");
                     subcategoryView.setVisibility(View.VISIBLE);
 
                 }
