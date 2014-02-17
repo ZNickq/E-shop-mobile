@@ -47,11 +47,10 @@ public class WebApiModel {
         this.URL = URL;
     }
 
-    public ArrayList<HashMap<String, String>> getSubCategories(String function, String categoryString){
+    public ArrayList<SubCategory> getSubCategories(String function, String categoryString){
         StrictMode.ThreadPolicy policy = new StrictMode.
                 ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-
         //create url from base url
         String url = this.URL + function;
         StringBuilder builder = new StringBuilder();
@@ -97,7 +96,7 @@ public class WebApiModel {
         } catch (JSONException e) {
             Log.e("JSON Parser", "Error parsing data " + e.toString());
         }
-       ArrayList<HashMap<String, String>> jsonlist = new ArrayList<HashMap<String, String>>();
+       ArrayList<SubCategory> jsonlist = new ArrayList<SubCategory>();
         try{
         //add data to jsonlist, in order to easily proccessing
         for (int i = 0; i < jarray.length(); i++) {
@@ -105,10 +104,8 @@ public class WebApiModel {
                 JSONObject c = jarray.getJSONObject(i);
                 String id = c.getString(SUBCATEGORY_ID);
                 String name = c.getString(SUBCATEGORY_NAME);
-                HashMap<String, String> map = new HashMap<String, String>();
-                map.put(SUBCATEGORY_ID, id);
-                map.put(SUBCATEGORY_NAME, name);
-                jsonlist.add(map);
+                SubCategory sC = new SubCategory(Integer.valueOf(id), name);
+                jsonlist.add(sC);
             }
             catch (JSONException e) {
                 e.printStackTrace();

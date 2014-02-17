@@ -148,7 +148,11 @@ public class NavigationDrawerFragment extends Fragment {
                     categoryString = category.get(WebApiModel.CATEGORY_NAME);
                     mDrawerExpandableListView.setVisibility(View.GONE);
                     cartSlidingButton.setVisibility(View.GONE);
-                    ArrayList<HashMap<String, String>> subCategories = api.getSubCategories("getsubcategorybyname", categoryString);
+                    ArrayList<SubCategory> subCategories = api.getSubCategories("getsubcategorybyname", categoryString);
+                    SubCategory[] subCategoriesArray = new SubCategory[subCategories.size()];
+                    subCategoriesArray = subCategories.toArray(subCategoriesArray);
+                    ListViewNavigationDrawerAdapter listViewAdapter = new ListViewNavigationDrawerAdapter(getActivity(), R.layout.list_view_subcategory_row, subCategoriesArray);
+                    listSubcategory.setAdapter(listViewAdapter);
                     subcategoryView.setVisibility(View.VISIBLE);
 
                 }
