@@ -3,17 +3,22 @@ package com.MobShop.app;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.ViewDragHelper;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 
 import java.lang.reflect.Field;
 
@@ -37,48 +42,70 @@ public class MainActivity extends Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        boolean webConnection = isInternetConnection();
+        Log.d("URL", String.valueOf(webConnection));
+        if(webConnection == false){
+            setContentView(R.layout.internet_connection);
+            Button retry = (Button) findViewById(R.id.retryInternetConnection);
+            retry.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(MainActivity.this, MainActivity.class);
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(i);
+                }
+            });
+        }else{
+            setContentView(R.layout.activity_main);
 
-       View mainView = findViewById(android.R.id.content);
-        mainView = mainView.getRootView();
+            View mainView = findViewById(android.R.id.content);
+            mainView = mainView.getRootView();
 
-        mainView.refreshDrawableState();
-        mainView.setDrawingCacheEnabled(true);
+            mainView.refreshDrawableState();
+            mainView.setDrawingCacheEnabled(true);
 
-        final View rView = mainView;
-        Handler h = new Handler(Looper.getMainLooper());
-        h.postDelayed(new Runnable() {
-            @Override
-            public void run() {
+            final View rView = mainView;
+            Handler h = new Handler(Looper.getMainLooper());
+            h.postDelayed(new Runnable() {
+                @Override
+                public void run() {
 
-                Bitmap b = rView.getDrawingCache();
-                originalScreen = b;
+                    Bitmap b = rView.getDrawingCache();
+                    originalScreen = b;
 
-                Intent it = new Intent(getApplicationContext(), HelpOverlay.class);
-                startActivity(it);
+                    Intent it = new Intent(getApplicationContext(), HelpOverlay.class);
+                    startActivity(it);
 
-            }
-        }, 2000);
+                }
+            }, 2000);
 
-        /*FrameLayout baseFrame;
-        baseFrame=new FrameLayout(this);
-        setContentView(baseFrame);
+            /*FrameLayout baseFrame;
+            baseFrame=new FrameLayout(this);
+            setContentView(baseFrame);
 
-        LayoutInflater inflater = (LayoutInflater)baseFrame.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View mainView = inflater.inflate(R.layout.activity_main, null);
-        View secondView = inflater.inflate(R.layout.overlay_view, null);
+            LayoutInflater inflater = (LayoutInflater)baseFrame.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View mainView = inflater.inflate(R.layout.activity_main, null);
+            View secondView = inflater.inflate(R.layout.overlay_view, null);
 
-        baseFrame.addView(mainView);
-        baseFrame.addView(secondView);
-        getActionBar().hide();*/
+            baseFrame.addView(mainView);
+            baseFrame.addView(secondView);
+            getActionBar().hide();*/
 
-        mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager().findFragmentById(R.id.navigation_drawer);
-        mTitle = getTitle();
+            mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager().findFragmentById(R.id.navigation_drawer);
+            mTitle = getTitle();
 
-        // Set up the drawer.
-        mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        setDrawerLeftEdgeSize(this, mDrawerLayout, 0.3f);
+            // Set up the drawer.
+            mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
+            mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+            setDrawerLeftEdgeSize(this, mDrawerLayout, 0.3f);
+        }
+    }
+
+    private boolean isInternetConnection() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     public static void setDrawerLeftEdgeSize(Activity activity, DrawerLayout drawerLayout, float displayWidthPercentage) {
@@ -142,13 +169,17 @@ public class MainActivity extends Activity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        try{
             if (!mNavigationDrawerFragment.isDrawerOpen()) {
                 // Only show items in the action bar relevant to this screen
                 // if the drawer is not showing. Otherwise, let the drawer
                 // decide what to show in the action bar.
-            getMenuInflater().inflate(R.menu.main, menu);
-            restoreActionBar();
-            return true;
+                getMenuInflater().inflate(R.menu.main, menu);
+                restoreActionBar();
+                return true;
+            }
+        }catch (NullPointerException e){
+            e.printStackTrace();
         }
         return super.onCreateOptionsMenu(menu);
     }

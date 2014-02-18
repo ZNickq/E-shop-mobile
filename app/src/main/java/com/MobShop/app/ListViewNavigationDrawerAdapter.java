@@ -2,7 +2,6 @@ package com.MobShop.app;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,14 +32,11 @@ public class ListViewNavigationDrawerAdapter extends ArrayAdapter<SubCategory> {
             LayoutInflater inflater = ((Activity) ctxt).getLayoutInflater();
             convertView = inflater.inflate(layoutResourceId, parent, false);
         }
-        Log.d("URL", "1");
         // object item based on the position
         SubCategory objectItem = data[position];
-        Log.d("URL", "2");
         // get the TextView and then set the text (item name) and tag (item ID) values
         TextView textViewItem = (TextView) convertView.findViewById(R.id.listViewSubCategoryTextView);
         String str = objectItem.getSubCategoryName();
-        Log.d("URL", str);
         textViewItem.setText(objectItem.getSubCategoryName());
         textViewItem.setTag(objectItem.getSubCategoryId());
 

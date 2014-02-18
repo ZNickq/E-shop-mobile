@@ -13,6 +13,7 @@
         android:paddingLeft="25dp"
         android:textColor="#FFFFFF"
         android:divider="@drawable/expendablelist_divider"
+        android:fontFamily="sans-serif"
         />
 
 </RelativeLayout>
