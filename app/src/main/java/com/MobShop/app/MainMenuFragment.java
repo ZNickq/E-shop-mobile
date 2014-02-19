@@ -54,11 +54,13 @@ public class MainMenuFragment extends Fragment {
         mJazzy = (JazzyViewPager) forWhich.findViewById(R.id.jazzy_pager);
         mJazzy.setTransitionEffect(effect);
 
-        Integer[] images = new Integer[2];
+        Integer[] images = new Integer[4];
         images[0] = R.drawable.blue_team;
         images[1] = R.drawable.cartbutton;
+        images[2] = R.drawable.filterbutton;
+        images[3] = R.drawable.cartslidingbutton;
 
-        mJazzy.setAdapter(new MainAdapter(images));
+        mJazzy.setAdapter(new InfinitePagerAdapter(new MainAdapter(images)));
         mJazzy.setPageMargin(30);
 
 

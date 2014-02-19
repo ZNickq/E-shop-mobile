@@ -17,9 +17,10 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.MobShop.app.InfiniteViewPager;
 import com.MobShop.app.R;
 
-public class JazzyViewPager extends ViewPager {
+public class JazzyViewPager extends InfiniteViewPager {
 
 	public static final String TAG = "JazzyViewPager";
 

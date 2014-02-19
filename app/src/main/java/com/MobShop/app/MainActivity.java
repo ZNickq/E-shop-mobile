@@ -78,7 +78,7 @@ public class MainActivity extends Activity
                     startActivity(it);
 
                 }
-            }, 2000);
+            }, 1000);
 
             /*FrameLayout baseFrame;
             baseFrame=new FrameLayout(this);
@@ -98,7 +98,7 @@ public class MainActivity extends Activity
             // Set up the drawer.
             mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
             mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-            setDrawerLeftEdgeSize(this, mDrawerLayout, 0.3f);
+            setDrawerLeftEdgeSize(this, mDrawerLayout, 0.1f);
         }
     }
 
