@@ -161,7 +161,7 @@ public class MainMenuFragment extends Fragment {
 
         //mJazzy.addView(getImageView(li, container, R.drawable.cartbutton));
         //mJazzy.addView(getImageView(li, container, R.drawable.blue_team));
-
+        //TODO timer https://puu.sh/71eqP.png
     }
 
 
