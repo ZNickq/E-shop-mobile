@@ -1,5 +1,6 @@
 package com.MobShop.app;
 
+import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.util.Log;
 
@@ -31,7 +32,7 @@ import java.util.List;
  */
 public class WebApiModel {
 
-    private String URL = "http://dragomircristian.net/calin/api/";
+    public static String URL = "http://dragomircristian.net/calin/api/";
     private HttpClient client;
     public InputStream iStream = null;
     public JSONArray jarray = null;
@@ -42,6 +43,8 @@ public class WebApiModel {
     public static final String SUBCATEGORY_NAME = "name";
 
     public DefaultHttpClient httpClient;
+
+    public ArrayList<HashMap<String, String>> jsonGetCategoriesList = new ArrayList<HashMap<String, String>>();;
 
     public WebApiModel(String URL ){
         this.URL = URL;
@@ -118,73 +121,94 @@ public class WebApiModel {
 
     }
 
+
+
     public ArrayList<HashMap<String, String>> getCategories(String function) throws IOException {
-        StrictMode.ThreadPolicy policy = new StrictMode.
-                ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
 
-        //create url from base url
-        String url = this.URL + function;
-        StringBuilder builder = new StringBuilder();
+        GetCategoriesTask task = new  GetCategoriesTask();
+        task.execute(new String[] { function});
 
-        //connect to server
-        httpClient = new DefaultHttpClient();
-        HttpEntity httpEntity = null;
-        HttpResponse httpResponse = null;
-        HttpPost httpPost = new HttpPost(url);
+        return jsonGetCategoriesList;
+    }
 
+    private class GetCategoriesTask extends AsyncTask<String, Void, ArrayList<HashMap<String, String>>> {
+        @Override
+        protected ArrayList<HashMap<String, String>> doInBackground(String... functions) {
+            StringBuilder builder = new StringBuilder();
 
-        try {
-            httpResponse = httpClient.execute(httpPost);
-            StatusLine statusLine = httpResponse.getStatusLine();
-            int statusCode = statusLine.getStatusCode();
-            //if ok get data from server
-            if (statusCode == 200) {
-                httpEntity = httpResponse.getEntity();
-                InputStream content = httpEntity.getContent();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(content));
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    builder.append(line);
-                }
-            } else {
-                Log.e("==>", "Failed to download file");
-            }
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            for (String function : functions) {
+                //create url from base url
+                String url = WebApiModel.URL + function;
 
-        // Parse String to JSON object
-        try {
-            jarray = new JSONArray( builder.toString());
-        } catch (JSONException e) {
-            Log.e("JSON Parser", "Error parsing data " + e.toString());
-        }
-        ArrayList<HashMap<String, String>> jsonlist = new ArrayList<HashMap<String, String>>();
-        //add data to jsonlist, in order to easily proccessing
-        try{
-            for (int i = 0; i < jarray.length(); i++) {
-
+                //connect to server
+                httpClient = new DefaultHttpClient();
+                HttpEntity httpEntity = null;
+                HttpResponse httpResponse = null;
+                HttpPost httpPost = new HttpPost(url);
                 try {
-                    JSONObject c = jarray.getJSONObject(i);
-                    String id = c.getString(CATEGORY_ID);
-                    String name = c.getString(CATEGORY_NAME);
-                    HashMap<String, String> map = new HashMap<String, String>();
+                    httpResponse = httpClient.execute(httpPost);
+                    StatusLine statusLine = httpResponse.getStatusLine();
+                    int statusCode = statusLine.getStatusCode();
 
-                    map.put(CATEGORY_ID, id);
-                    map.put(CATEGORY_NAME, name);
-                    jsonlist.add(map);
-                }
-                catch (JSONException e) {
+                    //if ok get data from server
+                    if (statusCode == 200) {
+                        httpEntity = httpResponse.getEntity();
+                        InputStream content = httpEntity.getContent();
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(content));
+                        String line = "";
+                        while ((line = reader.readLine()) != null) {
+                            builder.append(line);
+                        }
+                    } else {
+                        Log.e("==>", "Failed to download file");
+                    }
+                } catch (ClientProtocolException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-        }catch (NullPointerException e){
-            e.printStackTrace();
-        }
-        return jsonlist;
-    }
+            // Parse String to JSON object
+            try {
+                jarray = new JSONArray( builder.toString());
+            } catch (JSONException e) {
+                Log.e("JSON Parser", "Error parsing data " + e.toString());
+            }
 
+            ArrayList<HashMap<String, String>> jsonlist = new ArrayList<HashMap<String, String>>();
+            //add data to jsonlist, in order to easily proccessing
+            try{
+                for (int i = 0; i < jarray.length(); i++) {
+
+                    try {
+                        JSONObject c = jarray.getJSONObject(i);
+                        String id = c.getString(CATEGORY_ID);
+                        String name = c.getString(CATEGORY_NAME);
+                        HashMap<String, String> map = new HashMap<String, String>();
+                        map.put(CATEGORY_ID, id);
+                        map.put(CATEGORY_NAME, name);
+                        jsonlist.add(map);
+                    }
+                    catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }catch (NullPointerException e){
+                e.printStackTrace();
+            }
+            for(HashMap<String, String> map : jsonlist){
+                jsonGetCategoriesList.add(map);
+            }
+
+
+            //Collections.copy(jsonGetCategoriesList, jsonlist);
+
+            return jsonlist;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<HashMap<String, String>> result) {
+
+        }
+    }
 }
