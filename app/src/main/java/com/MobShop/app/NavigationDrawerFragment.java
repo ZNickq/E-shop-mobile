@@ -5,11 +5,13 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,7 +25,23 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.StatusLine;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -56,6 +74,7 @@ public class NavigationDrawerFragment extends Fragment {
      * Helper component that ties the action bar to the navigation drawer.
      */
     private ActionBarDrawerToggle mDrawerToggle;
+    public DefaultHttpClient httpClient;
     public WebApiModel api;
 
     private DrawerLayout mDrawerLayout;
@@ -81,6 +100,10 @@ public class NavigationDrawerFragment extends Fragment {
     public String groupName;
     public HashMap<String, String> category = null;
     public String categoryString;
+
+    public static final String SUBCATEGORY_ID = "id";
+    public static final String SUBCATEGORY_NAME = "name";
+    public static String URL = "http://dragomircristian.net/calin/api/";
 
     public NavigationDrawerFragment() {
     }
@@ -148,11 +171,10 @@ public class NavigationDrawerFragment extends Fragment {
                     categoryString = category.get(WebApiModel.CATEGORY_NAME);
                     mDrawerExpandableListView.setVisibility(View.GONE);
                     cartSlidingButton.setVisibility(View.GONE);
-                    ArrayList<SubCategory> subCategories = api.getSubCategories("getsubcategorybyname", categoryString);
-                    SubCategory[] subCategoriesArray = new SubCategory[subCategories.size()];
-                    subCategoriesArray = subCategories.toArray(subCategoriesArray);
-                    ListViewNavigationDrawerAdapter listViewAdapter = new ListViewNavigationDrawerAdapter(getActivity(), R.layout.list_view_subcategory_row, subCategoriesArray);
-                    listSubcategory.setAdapter(listViewAdapter);
+                    GetSubCategoriesTask getSub = new  GetSubCategoriesTask();
+                    getSub.execute(new String[] { "getsubcategorybyname"});
+                    //ArrayList<SubCategory> subCategories = api.getSubCategories("getsubcategorybyname", categoryString);
+
                     subcategoryView.setVisibility(View.VISIBLE);
 
                 }
@@ -379,5 +401,97 @@ public class NavigationDrawerFragment extends Fragment {
          */
         void onNavigationDrawerItemSelected(int position);
     }
+
+
+    private class GetSubCategoriesTask extends AsyncTask<String, Void, ArrayList<SubCategory>> {
+        @Override
+        protected ArrayList<SubCategory> doInBackground(String... functions) {
+            StringBuilder builder = new StringBuilder();
+
+            for (String function : functions) {
+                //create url from base url
+                String url = NavigationDrawerFragment.URL + function;
+                //connect to server
+                httpClient = new DefaultHttpClient();
+                HttpEntity httpEntity = null;
+                HttpResponse httpResponse = null;
+                HttpPost httpPost = new HttpPost(url);
+
+                try {
+                    // Add your data
+                    List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+                    nameValuePairs.add(new BasicNameValuePair("category", categoryString));
+                    httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                    try {
+                        httpResponse = httpClient.execute(httpPost);
+                        StatusLine statusLine = httpResponse.getStatusLine();
+                        int statusCode = statusLine.getStatusCode();
+                        //if ok get data from server
+                        if (statusCode == 200) {
+                            httpEntity = httpResponse.getEntity();
+                            InputStream content = httpEntity.getContent();
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(content));
+                            String line = "";
+                            while ((line = reader.readLine()) != null) {
+                                builder.append(line);
+                            }
+                        } else {
+                            Log.e("==>", "Failed to download file");
+                        }
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }catch (NullPointerException e){
+                        e.printStackTrace();
+                    }
+
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    Log.i("HTTP Failed", e.toString());
+                }
+            }
+            // Parse String to JSON object
+            JSONArray jarray = null;
+            try {
+                jarray = new JSONArray( builder.toString());
+            } catch (JSONException e) {
+                Log.e("JSON Parser", "Error parsing data " + e.toString());
+            }
+            ArrayList<SubCategory> jsonlist = new ArrayList<SubCategory>();
+            ArrayList<SubCategory> jsonGetSubCategoriesList = new ArrayList<SubCategory>();
+            //add data to jsonlist, in order to easily proccessing
+            try{
+                for (int i = 0; i < jarray.length(); i++) {
+
+                    try {
+                        JSONObject c = jarray.getJSONObject(i);
+                        String id = c.getString(SUBCATEGORY_ID);
+                        String name = c.getString(SUBCATEGORY_NAME);
+                        SubCategory sC = new SubCategory(Integer.valueOf(id), name);
+                        jsonlist.add(sC);
+                    }
+                    catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }catch (NullPointerException e){
+                e.printStackTrace();
+            }
+            for(SubCategory map : jsonlist){
+                jsonGetSubCategoriesList.add(map);
+            }
+            Log.d("URL", String.valueOf(jsonGetSubCategoriesList.size()));
+
+            return jsonlist;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<SubCategory> result) {
+            SubCategory[] subCategoriesArray = new SubCategory[result.size()];
+            subCategoriesArray = result.toArray(subCategoriesArray);
+            ListViewNavigationDrawerAdapter listViewAdapter = new ListViewNavigationDrawerAdapter(getActivity(), R.layout.list_view_subcategory_row, subCategoriesArray);
+            listSubcategory.setAdapter(listViewAdapter);
+        }
+    }
+
 }
 

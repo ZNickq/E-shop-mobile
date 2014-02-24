@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:text="Item name here..."
-        android:textSize="15dp" />
+        android:textSize="15dp"
+        android:textColor="#FFFFFF"/>
 
 </RelativeLayout>
