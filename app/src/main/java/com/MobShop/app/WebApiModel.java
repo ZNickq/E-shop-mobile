@@ -121,10 +121,7 @@ public class WebApiModel {
 
             return jsonlist;
         }
-
-        @Override
-        protected void onPostExecute(ArrayList<HashMap<String, String>> result) {
-
-        }
+        ArrayList<HashMap<String, String>> jsonlist = new ArrayList<HashMap<String, String>>();
+        //add data to jsonlist, in order to easily proccess it
     }
 }

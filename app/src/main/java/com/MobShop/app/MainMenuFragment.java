@@ -9,6 +9,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,10 +20,6 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
-
-import com.jfeinstein.jazzyviewpager.JazzyViewPager;
-import com.jfeinstein.jazzyviewpager.OutlineContainer;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
@@ -42,7 +39,6 @@ import java.util.ArrayList;
 public class MainMenuFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
-    private JazzyViewPager mJazzy;
     public GridView gridView;
     public Context context;
     public static String URL = "http://dragomircristian.net/calin/api/";
@@ -119,8 +115,51 @@ public class MainMenuFragment extends Fragment {
             }
         });
 
-        setupJazziness(inflater, container, rootView, JazzyViewPager.TransitionEffect.Tablet);
+        AutoScrollViewPager viewPager = (AutoScrollViewPager) rootView.findViewById(R.id.view_pager);
+        ViewAdapter adapter = new ViewAdapter(this.context);
+        viewPager.setAdapter(adapter);
+        viewPager.startAutoScroll(2000);
+        viewPager.setBorderAnimation(false);
+        viewPager.setScrollDurationFactor(5);
         return rootView;
+    }
+
+    public class ViewAdapter extends PagerAdapter{
+        Context context;
+        private int[] pics = new int[] {
+                R.drawable.filterbutton,
+                R.drawable.blue_team,
+                R.drawable.cartslidingbutton,
+                R.drawable.cartbutton
+        };
+        ViewAdapter(Context context){
+            this.context=context;
+        }
+        @Override
+        public int getCount() {
+            return pics.length;
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return view == (object);
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            ImageView imageView = new ImageView(context);
+            int padding = context.getResources().getDimensionPixelSize(R.dimen.activity_vertical_margin);
+            imageView.setPadding(padding, padding, padding, padding);
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imageView.setImageResource(pics[position]);
+            (container).addView(imageView, 0);
+            return imageView;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            (container).removeView((ImageView) object);
+        }
     }
 
     @Override
@@ -142,65 +181,6 @@ public class MainMenuFragment extends Fragment {
         super.onDetach();
         mCallbacks = null;
         getData.cancel(true);
-    }
-
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    private void setupJazziness(LayoutInflater li, ViewGroup container, View forWhich, JazzyViewPager.TransitionEffect effect) {
-        mJazzy = (JazzyViewPager) forWhich.findViewById(R.id.jazzy_pager);
-        mJazzy.setTransitionEffect(effect);
-
-        Integer[] images = new Integer[4];
-        images[0] = R.drawable.blue_team;
-        images[1] = R.drawable.cartbutton;
-        images[2] = R.drawable.filterbutton;
-        images[3] = R.drawable.cartslidingbutton;
-
-        mJazzy.setAdapter(new InfinitePagerAdapter(new MainAdapter(images)));
-        mJazzy.setPageMargin(30);
-
-
-        //mJazzy.addView(getImageView(li, container, R.drawable.cartbutton));
-        //mJazzy.addView(getImageView(li, container, R.drawable.blue_team));
-        //TODO timer https://puu.sh/71eqP.png
-    }
-
-
-    private class MainAdapter extends PagerAdapter {
-
-        private Integer[] sources;
-
-        public MainAdapter(Integer[] sources) {
-            this.sources = sources;
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, final int position) {
-            //TODO mJazzy.setFadeEnabled(false sau true);
-            ImageView text = new ImageView(MainMenuFragment.this.getActivity());
-            text.setImageResource(sources[position]);
-            container.addView(text, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            mJazzy.setObjectForPosition(text, position);
-            return text;
-        }
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object obj) {
-            container.removeView(mJazzy.findViewFromObject(position));
-        }
-
-        @Override
-        public int getCount() {
-            return sources.length;
-        }
-
-        @Override
-        public boolean isViewFromObject(View view, Object obj) {
-            if (view instanceof OutlineContainer) {
-                return ((OutlineContainer) view).getChildAt(0) == obj;
-            } else {
-                return view == obj;
-            }
-        }
     }
 
     private class GetCategoriesAndSubCategoriesTask extends AsyncTask<String, Void, ArrayList<Category>> {
@@ -298,5 +278,4 @@ public class MainMenuFragment extends Fragment {
             gridView.setAdapter(new GridViewContent(context, result));
         }
     }
-
 }

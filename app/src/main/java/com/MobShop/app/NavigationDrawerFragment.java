@@ -152,7 +152,7 @@ public class NavigationDrawerFragment extends Fragment {
         item = (RelativeLayout) firstView.findViewById(R.id.relativeLayoutNavigationDrawer);
         mDrawerExpandableListView = (ExpandableListView) item.findViewById(R.id.slideMenuExpandableListView);
         subcategoryView = (LinearLayout) firstView.findViewById(R.id.layout_drawer_subcategory);
-        backNavigationDrawer = (Button) firstView.findViewById(R.id.backButtonNavigationDrawer);
+
         cartSlidingButton = (ImageButton) firstView.findViewById(R.id.cartSlidingButton);
         listSubcategory = (ListView) firstView.findViewById(R.id.listViewNavigationDrawer);
         createGroupList();
@@ -190,11 +190,15 @@ public class NavigationDrawerFragment extends Fragment {
                     GetSubCategoriesTask getSub = new GetSubCategoriesTask();
                     getSub.execute(new String[]{"getsubcategorybyname"});
                     subcategoryView.setVisibility(View.VISIBLE);
+                }else if(groupName.equals("Acasa")){
+                    Log.d("URL", "ACASA");
+                    mDrawerLayout.closeDrawers();
+                    mCallbacks.onNavigationDrawerItemSelected("Acasa", 1);
+                    backNavigationDrawer.setVisibility(View.VISIBLE);
                 }
                 return false;
             }
         });
-
         backNavigationDrawer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -213,13 +217,12 @@ public class NavigationDrawerFragment extends Fragment {
             }
         });
         return item;
-
     }
 
     private void createCollection() throws IOException {
         api = new WebApiModel("http://dragomircristian.net/calin/api/");
-        ArrayList<HashMap<String, String>> categories = api.getCategories("getallcategories");
-
+        ArrayList<HashMap<String, String>> categories =  api.getCategories("getallcategories");
+        backNavigationDrawer = (Button) firstView.findViewById(R.id.backButtonNavigationDrawer);
         this.pubCategories = categories;
 
         menuCollection = new HashMap<String, ArrayList<HashMap<String, String>>>();
@@ -232,15 +235,26 @@ public class NavigationDrawerFragment extends Fragment {
                 menuCollection.put(item, childList);
             }
         }
+        backNavigationDrawer.setVisibility(View.GONE);
+        backNavigationDrawer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                subcategoryView.setVisibility(View.GONE);
+                mDrawerExpandableListView.setVisibility(View.VISIBLE);
+                cartSlidingButton.setVisibility(View.VISIBLE);
+            }
+        });
+
     }
 
-    private void loadChild(ArrayList<HashMap<String, String>> categories) {
-        for (int i = 0; i < categories.size(); i++) {
-            HashMap<String, String> map = categories.get(i);
+    /*private void loadChild( ArrayList<HashMap<String, String>> categories) {
+        for(int i = 0; i < categories.size(); i++){
+            HashMap<String, String> map= categories.get(i);
+>>>>>>> back button drawer,tap helpoverlay
             childList.add(map);
         }
 
-    }
+    }*/
 
     private void createGroupList() {
         groupList = new ArrayList<String>();

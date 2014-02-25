@@ -15,11 +15,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.ViewDragHelper;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SearchView;
 
 import java.lang.reflect.Field;
+
 
 public class MainActivity extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks, ListOfProducts.ListOfProductsCallbacks {
@@ -31,9 +33,6 @@ public class MainActivity extends Activity
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
 
-    /**
-     * Used to store the last screen title. For use in {@link #restoreActionBar()}.
-     */
     private CharSequence mTitle;
 
     public DrawerLayout mDrawerLayout;
@@ -69,8 +68,20 @@ public class MainActivity extends Activity
             mainView.refreshDrawableState();
             mainView.setDrawingCacheEnabled(true);
 
-            final View rView = mainView;
+           /* final View rView = mainView;
+            Handler h = new Handler(Looper.getMainLooper());
+            h.postDelayed(new Runnable() {
+                @Override
+                public void run() {
 
+                    Bitmap b = rView.getDrawingCache();
+                    originalScreen = b;
+
+                    Intent it = new Intent(getApplicationContext(), HelpOverlay.class);
+                    startActivity(it);
+
+                }
+            }, 1000);*/
             mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager().findFragmentById(R.id.navigation_drawer);
             //mTitle = getTitle();
             mTitle = "Dashbord";
@@ -84,21 +95,6 @@ public class MainActivity extends Activity
             fragmentManager.beginTransaction()
                     .replace(R.id.container, MainMenuFragment.newInstance(1))
                     .commit();
-            /*
-            Handler h = new Handler(Looper.getMainLooper());
-            h.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-
-                    Bitmap b = rView.getDrawingCache();
-                    originalScreen = b;
-
-                    Intent it = new Intent(getApplicationContext(), HelpOverlay.class);
-                    startActivity(it);
-
-                }
-            }, 1000);
-            */
         }
     }
 
@@ -166,7 +162,19 @@ public class MainActivity extends Activity
             }
         }
     }
-
+    public void onSectionAttached(int number) {
+        switch (number) {
+            case 1:
+                mTitle = getString(R.string.title_section1);
+                break;
+            case 2:
+                mTitle = getString(R.string.title_section2);
+                break;
+            case 3:
+                mTitle = getString(R.string.title_section3);
+                break;
+        }
+    }
     public void restoreActionBar() {
         ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);

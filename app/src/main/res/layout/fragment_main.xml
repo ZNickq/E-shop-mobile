@@ -9,21 +9,21 @@
     tools:context="com.MobShop.app.MainActivity$PlaceholderFragment">
 
 
-    <com.jfeinstein.jazzyviewpager.JazzyViewPager
+    <com.MobShop.app.AutoScrollViewPager
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/jazzy_pager"
+        android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="150dip" />
 
     <TextView
-        android:layout_below="@+id/jazzy_pager"
+        android:layout_below="@+id/view_pager"
         android:id="@+id/section_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <GridView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_below="@+id/jazzy_pager"
+        android:layout_below="@+id/view_pager"
         android:id="@+id/gridview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

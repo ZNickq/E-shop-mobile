@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 
 public class HelpOverlay extends Activity {
@@ -65,5 +66,10 @@ public class HelpOverlay extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        finish();
+        return super.dispatchTouchEvent(ev);
+    }
 
 }
