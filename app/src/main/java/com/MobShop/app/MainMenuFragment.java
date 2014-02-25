@@ -3,11 +3,13 @@ package com.MobShop.app;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -35,8 +37,9 @@ public class MainMenuFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-        textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
+        GridView gridView =(GridView) rootView.findViewById(R.id.gridview);
+        Context context = gridView.getContext();
+        gridView.setAdapter(new GridViewContent(context));
         setupJazziness(inflater, container, rootView, JazzyViewPager.TransitionEffect.Tablet);
         return rootView;
     }

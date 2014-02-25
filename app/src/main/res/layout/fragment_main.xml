@@ -22,5 +22,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
+    <GridView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/gridview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:numColumns="2"
+        android:paddingTop="15dp"
+        android:horizontalSpacing="5dp"
+        android:verticalSpacing="10dp"
+        android:gravity="center"
+        android:stretchMode="columnWidth"
+        android:isScrollContainer="true"
+        >
+    </GridView>
+
+
 
 </RelativeLayout>
