@@ -165,6 +165,18 @@ public class NavigationDrawerFragment extends Fragment {
         final ExpandableListAdapter expListAdapter = new ExpandableListAdapter(getActivity(), groupList, menuCollection);
         mDrawerExpandableListView.setAdapter(expListAdapter);
 
+        mDrawerExpandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
+                groupName = groupList.get(i);
+                if(groupName.equals("Acasa")){
+                    mDrawerLayout.closeDrawers();
+                    mCallbacks.onNavigationDrawerItemSelected("Acasa", 1);
+                }
+                return false;
+            }
+        });
+
         mDrawerExpandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener(){
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int group_position, int child_position, long id)
@@ -179,10 +191,6 @@ public class NavigationDrawerFragment extends Fragment {
                     GetSubCategoriesTask getSub = new  GetSubCategoriesTask();
                     getSub.execute(new String[] { "getsubcategorybyname"});
                     subcategoryView.setVisibility(View.VISIBLE);
-                }else if(groupName.equals("Acasa")){
-                    Log.d("URL", "ACASA");
-                    mDrawerLayout.closeDrawers();
-                    mCallbacks.onNavigationDrawerItemSelected("Acasa", 1);
                 }
                 return false;
             }
@@ -220,7 +228,6 @@ public class NavigationDrawerFragment extends Fragment {
         for (String item : groupList) {
             childList = new ArrayList<HashMap<String, String>>();
             if (item.equals("Categorii")){
-                //loadChild(categories);
                 menuCollection.put(item, pubCategories);
             }else{
                 menuCollection.put(item, childList);
