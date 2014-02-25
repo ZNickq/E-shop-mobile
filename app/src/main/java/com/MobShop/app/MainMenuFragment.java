@@ -3,10 +3,8 @@ package com.MobShop.app;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,8 +44,10 @@ public class MainMenuFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        /*
         ((MainActivity) activity).onSectionAttached(
                 getArguments().getInt(ARG_SECTION_NUMBER));
+                */
     }
 
     private void setupJazziness(LayoutInflater li, ViewGroup container, View forWhich, JazzyViewPager.TransitionEffect effect) {

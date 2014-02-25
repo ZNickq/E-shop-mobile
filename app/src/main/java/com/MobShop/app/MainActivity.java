@@ -43,19 +43,24 @@ public class MainActivity extends Activity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         boolean webConnection = isInternetConnection();
-        Log.d("URL", String.valueOf(webConnection));
         if(webConnection == false){
+            //In case that there isn't any internet connection, it displays a message and retry button
             setContentView(R.layout.internet_connection);
+
             Button retry = (Button) findViewById(R.id.retryInternetConnection);
+
             retry.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent i = new Intent(MainActivity.this, MainActivity.class);
+
                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
                     startActivity(i);
                 }
             });
+
         }else{
             setContentView(R.layout.activity_main);
 
@@ -79,7 +84,6 @@ public class MainActivity extends Activity
 
                 }
             }, 1000);
-
             /*FrameLayout baseFrame;
             baseFrame=new FrameLayout(this);
             setContentView(baseFrame);
@@ -93,12 +97,18 @@ public class MainActivity extends Activity
             getActionBar().hide();*/
 
             mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager().findFragmentById(R.id.navigation_drawer);
-            mTitle = getTitle();
+            //mTitle = getTitle();
+            mTitle = "Dashbord";
 
             // Set up the drawer.
             mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
             mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
             setDrawerLeftEdgeSize(this, mDrawerLayout, 0.1f);
+
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, MainMenuFragment.newInstance(1))
+                    .commit();
         }
     }
 
@@ -135,14 +145,39 @@ public class MainActivity extends Activity
     }
 
     @Override
-    public void onNavigationDrawerItemSelected(int position) {
+    public void onNavigationDrawerItemSelected(String menuItem, int position) {
         // update the main content by replacing fragments
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, MainMenuFragment.newInstance(position + 1))
-                .commit();
-    }
+        Log.d("URL", menuItem);
+        Log.d("URL", String.valueOf(position));
+        if(menuItem.contains("Subcategories")){
+            StringBuilder subCategory = new StringBuilder();
+            subCategory.append(menuItem);
+            int start, end;
+            menuItem = "Subcategories: ";
+            start = subCategory.indexOf(menuItem);
+            end = start + menuItem.length();
+            subCategory.replace(start, end, "");
+            String categoryToWeb = "";
+            categoryToWeb = subCategory.toString();
+            mTitle = categoryToWeb;
+            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, ListOfProducts.newInstance(position, categoryToWeb))
+                    .commit();
+        }else{
+            switch (position){
+                case 1:
+                    Intent i = new Intent(MainActivity.this, MainActivity.class);
 
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                    startActivity(i);
+                    break;
+            }
+        }
+    }
+    /*
     public void onSectionAttached(int number) {
         switch (number) {
             case 1:
@@ -156,13 +191,14 @@ public class MainActivity extends Activity
                 break;
         }
     }
+    */
 
     public void restoreActionBar() {
         ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setHomeButtonEnabled(true);
-        actionBar.setTitle("Dashboard");
+        actionBar.setTitle(mTitle);
         actionBar.setLogo(R.drawable.logodash);
     }
 

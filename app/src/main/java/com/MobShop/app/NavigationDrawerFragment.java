@@ -18,6 +18,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
@@ -58,6 +59,7 @@ public class NavigationDrawerFragment extends Fragment {
      * Remember the position of the selected item.
      */
     private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
+    private static final String STATE_SELECTED_ITEM = "selected_navigation_drawer_item";
 
     /**
      * Per the design guidelines, you should show the drawer on launch until the user manually
@@ -87,13 +89,14 @@ public class NavigationDrawerFragment extends Fragment {
     public ImageButton cartSlidingButton;
     public ListView listSubcategory;
 
-    List<String> groupList;
-    ArrayList<HashMap<String, String>> childList;
-    Map<String, ArrayList<HashMap<String, String>>> menuCollection;
-
-    ArrayList<HashMap<String, String>> pubCategories;
+    public List<String> groupList;
+    public ArrayList<HashMap<String, String>> childList;
+    public Map<String, ArrayList<HashMap<String, String>>> menuCollection;
+    public SubCategory[] subCategoriesArray;
+    public ArrayList<HashMap<String, String>> pubCategories;
 
     private int mCurrentSelectedPosition = 0;
+    private String menuItemSelected = "";
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
     public boolean ok = true;
@@ -119,11 +122,12 @@ public class NavigationDrawerFragment extends Fragment {
 
         if (savedInstanceState != null) {
             mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
+            menuItemSelected = savedInstanceState.getString(STATE_SELECTED_ITEM);
             mFromSavedInstanceState = true;
         }
 
         // Select either the default item (0) or the last selected item.
-        selectItem(mCurrentSelectedPosition);
+        selectItem(menuItemSelected, mCurrentSelectedPosition);
     }
 
     @Override
@@ -166,6 +170,7 @@ public class NavigationDrawerFragment extends Fragment {
             public boolean onChildClick(ExpandableListView parent, View v, int group_position, int child_position, long id)
             {
                 groupName = groupList.get(group_position);
+                Log.d("URL", groupName);
                 if(groupName.equals("Categorii")){
                     category = pubCategories.get(child_position);
                     categoryString = category.get(WebApiModel.CATEGORY_NAME);
@@ -173,10 +178,11 @@ public class NavigationDrawerFragment extends Fragment {
                     cartSlidingButton.setVisibility(View.GONE);
                     GetSubCategoriesTask getSub = new  GetSubCategoriesTask();
                     getSub.execute(new String[] { "getsubcategorybyname"});
-                    //ArrayList<SubCategory> subCategories = api.getSubCategories("getsubcategorybyname", categoryString);
-
                     subcategoryView.setVisibility(View.VISIBLE);
-
+                }else if(groupName.equals("Acasa")){
+                    Log.d("URL", "ACASA");
+                    mDrawerLayout.closeDrawers();
+                    mCallbacks.onNavigationDrawerItemSelected("Acasa", 1);
                 }
                 return false;
             }
@@ -188,6 +194,15 @@ public class NavigationDrawerFragment extends Fragment {
                 subcategoryView.setVisibility(View.GONE);
                 mDrawerExpandableListView.setVisibility(View.VISIBLE);
                 cartSlidingButton.setVisibility(View.VISIBLE);
+            }
+        });
+
+        listSubcategory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                SubCategory sub= subCategoriesArray[position];
+                mDrawerLayout.closeDrawers();
+                mCallbacks.onNavigationDrawerItemSelected("Subcategories: " + sub.getSubCategoryName(), sub.getSubCategoryId());
             }
         });
         return item;
@@ -223,12 +238,12 @@ public class NavigationDrawerFragment extends Fragment {
 
     private void createGroupList() {
         groupList = new ArrayList<String>();
-        groupList.add("Acasa");
-        groupList.add("Categorii");
-        groupList.add("Cont");
-        groupList.add("Comenzi");
-        groupList.add("Harta");
-        groupList.add("Log in/Log out");
+        groupList.add("Acasa"); //1
+        groupList.add("Categorii"); //2
+        groupList.add("Cont"); //3
+        groupList.add("Comenzi"); //4
+        groupList.add("Harta"); //5
+        groupList.add("Log in/Log out"); //6
     }
 
 
@@ -310,8 +325,9 @@ public class NavigationDrawerFragment extends Fragment {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
 
-    private void selectItem(int position) {
+    private void selectItem(String menuItem, int position) {
         mCurrentSelectedPosition = position;
+        menuItemSelected = menuItem;
         if (mDrawerExpandableListView != null) {
             mDrawerExpandableListView.setItemChecked(position, true);
         }
@@ -319,7 +335,7 @@ public class NavigationDrawerFragment extends Fragment {
             mDrawerLayout.closeDrawer(mFragmentContainerView);
         }
         if (mCallbacks != null) {
-            mCallbacks.onNavigationDrawerItemSelected(position);
+            mCallbacks.onNavigationDrawerItemSelected(menuItem, position);
         }
     }
 
@@ -369,10 +385,6 @@ public class NavigationDrawerFragment extends Fragment {
             return true;
         }
 
-        /*if (item.getItemId() == R.id.action_example) {
-            Toast.makeText(getActivity(), "Example action.", Toast.LENGTH_SHORT).show();
-            return true;
-        }*/
 
         return super.onOptionsItemSelected(item);
     }
@@ -399,7 +411,7 @@ public class NavigationDrawerFragment extends Fragment {
         /**
          * Called when an item in the navigation drawer is selected.
          */
-        void onNavigationDrawerItemSelected(int position);
+        void onNavigationDrawerItemSelected(String item, int position);
     }
 
 
@@ -457,7 +469,6 @@ public class NavigationDrawerFragment extends Fragment {
                 Log.e("JSON Parser", "Error parsing data " + e.toString());
             }
             ArrayList<SubCategory> jsonlist = new ArrayList<SubCategory>();
-            ArrayList<SubCategory> jsonGetSubCategoriesList = new ArrayList<SubCategory>();
             //add data to jsonlist, in order to easily proccessing
             try{
                 for (int i = 0; i < jarray.length(); i++) {
@@ -476,17 +487,12 @@ public class NavigationDrawerFragment extends Fragment {
             }catch (NullPointerException e){
                 e.printStackTrace();
             }
-            for(SubCategory map : jsonlist){
-                jsonGetSubCategoriesList.add(map);
-            }
-            Log.d("URL", String.valueOf(jsonGetSubCategoriesList.size()));
-
             return jsonlist;
         }
 
         @Override
         protected void onPostExecute(ArrayList<SubCategory> result) {
-            SubCategory[] subCategoriesArray = new SubCategory[result.size()];
+            subCategoriesArray = new SubCategory[result.size()];
             subCategoriesArray = result.toArray(subCategoriesArray);
             ListViewNavigationDrawerAdapter listViewAdapter = new ListViewNavigationDrawerAdapter(getActivity(), R.layout.list_view_subcategory_row, subCategoriesArray);
             listSubcategory.setAdapter(listViewAdapter);
