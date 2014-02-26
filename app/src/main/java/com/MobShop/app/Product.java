@@ -1,5 +1,7 @@
 package com.MobShop.app;
 
+import android.widget.ImageView;
+
 /**
  * Created by Segarceanu Calin on 2/25/14.
  */
@@ -15,6 +17,7 @@ public class Product {
     private int productDiscount;
     private String productPhotoURL;
     private String[] productPhotoURLS;//adica mai multe fotografii
+    private ImageView imageView;
 
     Product(int id, String name){
         this.productId = id;
@@ -49,8 +52,9 @@ public class Product {
         this.productDiscount = productDiscount;
     }
 
-    public void setProductPhotoURL(String photoURL){
+    public void setProductPhotoURL(String photoURL, ImageView img){
         this.productPhotoURL = photoURL;
+        this.imageView = img;
     }
 
     public Integer getProductId(){
@@ -65,32 +69,35 @@ public class Product {
         return productDescription;
     }
 
-    public Double setPrice(){
+    public Double getPrice(){
         return productPrice;
     }
 
-    public Integer setQuantity(){
+    public Integer getQuantity(){
         return productQuantity;
     }
 
-    public Integer setCategories(){
+    public Integer getCategories(){
         return productCategories;
     }
 
-    public Integer setSubCategories(){
+    public Integer getSubCategories(){
         return productSubcategories;
     }
 
-    public Integer setProductSale(){
+    public Integer getProductSale(){
         return productSale;
     }
 
-    public Integer setProductDiscount(){
+    public Integer getProductDiscount(){
         return productDiscount;
     }
 
-    public String setProductPhotoURL(){
+    public String getProductPhotoURL(){
         return productPhotoURL;
     }
 
+    public ImageView getProductImageView(){
+        return imageView;
+    }
 }

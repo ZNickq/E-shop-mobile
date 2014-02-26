@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
@@ -16,6 +17,7 @@ public class ListViewProductsAdapter extends ArrayAdapter<Product> {
     public Context ctxt = null;
     public Product[] data = null;
     public int layoutResourceId;
+
 
     public ListViewProductsAdapter(Context context, int resource, Product[] objects){
         super(context, resource, objects);
@@ -38,6 +40,9 @@ public class ListViewProductsAdapter extends ArrayAdapter<Product> {
         // get the TextView and then set the text (item name) and tag (item ID) values
         TextView textViewItem = (TextView) convertView.findViewById(R.id.listViewProductSubCategoryTextView);
         String name = objectItem.getProductName();
+        ImageView imageView = objectItem.getProductImageView();
+        ImageView img = (ImageView) convertView.findViewById(R.id.listViewProductSubCategoryImageView);
+        img.setImageDrawable(imageView.getDrawable());
         textViewItem.setText(name);
 
         return convertView;

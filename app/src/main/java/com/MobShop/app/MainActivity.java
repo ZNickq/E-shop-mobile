@@ -71,32 +71,6 @@ public class MainActivity extends Activity
 
             final View rView = mainView;
 
-            Handler h = new Handler(Looper.getMainLooper());
-            h.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-
-                    Bitmap b = rView.getDrawingCache();
-                    originalScreen = b;
-
-                    Intent it = new Intent(getApplicationContext(), HelpOverlay.class);
-                    startActivity(it);
-
-                }
-            }, 1000);
-
-            /*FrameLayout baseFrame;
-            baseFrame=new FrameLayout(this);
-            setContentView(baseFrame);
-
-            LayoutInflater inflater = (LayoutInflater)baseFrame.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View mainView = inflater.inflate(R.layout.activity_main, null);
-            View secondView = inflater.inflate(R.layout.overlay_view, null);
-
-            baseFrame.addView(mainView);
-            baseFrame.addView(secondView);
-            getActionBar().hide();*/
-
             mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager().findFragmentById(R.id.navigation_drawer);
             //mTitle = getTitle();
             mTitle = "Dashbord";
@@ -110,6 +84,20 @@ public class MainActivity extends Activity
             fragmentManager.beginTransaction()
                     .replace(R.id.container, MainMenuFragment.newInstance(1))
                     .commit();
+
+            Handler h = new Handler(Looper.getMainLooper());
+            h.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                    Bitmap b = rView.getDrawingCache();
+                    originalScreen = b;
+
+                    Intent it = new Intent(getApplicationContext(), HelpOverlay.class);
+                    startActivity(it);
+
+                }
+            }, 1000);
         }
     }
 
@@ -161,7 +149,7 @@ public class MainActivity extends Activity
             mTitle = categoryToWeb;
             FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction()
-                    .replace(R.id.container, ListOfProducts.newInstance(position, categoryToWeb))
+                    .replace(R.id.container, ListOfProducts.newInstance(position, categoryToWeb, getApplicationContext()))
                     .commit();
         }else{
             switch (position){

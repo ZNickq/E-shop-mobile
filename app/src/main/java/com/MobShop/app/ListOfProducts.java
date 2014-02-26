@@ -2,6 +2,7 @@ package com.MobShop.app;
 
 import android.app.ActionBar;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -10,6 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import org.apache.http.HttpEntity;
@@ -60,17 +63,22 @@ public class ListOfProducts extends Fragment{
 
     public Product[] productArray;
 
+    public Context ctxt;
+
+    int loader = R.drawable.loader;
+    ImageLoader imgLoader;
+
     public ListOfProducts(){
 
     }
 
-    public static ListOfProducts newInstance(int subCategoryNumber, String subCategoryName) {
+    public static ListOfProducts newInstance(int subCategoryNumber, String subCategoryName, Context context) {
         ListOfProducts fragment = new ListOfProducts();
         Bundle args = new Bundle();
         args.putInt(ARG_SUB_CATEGORY_NUMBER, subCategoryNumber);
         args.putString(ARG_SUB_CATEGORY_NAME, subCategoryName);
         fragment.setArguments(args);
-        fragment.setUp(subCategoryNumber, subCategoryName);
+        fragment.setUp(subCategoryNumber, subCategoryName, context);
         return fragment;
     }
 
@@ -101,6 +109,8 @@ public class ListOfProducts extends Fragment{
         View rootView = inflater.inflate(R.layout.list_of_products_by_subcategory, container, false);
         listOfProductsView = (ListView) rootView.findViewById(R.id.listViewProductBySubCategory);
 
+        imgLoader = new ImageLoader(ctxt);
+
         ListOfProductsBySubCategories getSub = new  ListOfProductsBySubCategories();
         getSub.execute(new String[] { "getproductsbysubcategory"});
 
@@ -109,10 +119,11 @@ public class ListOfProducts extends Fragment{
         return rootView;
     }
 
-    public void setUp(int number, String name){
+    public void setUp(int number, String name, Context context){
         //ActionBar actionBar = getActionBar();
         mSubCategoryID = number;
         mSubCategoryName = name;
+        this.ctxt = context;
     }
 
     private ActionBar getActionBar() {
@@ -186,7 +197,13 @@ public class ListOfProducts extends Fragment{
                         Integer subcategories = c.getInt(PRODUCT_SUBCATEGORIES);
                         Integer sale = c.getInt(PRODUCT_SALE);
                         Integer discount = c.getInt(PRODUCT_DISCOUNT);
-                        String photourl = c.getString(PRODUCT_PHOTOURL);
+                        String photoUrl = c.getString(PRODUCT_PHOTOURL);
+                        if(photoUrl == "null"){
+                            photoUrl = "http://dragomircristian.net/calin/assets/uploads/files/bf71d-chrysanthemum.jpg";
+                        }else{
+                            photoUrl = "http://dragomircristian.net/calin/assets/uploads/files/" + photoUrl;
+                        }
+                        Log.d("URL", photoUrl);
                         Product product = new Product(id, name);
                         product.setDescription(description);
                         product.setPrice(price);
@@ -195,7 +212,11 @@ public class ListOfProducts extends Fragment{
                         product.setSubCategories(subcategories);
                         product.setProductSale(sale);
                         product.setProductDiscount(discount);
-                        product.setProductPhotoURL(photourl);
+                        ImageView imageView = new ImageView(ctxt);
+                        imgLoader.SetImage(photoUrl, loader, imageView);
+                        imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                        imageView.setLayoutParams(new GridView.LayoutParams(30, 30));
+                        product.setProductPhotoURL(photoUrl, imageView);
                         jsonlist.add(product);
                     }
                     catch (JSONException e) {
@@ -213,7 +234,7 @@ public class ListOfProducts extends Fragment{
             productArray = new Product[result.size()];
             productArray = result.toArray(productArray);
             ListViewProductsAdapter listViewAdapter = new ListViewProductsAdapter(getActivity(),R.layout.list_view_products_by_subcategory_row, productArray);
-           listOfProductsView.setAdapter(listViewAdapter);
+            listOfProductsView.setAdapter(listViewAdapter);
         }
     }
 
