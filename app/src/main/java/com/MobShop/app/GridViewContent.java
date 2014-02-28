@@ -7,6 +7,8 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
+import java.util.ArrayList;
+
 /**
  * Created by Glontz on 2/24/14.
  */
@@ -15,6 +17,7 @@ public class GridViewContent extends BaseAdapter {
     private Context context;
     int loader = R.drawable.loader;
     ImageLoader imgLoader;
+    public ArrayList<Category> categories;
 
 
     public String[] gv_fill = {
@@ -38,10 +41,12 @@ public class GridViewContent extends BaseAdapter {
 
     };
 
-    public GridViewContent(Context c){
+    public GridViewContent(Context c, ArrayList<Category> data){
 
         context = c;
         imgLoader = new ImageLoader( c );
+        this.categories = data;
+
     }
 
     @Override
@@ -71,7 +76,7 @@ public class GridViewContent extends BaseAdapter {
 
         ImageView imageView = new ImageView(context);
 
-        imgLoader.SetImage(gv_fill[position], loader, imageView);
+        imgLoader.SetImage(categories.get(position).getPhotoURL(), loader, imageView);
 
         imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         imageView.setLayoutParams(new GridView.LayoutParams(350, 200));
