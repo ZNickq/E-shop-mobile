@@ -67,21 +67,6 @@ public class MainActivity extends Activity
 
             mainView.refreshDrawableState();
             mainView.setDrawingCacheEnabled(true);
-
-           /* final View rView = mainView;
-            Handler h = new Handler(Looper.getMainLooper());
-            h.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-
-                    Bitmap b = rView.getDrawingCache();
-                    originalScreen = b;
-
-                    Intent it = new Intent(getApplicationContext(), HelpOverlay.class);
-                    startActivity(it);
-
-                }
-            }, 1000);*/
             mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager().findFragmentById(R.id.navigation_drawer);
             //mTitle = getTitle();
             mTitle = "Dashbord";
