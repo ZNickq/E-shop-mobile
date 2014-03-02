@@ -22,7 +22,7 @@ import android.widget.Button;
 import java.lang.reflect.Field;
 
 public class MainActivity extends Activity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks, ListOfProducts.ListOfProductsCallbacks {
 
     public static Bitmap originalScreen;
 
@@ -202,5 +202,13 @@ public class MainActivity extends Activity
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onListOfProductsItemSelected(Integer id) {
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, ProductPage.newInstance(id, getApplicationContext()))
+                .commit();
     }
 }

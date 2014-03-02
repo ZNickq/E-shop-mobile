@@ -1,6 +1,7 @@
 package com.MobShop.app;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -64,6 +66,7 @@ public class ListOfProducts extends Fragment{
     public Product[] productArray;
 
     public Context ctxt;
+    private ListOfProductsCallbacks mCallbacks;
 
     int loader = R.drawable.loader;
     ImageLoader imgLoader;
@@ -113,7 +116,15 @@ public class ListOfProducts extends Fragment{
 
         ListOfProductsBySubCategories getSub = new  ListOfProductsBySubCategories();
         getSub.execute(new String[] { "getproductsbysubcategory"});
+        listOfProductsView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Product prod = productArray[i];
+                Integer id = prod.getProductId();
+                mCallbacks.onListOfProductsItemSelected(id);
+            }
+        });
 
 
         return rootView;
@@ -128,6 +139,29 @@ public class ListOfProducts extends Fragment{
 
     private ActionBar getActionBar() {
         return getActivity().getActionBar();
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mCallbacks = ( ListOfProductsCallbacks) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException("Activity must implement ListOfProductsCallbacks.");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mCallbacks = null;
+    }
+
+    public static interface ListOfProductsCallbacks {
+        /**
+         * Called when an item in the list of products is selected.
+         */
+        void onListOfProductsItemSelected(Integer id);
     }
 
     private class ListOfProductsBySubCategories extends AsyncTask<String, Void, ArrayList<Product>> {

@@ -57,6 +57,10 @@ public class Product {
         this.imageView = img;
     }
 
+    public void setProductPhotoURLS(String[] photoURLS){
+        this.productPhotoURLS = photoURLS;
+    }
+
     public Integer getProductId(){
         return productId;
     }
