@@ -169,7 +169,7 @@ public class NavigationDrawerFragment extends Fragment {
             @Override
             public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
                 groupName = groupList.get(i);
-                if(groupName.equals("Acasa")){
+                if (groupName.equals("Acasa")) {
                     mDrawerLayout.closeDrawers();
                     mCallbacks.onNavigationDrawerItemSelected("Acasa", 1);
                 }
@@ -177,19 +177,18 @@ public class NavigationDrawerFragment extends Fragment {
             }
         });
 
-        mDrawerExpandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener(){
+        mDrawerExpandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int group_position, int child_position, long id)
-            {
+            public boolean onChildClick(ExpandableListView parent, View v, int group_position, int child_position, long id) {
                 groupName = groupList.get(group_position);
                 Log.d("URL", groupName);
-                if(groupName.equals("Categorii")){
+                if (groupName.equals("Categorii")) {
                     category = pubCategories.get(child_position);
                     categoryString = category.get(WebApiModel.CATEGORY_NAME);
                     mDrawerExpandableListView.setVisibility(View.GONE);
                     cartSlidingButton.setVisibility(View.GONE);
-                    GetSubCategoriesTask getSub = new  GetSubCategoriesTask();
-                    getSub.execute(new String[] { "getsubcategorybyname"});
+                    GetSubCategoriesTask getSub = new GetSubCategoriesTask();
+                    getSub.execute(new String[]{"getsubcategorybyname"});
                     subcategoryView.setVisibility(View.VISIBLE);
                 }
                 return false;
@@ -208,7 +207,7 @@ public class NavigationDrawerFragment extends Fragment {
         listSubcategory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                SubCategory sub= subCategoriesArray[position];
+                SubCategory sub = subCategoriesArray[position];
                 mDrawerLayout.closeDrawers();
                 mCallbacks.onNavigationDrawerItemSelected("Subcategories: " + sub.getSubCategoryName(), sub.getSubCategoryId());
             }
@@ -219,25 +218,25 @@ public class NavigationDrawerFragment extends Fragment {
 
     private void createCollection() throws IOException {
         api = new WebApiModel("http://dragomircristian.net/calin/api/");
-        ArrayList<HashMap<String, String>> categories =  api.getCategories("getallcategories");
+        ArrayList<HashMap<String, String>> categories = api.getCategories("getallcategories");
 
         this.pubCategories = categories;
 
-        menuCollection = new HashMap<String, ArrayList < HashMap<String, String> >>();
+        menuCollection = new HashMap<String, ArrayList<HashMap<String, String>>>();
 
         for (String item : groupList) {
             childList = new ArrayList<HashMap<String, String>>();
-            if (item.equals("Categorii")){
+            if (item.equals("Categorii")) {
                 menuCollection.put(item, pubCategories);
-            }else{
+            } else {
                 menuCollection.put(item, childList);
             }
         }
     }
 
-    private void loadChild( ArrayList<HashMap<String, String>> categories) {
-        for(int i = 0; i < categories.size(); i++){
-            HashMap<String, String> map= categories.get(i);
+    private void loadChild(ArrayList<HashMap<String, String>> categories) {
+        for (int i = 0; i < categories.size(); i++) {
+            HashMap<String, String> map = categories.get(i);
             childList.add(map);
         }
 
@@ -459,7 +458,7 @@ public class NavigationDrawerFragment extends Fragment {
                         }
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
-                    }catch (NullPointerException e){
+                    } catch (NullPointerException e) {
                         e.printStackTrace();
                     }
 
@@ -471,13 +470,13 @@ public class NavigationDrawerFragment extends Fragment {
             // Parse String to JSON object
             JSONArray jarray = null;
             try {
-                jarray = new JSONArray( builder.toString());
+                jarray = new JSONArray(builder.toString());
             } catch (JSONException e) {
                 Log.e("JSON Parser", "Error parsing data " + e.toString());
             }
             ArrayList<SubCategory> jsonlist = new ArrayList<SubCategory>();
             //add data to jsonlist, in order to easily proccessing
-            try{
+            try {
                 for (int i = 0; i < jarray.length(); i++) {
 
                     try {
@@ -486,12 +485,11 @@ public class NavigationDrawerFragment extends Fragment {
                         String name = c.getString(SUBCATEGORY_NAME);
                         SubCategory sC = new SubCategory(Integer.valueOf(id), name);
                         jsonlist.add(sC);
-                    }
-                    catch (JSONException e) {
+                    } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
-            }catch (NullPointerException e){
+            } catch (NullPointerException e) {
                 e.printStackTrace();
             }
             return jsonlist;

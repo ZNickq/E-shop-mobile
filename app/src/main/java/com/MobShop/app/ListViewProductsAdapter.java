@@ -19,7 +19,7 @@ public class ListViewProductsAdapter extends ArrayAdapter<Product> {
     public int layoutResourceId;
 
 
-    public ListViewProductsAdapter(Context context, int resource, Product[] objects){
+    public ListViewProductsAdapter(Context context, int resource, Product[] objects) {
         super(context, resource, objects);
         this.ctxt = context;
         this.data = objects;
@@ -28,7 +28,7 @@ public class ListViewProductsAdapter extends ArrayAdapter<Product> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if(convertView==null){
+        if (convertView == null) {
             // inflate the layout
             LayoutInflater inflater = ((Activity) ctxt).getLayoutInflater();
             convertView = inflater.inflate(layoutResourceId, parent, false);

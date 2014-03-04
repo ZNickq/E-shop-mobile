@@ -38,24 +38,24 @@ public class WebApiModel {
 
     public ArrayList<HashMap<String, String>> jsonGetCategoriesList = new ArrayList<HashMap<String, String>>();
 
-    public WebApiModel(String URL ){
+    public WebApiModel(String URL) {
         this.URL = URL;
     }
 
     public ArrayList<HashMap<String, String>> getCategories(String function) throws IOException {
 
-        GetCategoriesTask task = new  GetCategoriesTask();
-        task.execute(new String[] { function});
+        GetCategoriesTask task = new GetCategoriesTask();
+        task.execute(new String[]{function});
 
         return jsonGetCategoriesList;
     }
 
     private class GetCategoriesTask extends AsyncTask<String, Void, ArrayList<HashMap<String, String>>> {
-                @Override
-                protected ArrayList<HashMap<String, String>> doInBackground(String... functions) {
-                    StringBuilder builder = new StringBuilder();
+        @Override
+        protected ArrayList<HashMap<String, String>> doInBackground(String... functions) {
+            StringBuilder builder = new StringBuilder();
 
-                    for (String function : functions) {
+            for (String function : functions) {
                 //create url from base url
                 String url = WebApiModel.URL + function;
 
@@ -90,14 +90,14 @@ public class WebApiModel {
             // Parse String to JSON object
             JSONArray jarray = null;
             try {
-                jarray = new JSONArray( builder.toString());
+                jarray = new JSONArray(builder.toString());
             } catch (JSONException e) {
                 Log.e("JSON Parser", "Error parsing data " + e.toString());
             }
 
             ArrayList<HashMap<String, String>> jsonlist = new ArrayList<HashMap<String, String>>();
             //add data to jsonlist, in order to easily proccessing
-            try{
+            try {
                 for (int i = 0; i < jarray.length(); i++) {
 
                     try {
@@ -108,15 +108,14 @@ public class WebApiModel {
                         map.put(CATEGORY_ID, id);
                         map.put(CATEGORY_NAME, name);
                         jsonlist.add(map);
-                    }
-                    catch (JSONException e) {
+                    } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
-            }catch (NullPointerException e){
+            } catch (NullPointerException e) {
                 e.printStackTrace();
             }
-            for(HashMap<String, String> map : jsonlist){
+            for (HashMap<String, String> map : jsonlist) {
                 jsonGetCategoriesList.add(map);
             }
 

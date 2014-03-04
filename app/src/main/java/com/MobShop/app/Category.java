@@ -10,32 +10,32 @@ public class Category {
     private String photoURL;
     private SubCategory[] subCategories;
 
-    public Category(Integer id, String name){
+    public Category(Integer id, String name) {
         this.categoryId = id;
         this.categoryName = name;
     }
 
-    public void setPhotoURL(String url){
+    public void setPhotoURL(String url) {
         this.photoURL = url;
     }
 
-    public void setSubCategories(SubCategory[] array){
+    public void setSubCategories(SubCategory[] array) {
         this.subCategories = array;
     }
 
-    public String getCategoryName(){
+    public String getCategoryName() {
         return this.categoryName;
     }
 
-    public Integer getCategoryId(){
+    public Integer getCategoryId() {
         return this.categoryId;
     }
 
-    public String getPhotoURL(){
+    public String getPhotoURL() {
         return this.photoURL;
     }
 
-    public SubCategory[] getSubCategories(){
+    public SubCategory[] getSubCategories() {
         return this.subCategories;
     }
 }

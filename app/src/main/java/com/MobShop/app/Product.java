@@ -11,7 +11,7 @@ public class Product {
     private String productDescription;
     private double productPrice;
     private int productQuantity;
-    private int productCategories ;
+    private int productCategories;
     private int productSubcategories;
     private int productSale;
     private int productDiscount;
@@ -19,89 +19,89 @@ public class Product {
     private String[] productPhotoURLS;//adica mai multe fotografii
     private ImageView imageView;
 
-    Product(int id, String name){
+    Product(int id, String name) {
         this.productId = id;
         this.productName = name;
     }
 
-    public void setDescription(String description){
+    public void setDescription(String description) {
         this.productDescription = description;
     }
 
-    public void setPrice(Double price){
+    public void setPrice(Double price) {
         this.productPrice = price;
     }
 
-    public void setQuantity(int quantity){
+    public void setQuantity(int quantity) {
         this.productQuantity = quantity;
     }
 
-    public void setCategories(int categories){
+    public void setCategories(int categories) {
         this.productCategories = categories;
     }
 
-    public void setSubCategories(int subCategories){
+    public void setSubCategories(int subCategories) {
         this.productSubcategories = subCategories;
     }
 
-    public void setProductSale(int productSale){
+    public void setProductSale(int productSale) {
         this.productSale = productSale;
     }
 
-    public void setProductDiscount(int productDiscount){
+    public void setProductDiscount(int productDiscount) {
         this.productDiscount = productDiscount;
     }
 
-    public void setProductPhotoURL(String photoURL, ImageView img){
+    public void setProductPhotoURL(String photoURL, ImageView img) {
         this.productPhotoURL = photoURL;
         this.imageView = img;
     }
 
-    public void setProductPhotoURLS(String[] photoURLS){
+    public void setProductPhotoURLS(String[] photoURLS) {
         this.productPhotoURLS = photoURLS;
     }
 
-    public Integer getProductId(){
+    public Integer getProductId() {
         return productId;
     }
 
-    public String getProductName(){
+    public String getProductName() {
         return productName;
     }
 
-    public String getDescription(){
+    public String getDescription() {
         return productDescription;
     }
 
-    public Double getPrice(){
+    public Double getPrice() {
         return productPrice;
     }
 
-    public Integer getQuantity(){
+    public Integer getQuantity() {
         return productQuantity;
     }
 
-    public Integer getCategories(){
+    public Integer getCategories() {
         return productCategories;
     }
 
-    public Integer getSubCategories(){
+    public Integer getSubCategories() {
         return productSubcategories;
     }
 
-    public Integer getProductSale(){
+    public Integer getProductSale() {
         return productSale;
     }
 
-    public Integer getProductDiscount(){
+    public Integer getProductDiscount() {
         return productDiscount;
     }
 
-    public String getProductPhotoURL(){
+    public String getProductPhotoURL() {
         return productPhotoURL;
     }
 
-    public ImageView getProductImageView(){
+    public ImageView getProductImageView() {
         return imageView;
     }
 }

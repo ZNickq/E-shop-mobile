@@ -18,7 +18,7 @@ public class ListViewSubCategoriesDialogAdapter extends ArrayAdapter<SubCategory
     public int layoutResourceId;
 
 
-    public ListViewSubCategoriesDialogAdapter(Context context, int resource, SubCategory[] objects){
+    public ListViewSubCategoriesDialogAdapter(Context context, int resource, SubCategory[] objects) {
         super(context, resource, objects);
         this.ctxt = context;
         this.data = objects;
@@ -27,7 +27,7 @@ public class ListViewSubCategoriesDialogAdapter extends ArrayAdapter<SubCategory
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if(convertView==null){
+        if (convertView == null) {
             // inflate the layout
             LayoutInflater inflater = ((Activity) ctxt).getLayoutInflater();
             convertView = inflater.inflate(layoutResourceId, parent, false);

@@ -7,24 +7,24 @@ public class SubCategory {
     public int id;
     public String name;
 
-    public SubCategory(int i, String n){
+    public SubCategory(int i, String n) {
         this.id = i;
         this.name = n;
     }
 
-    public void setSubCategoryName(String n){
+    public void setSubCategoryName(String n) {
         this.name = n;
     }
 
-    public void setSubCategoryId(int i){
+    public void setSubCategoryId(int i) {
         this.id = i;
     }
 
-    public int getSubCategoryId(){
+    public int getSubCategoryId() {
         return this.id;
     }
 
-    public String getSubCategoryName(){
+    public String getSubCategoryName() {
         return this.name;
     }
 }

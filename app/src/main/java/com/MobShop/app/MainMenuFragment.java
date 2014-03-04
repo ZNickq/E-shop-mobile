@@ -49,7 +49,7 @@ public class MainMenuFragment extends Fragment {
     public static final String SUBCATEGORY_NAME = "name";
     public static final String CATEGORY_ID = "id";
     public static final String CATEGORY_NAME = "name";
-    public static final String PHOTO_URL= "photo_url";
+    public static final String PHOTO_URL = "photo_url";
     public static final String SUBCATEGORIES = "subcategories";
 
     ArrayList<Category> categories;
@@ -72,10 +72,10 @@ public class MainMenuFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        gridView =(GridView) rootView.findViewById(R.id.gridview);
+        gridView = (GridView) rootView.findViewById(R.id.gridview);
         context = gridView.getContext();
-        GetCategoriesAndSubCategoriesTask getData = new  GetCategoriesAndSubCategoriesTask();
-        getData.execute(new String[] { "getallcategorieswithsubcategoriesandphotos"});
+        GetCategoriesAndSubCategoriesTask getData = new GetCategoriesAndSubCategoriesTask();
+        getData.execute(new String[]{"getallcategorieswithsubcategoriesandphotos"});
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -83,7 +83,7 @@ public class MainMenuFragment extends Fragment {
                 Category category = categories.get(i);
                 final SubCategory[] subCategories = category.getSubCategories();
 
-                if(subCategories.length != 0){
+                if (subCategories.length != 0) {
 
                     // custom dialog
                     final Dialog dialog = new Dialog(context);
@@ -163,6 +163,7 @@ public class MainMenuFragment extends Fragment {
     private class MainAdapter extends PagerAdapter {
 
         private Integer[] sources;
+
         public MainAdapter(Integer[] sources) {
             this.sources = sources;
         }
@@ -176,14 +177,17 @@ public class MainMenuFragment extends Fragment {
             mJazzy.setObjectForPosition(text, position);
             return text;
         }
+
         @Override
         public void destroyItem(ViewGroup container, int position, Object obj) {
             container.removeView(mJazzy.findViewFromObject(position));
         }
+
         @Override
         public int getCount() {
             return sources.length;
         }
+
         @Override
         public boolean isViewFromObject(View view, Object obj) {
             if (view instanceof OutlineContainer) {
@@ -224,9 +228,9 @@ public class MainMenuFragment extends Fragment {
                     }
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
-                }catch (NullPointerException e){
+                } catch (NullPointerException e) {
                     e.printStackTrace();
-                }catch (IOException e) {
+                } catch (IOException e) {
                     // TODO Auto-generated catch block
                     Log.i("HTTP Failed", e.toString());
                 }
@@ -234,23 +238,23 @@ public class MainMenuFragment extends Fragment {
             // Parse String to JSON object
             JSONArray jarray = null;
             try {
-                jarray = new JSONArray( builder.toString());
+                jarray = new JSONArray(builder.toString());
             } catch (JSONException e) {
                 Log.e("JSON Parser", "Error parsing data " + e.toString());
             }
             ArrayList<Category> jsonlist = new ArrayList<Category>();
             //add data to jsonlist, in order to easily proccessing
             String uri = "http://dragomircristian.net/calin/assets/uploads/categories/";
-            try{
+            try {
                 for (int i = 0; i < jarray.length(); i++) {
                     try {
                         JSONObject c = jarray.getJSONObject(i);
                         String categoryId = c.getString(CATEGORY_ID);
                         String categoryName = c.getString(CATEGORY_NAME);
                         String photoURL = c.getString(PHOTO_URL);
-                        if(photoURL.equals("null")){
-                           // photoURL = uri + "6e020-p1020283.jpg";
-                        }else{
+                        if (photoURL.equals("null")) {
+                            // photoURL = uri + "6e020-p1020283.jpg";
+                        } else {
                             photoURL = uri + photoURL;
                         }
                         JSONArray subCategories = c.getJSONArray(SUBCATEGORIES);
@@ -271,7 +275,7 @@ public class MainMenuFragment extends Fragment {
                         e.printStackTrace();
                     }
                 }
-            }catch (NullPointerException e){
+            } catch (NullPointerException e) {
                 e.printStackTrace();
             }
             return jsonlist;

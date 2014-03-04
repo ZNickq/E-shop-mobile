@@ -1,4 +1,5 @@
 package com.MobShop.app;
+
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -19,10 +20,10 @@ public class HelpOverlay extends Activity {
         View mainView = findViewById(R.id.imageView);
         Bitmap bd = prepareOriginalScreen(MainActivity.originalScreen);
 
-        Drawable d = new BitmapDrawable(getResources(),bd);
+        Drawable d = new BitmapDrawable(getResources(), bd);
 
         int sdk = android.os.Build.VERSION.SDK_INT;
-        if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+        if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
             mainView.setBackgroundDrawable(d);
         } else {
             mainView.setBackgroundDrawable(d); //TODO change
@@ -31,7 +32,7 @@ public class HelpOverlay extends Activity {
 
     private Bitmap prepareOriginalScreen(Bitmap originalScreen) {
         int statusHeight = getStatusBarHeight();
-        return Bitmap.createBitmap(originalScreen,0,statusHeight,originalScreen.getWidth(), originalScreen.getHeight() - statusHeight);
+        return Bitmap.createBitmap(originalScreen, 0, statusHeight, originalScreen.getWidth(), originalScreen.getHeight() - statusHeight);
     }
 
     public int getStatusBarHeight() {

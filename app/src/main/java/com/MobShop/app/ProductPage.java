@@ -36,7 +36,7 @@ import java.util.List;
 /**
  * Created by Segarceanu Calin on 2/24/14.
  */
-public class ProductPage extends Fragment{
+public class ProductPage extends Fragment {
 
     private static final String ARG_PRODUCT_ID_NUMBER = "section_number";
 
@@ -57,7 +57,7 @@ public class ProductPage extends Fragment{
 
     public TextView productNameTextView;
 
-    public ProductPage(){
+    public ProductPage() {
 
     }
 
@@ -96,13 +96,13 @@ public class ProductPage extends Fragment{
         View rootView = inflater.inflate(R.layout.product_page, container, false);
         productNameTextView = (TextView) rootView.findViewById(R.id.productPageProductName);
 
-        ProductByID getProduct = new  ProductByID();
-        getProduct.execute(new String[] { "getproductbyid"});
+        ProductByID getProduct = new ProductByID();
+        getProduct.execute(new String[]{"getproductbyid"});
 
         return rootView;
     }
 
-    public void setUp(int number, Context context){
+    public void setUp(int number, Context context) {
         //ActionBar actionBar = getActionBar();
         mProductID = number;
         this.ctxt = context;
@@ -143,7 +143,7 @@ public class ProductPage extends Fragment{
                         }
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
-                    }catch (NullPointerException e){
+                    } catch (NullPointerException e) {
                         e.printStackTrace();
                     }
 
@@ -155,16 +155,16 @@ public class ProductPage extends Fragment{
             // Parse String to JSON object
             JSONObject c = null;
             try {
-                c = new JSONObject( builder.toString());
+                c = new JSONObject(builder.toString());
             } catch (JSONException e) {
                 Log.e("JSON Parser", "Error parsing data " + e.toString());
             }
             Product product = null;
             //add data to jsonlist, in order to easily proccessing
-            try{
+            try {
                 Integer id = c.getInt(PRODUCT_ID);
                 String name = c.getString(PRODUCT_NAME);
-                String description = c.getString(PRODUCT_DESCRIPTION );
+                String description = c.getString(PRODUCT_DESCRIPTION);
                 Double price = c.getDouble(PRODUCT_PRICE);
                 Integer quantity = c.getInt(PRODUCT_QUANTITY);
                 Integer categories = c.getInt(PRODUCT_CATEGORIES);
@@ -189,9 +189,9 @@ public class ProductPage extends Fragment{
                 product.setProductDiscount(discount);
                 product.setProductPhotoURLS(photosURLArray);
 
-            }catch (JSONException e) {
+            } catch (JSONException e) {
                 e.printStackTrace();
-            }catch (NullPointerException e){
+            } catch (NullPointerException e) {
                 e.printStackTrace();
             }
             return product;

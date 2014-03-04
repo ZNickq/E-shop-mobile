@@ -40,7 +40,7 @@ import java.util.List;
 /**
  * Created by Segarceanu Calin on 2/24/14.
  */
-public class ListOfProducts extends Fragment{
+public class ListOfProducts extends Fragment {
 
     private static final String ARG_SUB_CATEGORY_NUMBER = "section_number";
     private static final String ARG_SUB_CATEGORY_NAME = "section_name";
@@ -71,7 +71,7 @@ public class ListOfProducts extends Fragment{
     int loader = R.drawable.loader;
     ImageLoader imgLoader;
 
-    public ListOfProducts(){
+    public ListOfProducts() {
 
     }
 
@@ -114,9 +114,9 @@ public class ListOfProducts extends Fragment{
 
         imgLoader = new ImageLoader(ctxt);
 
-        ListOfProductsBySubCategories getSub = new  ListOfProductsBySubCategories();
-        getSub.execute(new String[] { "getproductsbysubcategory"});
-        listOfProductsView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        ListOfProductsBySubCategories getSub = new ListOfProductsBySubCategories();
+        getSub.execute(new String[]{"getproductsbysubcategory"});
+        listOfProductsView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -130,7 +130,7 @@ public class ListOfProducts extends Fragment{
         return rootView;
     }
 
-    public void setUp(int number, String name, Context context){
+    public void setUp(int number, String name, Context context) {
         //ActionBar actionBar = getActionBar();
         mSubCategoryID = number;
         mSubCategoryName = name;
@@ -145,7 +145,7 @@ public class ListOfProducts extends Fragment{
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            mCallbacks = ( ListOfProductsCallbacks) activity;
+            mCallbacks = (ListOfProductsCallbacks) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException("Activity must implement ListOfProductsCallbacks.");
         }
@@ -200,7 +200,7 @@ public class ListOfProducts extends Fragment{
                         }
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
-                    }catch (NullPointerException e){
+                    } catch (NullPointerException e) {
                         e.printStackTrace();
                     }
 
@@ -212,19 +212,19 @@ public class ListOfProducts extends Fragment{
             // Parse String to JSON object
             JSONArray jarray = null;
             try {
-                jarray = new JSONArray( builder.toString());
+                jarray = new JSONArray(builder.toString());
             } catch (JSONException e) {
                 Log.e("JSON Parser", "Error parsing data " + e.toString());
             }
             ArrayList<Product> jsonlist = new ArrayList<Product>();
             //add data to jsonlist, in order to easily proccessing
-            try{
+            try {
                 for (int i = 0; i < jarray.length(); i++) {
                     try {
                         JSONObject c = jarray.getJSONObject(i);
                         Integer id = c.getInt(PRODUCT_ID);
                         String name = c.getString(PRODUCT_NAME);
-                        String description = c.getString(PRODUCT_DESCRIPTION );
+                        String description = c.getString(PRODUCT_DESCRIPTION);
                         Double price = c.getDouble(PRODUCT_PRICE);
                         Integer quantity = c.getInt(PRODUCT_QUANTITY);
                         Integer categories = c.getInt(PRODUCT_CATEGORIES);
@@ -232,9 +232,9 @@ public class ListOfProducts extends Fragment{
                         Integer sale = c.getInt(PRODUCT_SALE);
                         Integer discount = c.getInt(PRODUCT_DISCOUNT);
                         String photoUrl = c.getString(PRODUCT_PHOTOURL);
-                        if(photoUrl == "null"){
+                        if (photoUrl == "null") {
                             photoUrl = "http://dragomircristian.net/calin/assets/uploads/files/bf71d-chrysanthemum.jpg";
-                        }else{
+                        } else {
                             photoUrl = "http://dragomircristian.net/calin/assets/uploads/files/" + photoUrl;
                         }
                         Product product = new Product(id, name);
@@ -251,12 +251,11 @@ public class ListOfProducts extends Fragment{
                         imageView.setLayoutParams(new GridView.LayoutParams(30, 30));
                         product.setProductPhotoURL(photoUrl, imageView);
                         jsonlist.add(product);
-                    }
-                    catch (JSONException e) {
+                    } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
-            }catch (NullPointerException e){
+            } catch (NullPointerException e) {
                 e.printStackTrace();
             }
             return jsonlist;
@@ -266,7 +265,7 @@ public class ListOfProducts extends Fragment{
         protected void onPostExecute(ArrayList<Product> result) {
             productArray = new Product[result.size()];
             productArray = result.toArray(productArray);
-            ListViewProductsAdapter listViewAdapter = new ListViewProductsAdapter(getActivity(),R.layout.list_view_products_by_subcategory_row, productArray);
+            ListViewProductsAdapter listViewAdapter = new ListViewProductsAdapter(getActivity(), R.layout.list_view_products_by_subcategory_row, productArray);
             listOfProductsView.setAdapter(listViewAdapter);
         }
     }

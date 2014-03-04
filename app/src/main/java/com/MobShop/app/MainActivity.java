@@ -43,7 +43,7 @@ public class MainActivity extends Activity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         boolean webConnection = isInternetConnection();
-        if(webConnection == false){
+        if (webConnection == false) {
             //In case that there isn't any internet connection, it displays a message and retry button
             setContentView(R.layout.internet_connection);
 
@@ -61,7 +61,7 @@ public class MainActivity extends Activity
                 }
             });
 
-        }else{
+        } else {
             setContentView(R.layout.activity_main);
 
             View mainView = findViewById(android.R.id.content);
@@ -139,7 +139,7 @@ public class MainActivity extends Activity
     public void onNavigationDrawerItemSelected(String menuItem, int position) {
         Log.d("URL", "1" + menuItem + " " + position);
         // update the main content by replacing fragments
-        if(menuItem.contains("Subcategories")){
+        if (menuItem.contains("Subcategories")) {
             StringBuilder subCategory = new StringBuilder();
             subCategory.append(menuItem);
             int start, end;
@@ -154,8 +154,8 @@ public class MainActivity extends Activity
             fragmentManager.beginTransaction()
                     .replace(R.id.container, ListOfProducts.newInstance(position, categoryToWeb, getApplicationContext()))
                     .commit();
-        }else{
-            switch (position){
+        } else {
+            switch (position) {
                 case 1:
                     Intent i = new Intent(MainActivity.this, MainActivity.class);
 
@@ -181,7 +181,7 @@ public class MainActivity extends Activity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        try{
+        try {
             if (!mNavigationDrawerFragment.isDrawerOpen()) {
                 // Only show items in the action bar relevant to this screen
                 // if the drawer is not showing. Otherwise, let the drawer
@@ -196,7 +196,7 @@ public class MainActivity extends Activity
                 restoreActionBar();
                 return true;
             }
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
         return super.onCreateOptionsMenu(menu);

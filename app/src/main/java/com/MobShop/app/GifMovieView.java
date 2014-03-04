@@ -149,7 +149,7 @@ public class GifMovieView extends View {
             }
 
 			/*
-			 * calculate vertical scaling
+             * calculate vertical scaling
 			 */
             float scaleW = 1f;
             int measureModeHeight = MeasureSpec.getMode(heightMeasureSpec);

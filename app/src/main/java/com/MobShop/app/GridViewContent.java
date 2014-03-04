@@ -27,10 +27,10 @@ public class GridViewContent extends BaseAdapter {
     ImageLoader imgLoader;
     public ArrayList<Category> categories;
 
-    public GridViewContent(Context c, ArrayList<Category> data){
+    public GridViewContent(Context c, ArrayList<Category> data) {
 
         context = c;
-        imgLoader = new ImageLoader( c );
+        imgLoader = new ImageLoader(c);
         this.categories = data;
 
     }
@@ -43,7 +43,7 @@ public class GridViewContent extends BaseAdapter {
     }
 
     @Override
-    public Object getItem( int position ){
+    public Object getItem(int position) {
 
         return categories.get(position);
     }
@@ -56,12 +56,11 @@ public class GridViewContent extends BaseAdapter {
     }
 
 
-
     @Override
-    public View getView( int position, View convertView, ViewGroup parent){
+    public View getView(int position, View convertView, ViewGroup parent) {
         View v;
         Category category = categories.get(position);
-        if(convertView == null){
+        if (convertView == null) {
 
             LayoutInflater li = LayoutInflater.from(context);
             v = li.inflate(R.layout.grid_view_row, null);
@@ -71,10 +70,10 @@ public class GridViewContent extends BaseAdapter {
             ImageView imageView = new ImageView(context);
 
             String URL = categories.get(position).getPhotoURL();
-            if(URL.equals("null")){
+            if (URL.equals("null")) {
                 categoryImage.setImageResource(R.drawable.ic_launcher);
                 //categoryImage.setLayoutParams(new GridView.LayoutParams(350, 200));
-            }else{
+            } else {
                 //new DownloadImageTask((ImageView) categoryImage).execute(URL);
                 imgLoader.SetImage(URL, loader, imageView);
 
@@ -86,7 +85,7 @@ public class GridViewContent extends BaseAdapter {
 
             categoryText.setText(category.getCategoryName());
 
-        }else{
+        } else {
             v = convertView;
         }
         return v;

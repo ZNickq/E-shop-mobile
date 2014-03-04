@@ -53,9 +53,9 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     public int getChildrenCount(int groupPosition) {
         int var;
-        try{
+        try {
             var = menuCollection.get(groupParent.get(groupPosition)).size();
-        }catch(NullPointerException npe){
+        } catch (NullPointerException npe) {
             var = 0;
         }
         return var;

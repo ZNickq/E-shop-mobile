@@ -34,7 +34,6 @@
         android:gravity="center"
         android:stretchMode="columnWidth"
         android:isScrollContainer="true"
-        android:layout_below="@+id/jazzy_pager"
         >
     </GridView>
 

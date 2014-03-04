@@ -27,7 +27,7 @@ public class ListViewNavigationDrawerAdapter extends ArrayAdapter<SubCategory> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if(convertView==null){
+        if (convertView == null) {
             // inflate the layout
             LayoutInflater inflater = ((Activity) ctxt).getLayoutInflater();
             convertView = inflater.inflate(layoutResourceId, parent, false);
