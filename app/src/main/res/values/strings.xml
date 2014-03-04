@@ -13,6 +13,7 @@
     <string name="action_example">Example action</string>
     <string name="filter_button">Filter</string>
     <string name="title_activity_help_overlay">helpOverlay</string>
+    <string name="search_hint">Type Text Here</string>
 
 
     <string-array name="jazzy_effects">
