@@ -3,6 +3,7 @@ package com.MobShop.app;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -17,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.SearchView;
 
 import java.lang.reflect.Field;
 
@@ -173,6 +175,7 @@ public class MainActivity extends Activity
         actionBar.setHomeButtonEnabled(true);
         actionBar.setTitle(mTitle);
         actionBar.setLogo(R.drawable.logodash);
+        actionBar.setIcon(R.drawable.arrow);
     }
 
 
@@ -184,6 +187,12 @@ public class MainActivity extends Activity
                 // if the drawer is not showing. Otherwise, let the drawer
                 // decide what to show in the action bar.
                 getMenuInflater().inflate(R.menu.main, menu);
+
+                SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+                SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+                searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+
+
                 restoreActionBar();
                 return true;
             }
