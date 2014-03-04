@@ -237,7 +237,6 @@ public class ListOfProducts extends Fragment{
                         }else{
                             photoUrl = "http://dragomircristian.net/calin/assets/uploads/files/" + photoUrl;
                         }
-                        Log.d("URL", photoUrl);
                         Product product = new Product(id, name);
                         product.setDescription(description);
                         product.setPrice(price);

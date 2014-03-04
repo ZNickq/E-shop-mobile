@@ -2,6 +2,7 @@ package com.MobShop.app;
 
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -11,8 +12,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 import com.jfeinstein.jazzyviewpager.JazzyViewPager;
 import com.jfeinstein.jazzyviewpager.OutlineContainer;
@@ -48,6 +52,10 @@ public class MainMenuFragment extends Fragment {
     public static final String PHOTO_URL= "photo_url";
     public static final String SUBCATEGORIES = "subcategories";
 
+    ArrayList<Category> categories;
+
+    private NavigationDrawerFragment.NavigationDrawerCallbacks mCallbacks;
+
     public static MainMenuFragment newInstance(int sectionNumber) {
         MainMenuFragment fragment = new MainMenuFragment();
         Bundle args = new Bundle();
@@ -57,6 +65,7 @@ public class MainMenuFragment extends Fragment {
     }
 
     public MainMenuFragment() {
+
     }
 
     @Override
@@ -68,6 +77,45 @@ public class MainMenuFragment extends Fragment {
         GetCategoriesAndSubCategoriesTask getData = new  GetCategoriesAndSubCategoriesTask();
         getData.execute(new String[] { "getallcategorieswithsubcategoriesandphotos"});
 
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Category category = categories.get(i);
+                final SubCategory[] subCategories = category.getSubCategories();
+
+                if(subCategories.length != 0){
+
+                    // custom dialog
+                    final Dialog dialog = new Dialog(context);
+                    dialog.setContentView(R.layout.dialog_sub_categories);
+                    dialog.setTitle(category.getCategoryName());
+                    ListView listView = (ListView) dialog.findViewById(R.id.listViewSubCategoriesDialog);
+                    ListViewSubCategoriesDialogAdapter adapter = new ListViewSubCategoriesDialogAdapter(context, R.layout.list_view_subcategories_dialog_row, subCategories);
+                    listView.setAdapter(adapter);
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                            SubCategory sub = subCategories[i];
+                            dialog.dismiss();
+                            Integer id = sub.getSubCategoryId();
+                            mCallbacks.onNavigationDrawerItemSelected("Subcategories: " + sub.getSubCategoryName(), id);
+
+                        }
+                    });
+                    Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
+                    // if button is clicked, close the custom dialog
+                    dialogButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+
+                    dialog.show();
+                }
+            }
+        });
+
         setupJazziness(inflater, container, rootView, JazzyViewPager.TransitionEffect.Tablet);
         return rootView;
     }
@@ -75,10 +123,21 @@ public class MainMenuFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        try {
+            mCallbacks = (NavigationDrawerFragment.NavigationDrawerCallbacks) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException("Activity must implement NavigationDrawerCallbacks.");
+        }
         /*
         ((MainActivity) activity).onSectionAttached(
                 getArguments().getInt(ARG_SECTION_NUMBER));
                 */
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mCallbacks = null;
     }
 
     private void setupJazziness(LayoutInflater li, ViewGroup container, View forWhich, JazzyViewPager.TransitionEffect effect) {
@@ -220,6 +279,7 @@ public class MainMenuFragment extends Fragment {
 
         @Override
         protected void onPostExecute(ArrayList<Category> result) {
+            categories = result;
             gridView.setAdapter(new GridViewContent(context, result));
         }
     }

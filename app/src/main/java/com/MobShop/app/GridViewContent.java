@@ -75,7 +75,6 @@ public class GridViewContent extends BaseAdapter {
                 categoryImage.setImageResource(R.drawable.ic_launcher);
                 //categoryImage.setLayoutParams(new GridView.LayoutParams(350, 200));
             }else{
-                Log.d("URL", URL);
                 //new DownloadImageTask((ImageView) categoryImage).execute(URL);
                 imgLoader.SetImage(URL, loader, imageView);
 
