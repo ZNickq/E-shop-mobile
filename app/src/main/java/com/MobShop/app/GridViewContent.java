@@ -1,12 +1,20 @@
 package com.MobShop.app;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 /**
@@ -18,28 +26,6 @@ public class GridViewContent extends BaseAdapter {
     int loader = R.drawable.loader;
     ImageLoader imgLoader;
     public ArrayList<Category> categories;
-
-
-    public String[] gv_fill = {
-            "http://www.bugetulpersonal.ro/blog/wp-content/uploads/2011/06/categorii-de-cheltuieli41-300x240.jpg",
-            "http://www.bugetulpersonal.ro/blog/wp-content/uploads/2011/06/categorii-de-cheltuieli41-300x240.jpg",
-            "http://www.bugetulpersonal.ro/blog/wp-content/uploads/2011/06/categorii-de-cheltuieli41-300x240.jpg",
-            "http://www.bugetulpersonal.ro/blog/wp-content/uploads/2011/06/categorii-de-cheltuieli41-300x240.jpg",
-            "http://www.bugetulpersonal.ro/blog/wp-content/uploads/2011/06/categorii-de-cheltuieli41-300x240.jpg",
-            "http://www.bugetulpersonal.ro/blog/wp-content/uploads/2011/06/categorii-de-cheltuieli41-300x240.jpg",
-            "http://www.bugetulpersonal.ro/blog/wp-content/uploads/2011/06/categorii-de-cheltuieli41-300x240.jpg",
-            "http://www.bugetulpersonal.ro/blog/wp-content/uploads/2011/06/categorii-de-cheltuieli41-300x240.jpg",
-            "http://www.bugetulpersonal.ro/blog/wp-content/uploads/2011/06/categorii-de-cheltuieli41-300x240.jpg",
-            "http://www.bugetulpersonal.ro/blog/wp-content/uploads/2011/06/categorii-de-cheltuieli41-300x240.jpg",
-            "http://www.bugetulpersonal.ro/blog/wp-content/uploads/2011/06/categorii-de-cheltuieli41-300x240.jpg",
-            "http://www.bugetulpersonal.ro/blog/wp-content/uploads/2011/06/categorii-de-cheltuieli41-300x240.jpg",
-            "http://www.bugetulpersonal.ro/blog/wp-content/uploads/2011/06/categorii-de-cheltuieli41-300x240.jpg",
-            "http://www.bugetulpersonal.ro/blog/wp-content/uploads/2011/06/categorii-de-cheltuieli41-300x240.jpg",
-            "http://www.bugetulpersonal.ro/blog/wp-content/uploads/2011/06/categorii-de-cheltuieli41-300x240.jpg",
-            "http://www.bugetulpersonal.ro/blog/wp-content/uploads/2011/06/categorii-de-cheltuieli41-300x240.jpg",
-            "http://www.bugetulpersonal.ro/blog/wp-content/uploads/2011/06/categorii-de-cheltuieli41-300x240.jpg"
-
-    };
 
     public GridViewContent(Context c, ArrayList<Category> data){
 
@@ -53,13 +39,13 @@ public class GridViewContent extends BaseAdapter {
     public int getCount() {
 
         // TODO Auto-generated method stub
-        return (gv_fill.length);
+        return (categories.size());
     }
 
     @Override
     public Object getItem( int position ){
 
-        return gv_fill[position];
+        return categories.get(position);
     }
 
     @Override
@@ -72,16 +58,71 @@ public class GridViewContent extends BaseAdapter {
 
 
     @Override
-    public View getView( int position, View arg1, ViewGroup arg2){
+    public View getView( int position, View convertView, ViewGroup parent){
+        View v;
+        Category category = categories.get(position);
+        if(convertView == null){
 
-        ImageView imageView = new ImageView(context);
+            LayoutInflater li = LayoutInflater.from(context);
+            v = li.inflate(R.layout.grid_view_row, null);
+            ImageView categoryImage = (ImageView) v.findViewById(R.id.imageGridViewContent);
+            TextView categoryText = (TextView) v.findViewById(R.id.categoryGridViewContent);
 
-        imgLoader.SetImage(categories.get(position).getPhotoURL(), loader, imageView);
+            ImageView imageView = new ImageView(context);
 
-        imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-        imageView.setLayoutParams(new GridView.LayoutParams(350, 200));
+            String URL = categories.get(position).getPhotoURL();
+            if(URL.equals("null")){
+                categoryImage.setImageResource(R.drawable.ic_launcher);
+                //categoryImage.setLayoutParams(new GridView.LayoutParams(350, 200));
+            }else{
+                Log.d("URL", URL);
+                //new DownloadImageTask((ImageView) categoryImage).execute(URL);
+                imgLoader.SetImage(URL, loader, imageView);
 
-        return imageView;
+                //imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                //imageView.setLayoutParams(new GridView.LayoutParams(350, 200));
+                //categoryImage.setImageDrawable(imageView.getDrawable());
+            }
+
+
+            categoryText.setText(category.getCategoryName());
+
+        }else{
+            v = convertView;
+        }
+        return v;
+    }
+
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        public DownloadImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                StringBuilder builder = new StringBuilder();
+                String line = "";
+                while ((line = reader.readLine()) != null) {
+                    builder.append(line);
+                }
+                byte[] byteArrayInputStream = builder.toString().getBytes();
+                mIcon11 = BitmapFactory.decodeByteArray(byteArrayInputStream, 0, byteArrayInputStream.length);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            bmImage.setImageBitmap(result);
+        }
     }
 
 }

@@ -10,8 +10,6 @@ import android.graphics.Point;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.ViewDragHelper;
 import android.view.Menu;
@@ -84,7 +82,7 @@ public class MainActivity extends Activity
             fragmentManager.beginTransaction()
                     .replace(R.id.container, MainMenuFragment.newInstance(1))
                     .commit();
-
+            /*
             Handler h = new Handler(Looper.getMainLooper());
             h.postDelayed(new Runnable() {
                 @Override
@@ -98,6 +96,7 @@ public class MainActivity extends Activity
 
                 }
             }, 1000);
+            */
         }
     }
 

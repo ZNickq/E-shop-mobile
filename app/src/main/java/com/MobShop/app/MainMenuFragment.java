@@ -189,12 +189,11 @@ public class MainMenuFragment extends Fragment {
                         String categoryId = c.getString(CATEGORY_ID);
                         String categoryName = c.getString(CATEGORY_NAME);
                         String photoURL = c.getString(PHOTO_URL);
-                        if(photoURL == null){
+                        if(photoURL.equals("null")){
                            // photoURL = uri + "6e020-p1020283.jpg";
                         }else{
                             photoURL = uri + photoURL;
                         }
-                        Log.d("URL", photoURL);
                         JSONArray subCategories = c.getJSONArray(SUBCATEGORIES);
                         SubCategory[] subCategoriesArray;
                         subCategoriesArray = new SubCategory[subCategories.length()];
