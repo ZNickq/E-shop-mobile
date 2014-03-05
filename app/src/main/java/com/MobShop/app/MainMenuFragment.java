@@ -1,11 +1,13 @@
 package com.MobShop.app;
 
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.util.Log;
@@ -55,6 +57,7 @@ public class MainMenuFragment extends Fragment {
     ArrayList<Category> categories;
 
     private NavigationDrawerFragment.NavigationDrawerCallbacks mCallbacks;
+    public GetCategoriesAndSubCategoriesTask getData;
 
     public static MainMenuFragment newInstance(int sectionNumber) {
         MainMenuFragment fragment = new MainMenuFragment();
@@ -74,7 +77,7 @@ public class MainMenuFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         gridView = (GridView) rootView.findViewById(R.id.gridview);
         context = gridView.getContext();
-        GetCategoriesAndSubCategoriesTask getData = new GetCategoriesAndSubCategoriesTask();
+        getData = new GetCategoriesAndSubCategoriesTask();
         getData.execute(new String[]{"getallcategorieswithsubcategoriesandphotos"});
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -138,8 +141,10 @@ public class MainMenuFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mCallbacks = null;
+        getData.cancel(true);
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void setupJazziness(LayoutInflater li, ViewGroup container, View forWhich, JazzyViewPager.TransitionEffect effect) {
         mJazzy = (JazzyViewPager) forWhich.findViewById(R.id.jazzy_pager);
         mJazzy.setTransitionEffect(effect);
@@ -221,6 +226,9 @@ public class MainMenuFragment extends Fragment {
                         BufferedReader reader = new BufferedReader(new InputStreamReader(content));
                         String line = "";
                         while ((line = reader.readLine()) != null) {
+                            if(isCancelled()){
+                                break;
+                            }
                             builder.append(line);
                         }
                     } else {
@@ -247,6 +255,9 @@ public class MainMenuFragment extends Fragment {
             String uri = "http://dragomircristian.net/calin/assets/uploads/categories/";
             try {
                 for (int i = 0; i < jarray.length(); i++) {
+                    if(isCancelled()){
+                        break;
+                    }
                     try {
                         JSONObject c = jarray.getJSONObject(i);
                         String categoryId = c.getString(CATEGORY_ID);

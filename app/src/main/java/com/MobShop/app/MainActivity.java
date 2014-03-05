@@ -13,7 +13,6 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.ViewDragHelper;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -137,7 +136,6 @@ public class MainActivity extends Activity
 
     @Override
     public void onNavigationDrawerItemSelected(String menuItem, int position) {
-        Log.d("URL", "1" + menuItem + " " + position);
         // update the main content by replacing fragments
         if (menuItem.contains("Subcategories")) {
             StringBuilder subCategory = new StringBuilder();
@@ -153,6 +151,7 @@ public class MainActivity extends Activity
             FragmentManager fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.container, ListOfProducts.newInstance(position, categoryToWeb, getApplicationContext()))
+                    .addToBackStack(null)
                     .commit();
         } else {
             switch (position) {
@@ -219,6 +218,7 @@ public class MainActivity extends Activity
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.container, ProductPage.newInstance(id, getApplicationContext()))
+                .addToBackStack(null)
                 .commit();
     }
 }
