@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TabHost;
+import android.widget.TabWidget;
 import android.widget.TextView;
 
 import org.apache.http.HttpEntity;
@@ -56,6 +58,7 @@ public class ProductPage extends Fragment {
     private Context ctxt;
 
     public TextView productNameTextView;
+    public TextView productName;
 
     public ProductPage() {
 
@@ -81,6 +84,14 @@ public class ProductPage extends Fragment {
             mProductID = savedInstanceState.getInt(ARG_PRODUCT_ID_NUMBER);
             mFromSavedInstanceState = true;
         }
+        /*TabHost tabHost = new TabHost(getActivity());
+        TabWidget tabWidget = new TabWidget(getActivity());
+        tabWidget.setId(android.R.id.tabs);
+        tabHost.addView(tabWidget);
+        TabHost.TabSpec tabSpec = tabHost.newTabSpec("Detalii");
+        tabHost.addTab(tabSpec);
+        tabSpec=tabHost.newTabSpec("Produse similare");
+        tabHost.addTab(tabSpec);*/
     }
 
     @Override
@@ -93,8 +104,9 @@ public class ProductPage extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.product_page, container, false);
+        View rootView = inflater.inflate(R.layout.product_fragment, container, false);
         productNameTextView = (TextView) rootView.findViewById(R.id.productPageProductName);
+        productName = (TextView) rootView.findViewById(R.id.productName);
 
         ProductByID getProduct = new ProductByID();
         getProduct.execute(new String[]{"getproductbyid"});
@@ -200,6 +212,7 @@ public class ProductPage extends Fragment {
         @Override
         protected void onPostExecute(Product result) {
             productNameTextView.setText(result.getProductName());
+            productName.setText(result.getProductName());
         }
     }
 

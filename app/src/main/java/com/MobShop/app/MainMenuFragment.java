@@ -9,8 +9,8 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,7 +54,6 @@ public class MainMenuFragment extends Fragment {
 
     private NavigationDrawerFragment.NavigationDrawerCallbacks mCallbacks;
     public GetCategoriesAndSubCategoriesTask getData;
-
     public static MainMenuFragment newInstance(int sectionNumber) {
         MainMenuFragment fragment = new MainMenuFragment();
         Bundle args = new Bundle();
@@ -68,9 +67,9 @@ public class MainMenuFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public  View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         gridView = (GridView) rootView.findViewById(R.id.gridview);
         context = gridView.getContext();
         getData = new GetCategoriesAndSubCategoriesTask();
@@ -98,7 +97,6 @@ public class MainMenuFragment extends Fragment {
                             dialog.dismiss();
                             Integer id = sub.getSubCategoryId();
                             mCallbacks.onNavigationDrawerItemSelected("Subcategories: " + sub.getSubCategoryName(), id);
-
                         }
                     });
                     Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
@@ -114,23 +112,27 @@ public class MainMenuFragment extends Fragment {
                 }
             }
         });
+        GetCategoriesAndSubCategoriesTask getData = new  GetCategoriesAndSubCategoriesTask();
+        getData.execute(new String[] { "getallcategorieswithsubcategoriesandphotos"});
 
-        AutoScrollViewPager viewPager = (AutoScrollViewPager) rootView.findViewById(R.id.view_pager);
+
+        AutoScrollPager viewPager = (AutoScrollPager) rootView.findViewById(R.id.view_pager);
         ViewAdapter adapter = new ViewAdapter(this.context);
         viewPager.setAdapter(adapter);
         viewPager.startAutoScroll(2000);
-        viewPager.setBorderAnimation(false);
         viewPager.setScrollDurationFactor(5);
+        viewPager.setBorderAnimation(false);
+
         return rootView;
     }
 
-    public class ViewAdapter extends PagerAdapter{
+    public class ViewAdapter extends PagerAdapter {
         Context context;
-        private int[] pics = new int[] {
-                R.drawable.filterbutton,
-                R.drawable.blue_team,
+        private int[] pics = new int[]{
                 R.drawable.cartslidingbutton,
-                R.drawable.cartbutton
+                R.drawable.filterbutton,
+                R.drawable.cartbutton,
+                R.drawable.blue_team
         };
         ViewAdapter(Context context){
             this.context=context;
@@ -182,6 +184,7 @@ public class MainMenuFragment extends Fragment {
         mCallbacks = null;
         getData.cancel(true);
     }
+
 
     private class GetCategoriesAndSubCategoriesTask extends AsyncTask<String, Void, ArrayList<Category>> {
         protected ArrayList<Category> doInBackground(String... functions) {

@@ -15,8 +15,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.ViewDragHelper;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.SearchView;
 
@@ -70,7 +70,6 @@ public class MainActivity extends Activity
             mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager().findFragmentById(R.id.navigation_drawer);
             //mTitle = getTitle();
             mTitle = "Dashbord";
-
             // Set up the drawer.
             mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
             mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
