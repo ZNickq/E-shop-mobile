@@ -116,7 +116,7 @@ public class MainMenuFragment extends Fragment {
         getData.execute(new String[] { "getallcategorieswithsubcategoriesandphotos"});
 
 
-        AutoScrollPager viewPager = (AutoScrollPager) rootView.findViewById(R.id.view_pager);
+        AutoScrollViewPager viewPager = (AutoScrollViewPager) rootView.findViewById(R.id.view_pager);
         ViewAdapter adapter = new ViewAdapter(this.context);
         viewPager.setAdapter(adapter);
         viewPager.startAutoScroll(2000);
