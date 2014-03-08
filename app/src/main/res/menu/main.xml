@@ -31,6 +31,12 @@
                 android:title="List"
                 android:showAsAction="always" />
 
+            <item
+                android:id="@+id/action_grid"
+                android:icon="@drawable/listbutton"
+                android:title="Grid"
+                android:showAsAction="always" />
+
         </menu>
     </item>
 </menu>

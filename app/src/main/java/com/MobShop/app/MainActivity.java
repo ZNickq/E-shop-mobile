@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.SearchManager;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -35,6 +36,8 @@ public class MainActivity extends Activity
     private CharSequence mTitle;
 
     public DrawerLayout mDrawerLayout;
+
+    public Menu mymenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -167,6 +170,7 @@ public class MainActivity extends Activity
         actionBar.setTitle(mTitle);
         actionBar.setLogo(R.drawable.logodash);
         actionBar.setIcon(R.drawable.arrow);
+        mymenu.findItem(R.id.action_list).setVisible(false);
     }
 
 
@@ -178,6 +182,8 @@ public class MainActivity extends Activity
                 // if the drawer is not showing. Otherwise, let the drawer
                 // decide what to show in the action bar.
                 getMenuInflater().inflate(R.menu.main, menu);
+
+                mymenu = menu;
 
                 SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
                 SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
@@ -198,11 +204,36 @@ public class MainActivity extends Activity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+
+        switch (item.getItemId()){
+
+            case R.id.action_search:
+
+                return true;
+
+            case R.id.action_cart:
+
+                return true;
+
+            case R.id.action_filter:
+
+                return true;
+
+            case R.id.action_list:
+                item.setVisible(false);
+                mymenu.findItem(R.id.action_grid).setVisible(true);
+                findViewById(R.id.listview).setVisibility(View.VISIBLE);
+                findViewById(R.id.gridview).setVisibility(View.GONE);
+                return true;
+
+            case R.id.action_grid:
+                item.setVisible(false);
+                mymenu.findItem(R.id.action_list).setVisible(true);
+                findViewById(R.id.listview).setVisibility(View.GONE);
+                findViewById(R.id.gridview).setVisibility(View.VISIBLE);
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
