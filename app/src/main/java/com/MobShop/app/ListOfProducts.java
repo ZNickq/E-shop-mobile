@@ -58,6 +58,7 @@ public class ListOfProducts extends Fragment {
     private String mSubCategoryName = "";
     private boolean mFromSavedInstanceState;
     public static String URL = "http://dragomircristian.net/calin/api/";
+    public static String uri = "http://dragomircristian.net/calin/assets/uploads/products/";
 
     public ListView listOfProductsView;
 
@@ -229,11 +230,11 @@ public class ListOfProducts extends Fragment {
                         Integer subcategories = c.getInt(PRODUCT_SUBCATEGORIES);
                         Integer sale = c.getInt(PRODUCT_SALE);
                         Integer discount = c.getInt(PRODUCT_DISCOUNT);
-                        String photoUrl = c.getString(PRODUCT_PHOTOURL);
-                        if (photoUrl == "null") {
-                            photoUrl = "http://dragomircristian.net/calin/assets/uploads/files/bf71d-chrysanthemum.jpg";
+                        String photoURL = c.getString(PRODUCT_PHOTOURL);
+                        if (photoURL.equals("null")) {
+
                         } else {
-                            photoUrl = "http://dragomircristian.net/calin/assets/uploads/files/" + photoUrl;
+                            photoURL = uri + photoURL;
                         }
                         Product product = new Product(id, name);
                         product.setDescription(description);
@@ -243,13 +244,7 @@ public class ListOfProducts extends Fragment {
                         product.setSubCategories(subcategories);
                         product.setProductSale(sale);
                         product.setProductDiscount(discount);
-                        /*
-                        ImageView imageView = new ImageView(ctxt);
-                        imgLoader.SetImage(photoUrl, loader, imageView);
-                        imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-                        imageView.setLayoutParams(new GridView.LayoutParams(30, 30));
-                        */
-                        product.setProductPhotoURL(photoUrl);
+                        product.setProductPhotoURL(photoURL);
                         jsonlist.add(product);
                     } catch (JSONException e) {
                         e.printStackTrace();

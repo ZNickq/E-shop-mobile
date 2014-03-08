@@ -11,7 +11,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/productPageProductName"/>
+        android:id="@+id/productPageProductCategory"/>
 
     <ImageView
         android:id="@+id/productImage"
@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Transport"
-        android:id="@+id/textView2"
+        android:id="@+id/transport"
         android:layout_marginBottom="50dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
@@ -49,8 +49,8 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Pret"
-        android:id="@+id/textView3"
-        android:layout_above="@+id/textView2"
+        android:id="@+id/pret"
+        android:layout_above="@+id/transport"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -58,7 +58,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/tabHost"
-        android:layout_above="@+id/textView3"
+        android:layout_above="@+id/pret"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/productImage">
@@ -101,10 +101,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="200 lei"
         android:paddingRight="15dp"
-        android:id="@+id/textView4"
-        android:layout_above="@+id/textView2"
+        android:id="@+id/deliveryProductPageTextView"
+        android:layout_above="@+id/pret"
         android:layout_alignRight="@+id/tabHost"
         android:layout_alignEnd="@+id/tabHost"
         android:layout_below="@+id/tabHost" />
@@ -114,28 +113,18 @@
         android:layout_height="wrap_content"
         android:paddingRight="15dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="19 lei"
-        android:id="@+id/textView5"
-        android:layout_alignTop="@+id/textView2"
+        android:id="@+id/priceProductPageTextView"
+        android:layout_alignTop="@+id/pret"
         android:layout_alignRight="@+id/tabHost"
         android:layout_alignEnd="@+id/tabHost" />
 
-    <ImageButton
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageButton"
+        android:id="@+id/buttonProductPageAddToCart"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="60dp"
-        android:src="@drawable/drawable_bg"
-        android:layout_alignParentStart="true" />
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageButton2"
-        android:src="@drawable/drawable_bg"
-        android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/textView5" />
+        android:layout_toLeftOf="@+id/deliveryProductPageTextView"
+        android:text="Adauga in cos"/>
 
 
 </RelativeLayout>

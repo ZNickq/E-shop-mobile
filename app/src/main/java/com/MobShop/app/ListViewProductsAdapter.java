@@ -44,13 +44,12 @@ public class ListViewProductsAdapter extends ArrayAdapter<Product> {
         TextView textViewItem = (TextView) convertView.findViewById(R.id.listViewProductSubCategoryTextView);
         ImageView img = (ImageView) convertView.findViewById(R.id.listViewProductSubCategoryImageView);
         String name = objectItem.getProductName();
-        ImageView imageView = new ImageView(ctxt);
 
         String URL = objectItem.getProductPhotoURL();
         if (URL.equals("null")) {
             img.setImageResource(R.drawable.ic_launcher);
         } else {
-            imgLoader.SetImage(URL, loader, imageView);
+            imgLoader.SetImage(URL, loader, img);
         }
         textViewItem.setText(name);
 

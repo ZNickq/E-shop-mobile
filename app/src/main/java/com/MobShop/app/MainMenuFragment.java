@@ -1,26 +1,23 @@
 package com.MobShop.app;
 
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
@@ -43,6 +40,7 @@ public class MainMenuFragment extends Fragment {
     public GridView gridView;
     public Context context;
     public static String URL = "http://dragomircristian.net/calin/api/";
+    public static String uri = "http://dragomircristian.net/calin/assets/uploads/categories/";
     public DefaultHttpClient httpClient;
     public static final String SUBCATEGORY_ID = "id";
     public static final String SUBCATEGORY_NAME = "name";
@@ -229,7 +227,6 @@ public class MainMenuFragment extends Fragment {
             }
             ArrayList<Category> jsonlist = new ArrayList<Category>();
             //add data to jsonlist, in order to easily proccessing
-            String uri = "http://dragomircristian.net/calin/assets/uploads/categories/";
             try {
                 for (int i = 0; i < jarray.length(); i++) {
                     if(isCancelled()){
@@ -241,7 +238,7 @@ public class MainMenuFragment extends Fragment {
                         String categoryName = c.getString(CATEGORY_NAME);
                         String photoURL = c.getString(PHOTO_URL);
                         if (photoURL.equals("null")) {
-                            // photoURL = uri + "6e020-p1020283.jpg";
+
                         } else {
                             photoURL = uri + photoURL;
                         }

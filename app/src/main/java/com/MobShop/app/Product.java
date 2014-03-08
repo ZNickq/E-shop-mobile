@@ -11,6 +11,8 @@ public class Product {
     private int productQuantity;
     private int productCategories;
     private int productSubcategories;
+    private String productCategoryName;
+    private String productSubCategoryName;
     private int productSale;
     private int productDiscount;
     private String productPhotoURL;
@@ -57,6 +59,10 @@ public class Product {
         this.productPhotoURLS = photoURLS;
     }
 
+    public void setProductCategoryName(String name){ this.productCategoryName = name;}
+
+    public void setProductSubCategoryName(String name){ this.productSubCategoryName = name;}
+
     public Integer getProductId() {
         return productId;
     }
@@ -96,5 +102,9 @@ public class Product {
     public String getProductPhotoURL() {
         return productPhotoURL;
     }
+
+    public String getProductCategoryName(){return productCategoryName;}
+
+    public String getProductSubCategoryName(){ return productSubCategoryName;}
 
 }
