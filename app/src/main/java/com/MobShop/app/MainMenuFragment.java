@@ -38,7 +38,9 @@ public class MainMenuFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
     public GridView gridView;
-    public Context context;
+    public ListView dashlistview;
+    public Context listcontext;
+    public Context gridcontext;
     public static String URL = "http://dragomircristian.net/calin/api/";
     public static String uri = "http://dragomircristian.net/calin/assets/uploads/categories/";
     public DefaultHttpClient httpClient;
@@ -70,7 +72,10 @@ public class MainMenuFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         gridView = (GridView) rootView.findViewById(R.id.gridview);
-        context = gridView.getContext();
+        gridcontext = gridView.getContext();
+        gridView.setVisibility(View.GONE);
+        dashlistview = (ListView) rootView.findViewById(R.id.listview);
+        listcontext = dashlistview.getContext();
         getData = new GetCategoriesAndSubCategoriesTask();
         getData.execute(new String[]{"getallcategorieswithsubcategoriesandphotos"});
 
@@ -83,11 +88,11 @@ public class MainMenuFragment extends Fragment {
                 if (subCategories.length != 0) {
 
                     // custom dialog
-                    final Dialog dialog = new Dialog(context);
+                    final Dialog dialog = new Dialog(gridcontext);
                     dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                     dialog.setContentView(R.layout.dialog_sub_categories);
                     ListView listView = (ListView) dialog.findViewById(R.id.listViewSubCategoriesDialog);
-                    ListViewSubCategoriesDialogAdapter adapter = new ListViewSubCategoriesDialogAdapter(context, R.layout.list_view_subcategories_dialog_row, subCategories);
+                    ListViewSubCategoriesDialogAdapter adapter = new ListViewSubCategoriesDialogAdapter(gridcontext, R.layout.list_view_subcategories_dialog_row, subCategories);
                     listView.setAdapter(adapter);
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
@@ -104,12 +109,44 @@ public class MainMenuFragment extends Fragment {
                 }
             }
         });
+
+        dashlistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Category category = categories.get(i);
+                final SubCategory[] subCategories = category.getSubCategories();
+
+                if (subCategories.length != 0) {
+
+                    // custom dialog
+                    final Dialog dialog = new Dialog(listcontext);
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    dialog.setContentView(R.layout.dialog_sub_categories);
+                    ListView listView = (ListView) dialog.findViewById(R.id.listViewSubCategoriesDialog);
+                    ListViewSubCategoriesDialogAdapter adapter = new ListViewSubCategoriesDialogAdapter(listcontext, R.layout.list_view_subcategories_dialog_row, subCategories);
+                    listView.setAdapter(adapter);
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                            SubCategory sub = subCategories[i];
+                            dialog.dismiss();
+                            Integer id = sub.getSubCategoryId();
+                            mCallbacks.onNavigationDrawerItemSelected("Subcategories: " + sub.getSubCategoryName(), id);
+                        }
+                    });
+
+
+                    dialog.show();
+                }
+            }
+        });
+
         GetCategoriesAndSubCategoriesTask getData = new  GetCategoriesAndSubCategoriesTask();
         getData.execute(new String[] { "getallcategorieswithsubcategoriesandphotos"});
 
 
         AutoScrollViewPager viewPager = (AutoScrollViewPager) rootView.findViewById(R.id.view_pager);
-        ViewAdapter adapter = new ViewAdapter(this.context);
+        ViewAdapter adapter = new ViewAdapter(this.gridcontext);
         viewPager.setAdapter(adapter);
         viewPager.startAutoScroll(2000);
         viewPager.setScrollDurationFactor(5);
@@ -269,7 +306,8 @@ public class MainMenuFragment extends Fragment {
         @Override
         protected void onPostExecute(ArrayList<Category> result) {
             categories = result;
-            gridView.setAdapter(new GridViewContent(context, result));
+            gridView.setAdapter(new GridViewContent(gridcontext, result));
+            dashlistview.setAdapter(new ListViewDashAdapter(listcontext, result));
         }
     }
 }
