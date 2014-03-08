@@ -16,7 +16,6 @@ import android.support.v4.widget.ViewDragHelper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.SearchView;
 
@@ -79,6 +78,21 @@ public class MainActivity extends Activity
             fragmentManager.beginTransaction()
                     .replace(R.id.container, MainMenuFragment.newInstance(1))
                     .commit();
+            /*
+            Handler h = new Handler(Looper.getMainLooper());
+            h.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                    Bitmap b = rView.getDrawingCache();
+                    originalScreen = b;
+
+                    Intent it = new Intent(getApplicationContext(), HelpOverlay.class);
+                    startActivity(it);
+
+                }
+            }, 1000);
+            */
         }
     }
 

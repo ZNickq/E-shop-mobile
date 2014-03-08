@@ -13,8 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.ListView;
 
 import org.apache.http.HttpEntity;
@@ -245,11 +243,13 @@ public class ListOfProducts extends Fragment {
                         product.setSubCategories(subcategories);
                         product.setProductSale(sale);
                         product.setProductDiscount(discount);
+                        /*
                         ImageView imageView = new ImageView(ctxt);
                         imgLoader.SetImage(photoUrl, loader, imageView);
                         imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
                         imageView.setLayoutParams(new GridView.LayoutParams(30, 30));
-                        product.setProductPhotoURL(photoUrl, imageView);
+                        */
+                        product.setProductPhotoURL(photoUrl);
                         jsonlist.add(product);
                     } catch (JSONException e) {
                         e.printStackTrace();

@@ -17,6 +17,8 @@ public class ListViewProductsAdapter extends ArrayAdapter<Product> {
     public Context ctxt = null;
     public Product[] data = null;
     public int layoutResourceId;
+    ImageLoader imgLoader;
+    int loader = R.drawable.loader;
 
 
     public ListViewProductsAdapter(Context context, int resource, Product[] objects) {
@@ -24,6 +26,7 @@ public class ListViewProductsAdapter extends ArrayAdapter<Product> {
         this.ctxt = context;
         this.data = objects;
         this.layoutResourceId = resource;
+        imgLoader = new ImageLoader(ctxt);
     }
 
     @Override
@@ -39,10 +42,16 @@ public class ListViewProductsAdapter extends ArrayAdapter<Product> {
         objectItem = data[position];
         // get the TextView and then set the text (item name) and tag (item ID) values
         TextView textViewItem = (TextView) convertView.findViewById(R.id.listViewProductSubCategoryTextView);
-        String name = objectItem.getProductName();
-        ImageView imageView = objectItem.getProductImageView();
         ImageView img = (ImageView) convertView.findViewById(R.id.listViewProductSubCategoryImageView);
-        img.setImageDrawable(imageView.getDrawable());
+        String name = objectItem.getProductName();
+        ImageView imageView = new ImageView(ctxt);
+
+        String URL = objectItem.getProductPhotoURL();
+        if (URL.equals("null")) {
+            img.setImageResource(R.drawable.ic_launcher);
+        } else {
+            imgLoader.SetImage(URL, loader, imageView);
+        }
         textViewItem.setText(name);
 
         return convertView;
