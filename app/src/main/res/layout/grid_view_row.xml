@@ -5,14 +5,19 @@
     android:layout_height="match_parent">
     <ImageView
         android:id="@+id/imageGridViewContent"
-        android:layout_width="50dp"
-        android:layout_height="50dp">
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center"
+        android:paddingTop="10dp">
     </ImageView>
     <TextView
         android:id="@+id/categoryGridViewContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
-        android:gravity="center_horizontal"
-        android:textColorHighlight="#656565"/>
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:textColor="#056699"
+        android:textStyle="bold"
+        android:paddingTop="5dp"/>
 </LinearLayout>
