@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
@@ -85,8 +86,8 @@ public class MainMenuFragment extends Fragment {
 
                     // custom dialog
                     final Dialog dialog = new Dialog(context);
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                     dialog.setContentView(R.layout.dialog_sub_categories);
-                    dialog.setTitle(category.getCategoryName());
                     ListView listView = (ListView) dialog.findViewById(R.id.listViewSubCategoriesDialog);
                     ListViewSubCategoriesDialogAdapter adapter = new ListViewSubCategoriesDialogAdapter(context, R.layout.list_view_subcategories_dialog_row, subCategories);
                     listView.setAdapter(adapter);
@@ -99,14 +100,7 @@ public class MainMenuFragment extends Fragment {
                             mCallbacks.onNavigationDrawerItemSelected("Subcategories: " + sub.getSubCategoryName(), id);
                         }
                     });
-                    Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
-                    // if button is clicked, close the custom dialog
-                    dialogButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            dialog.dismiss();
-                        }
-                    });
+
 
                     dialog.show();
                 }
