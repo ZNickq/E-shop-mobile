@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="actiontext">#ffffff</color>
+    <color name="descriptiontext">#777777</color>
+    <color name="descriptionbackground">#d8d8d8</color>
+    <color name="bluecolor">#056699</color>
 </resources>

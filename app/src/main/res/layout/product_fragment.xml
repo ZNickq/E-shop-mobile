@@ -1,130 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/productPageProductCategory"/>
-
-    <ImageView
-        android:id="@+id/productImage"
-        android:src="@drawable/star"
-        android:layout_marginTop="15dp"
-        android:layout_width="150dip"
-        android:layout_height="150dip" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:textAlignment="center"
-        android:id="@+id/productName"
-        android:layout_alignTop="@+id/productImage"
-        android:layout_alignBottom="@+id/productImage"
-        android:layout_toRightOf="@+id/productImage"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Transport"
-        android:id="@+id/transport"
-        android:layout_marginBottom="50dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Pret"
-        android:id="@+id/pret"
-        android:layout_above="@+id/transport"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TabHost
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/tabHost"
-        android:layout_above="@+id/pret"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/productImage">
+        android:layout_height="20dp"
+        android:id="@+id/productPageProductCategory"
+        android:layout_alignParentTop="true"
+        android:textColor="@color/descriptiontext"/>
 
-        <LinearLayout
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="150dp"
+        android:id="@+id/mainlayout"
+        android:layout_below="@+id/productPageProductCategory"
+        android:padding="10dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/productImage"
+            android:src="@drawable/star"
+            android:layout_width="150dp"
+            android:layout_height="150dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_toRightOf="@+id/productImage"
+            android:textSize="25dp"
+            android:textColor="@color/bluecolor"
+            android:text="Large Text"
+            android:paddingTop="15dp"
+            android:paddingLeft="15dp"
+            android:paddingBottom="10dp"
+            android:id="@+id/productName" />
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_below="@+id/productName"
+            android:layout_toRightOf="@+id/productImage"
+            android:paddingLeft="20dp"
+            android:src="@drawable/star"
+            android:id="@+id/smallimage1"/>
+
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_below="@+id/productName"
+            android:layout_toRightOf="@+id/smallimage1"
+            android:paddingLeft="20dp"
+            android:src="@drawable/star"
+            android:id="@+id/smallimage2"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/productdescriptionlayout"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/mainlayout"
+        android:layout_above="@+id/productPagePriceLayout"
+        android:isScrollContainer="true">
+        <TextView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:orientation="vertical">
+            android:id="@+id/productPageDescription"
+            android:background="@color/descriptionbackground"
+            android:text="Descriere Produs..."
+            android:padding="10dp"/>
+    </RelativeLayout>
 
-            <TabWidget
-                android:id="@android:id/tabs"
-                android:layout_width="fill_parent"
-                android:layout_height="60dp"></TabWidget>
 
-            <FrameLayout
-                android:id="@android:id/tabcontent"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
+    <RelativeLayout
+        android:id="@+id/productPagePriceLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"
+        android:layout_above="@+id/deliverypricelayout"
+        android:background="@drawable/greybg"
+        android:layout_marginTop="5dp">
 
-                <LinearLayout
-                    android:id="@+id/tab1"
-                    android:orientation="vertical"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:textColor="@color/bluecolor"
+            android:text="Pret"
+            android:id="@+id/pricetext"
+            android:layout_alignParentLeft="true" />
 
-                </LinearLayout>
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:textColor="@color/bluecolor"
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
 
-                <LinearLayout
-                    android:id="@+id/tab2"
-                    android:orientation="vertical"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent">
-                    </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/deliverypricelayout"
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"
+        android:layout_above="@+id/productpagebuttons"
+        android:background="@drawable/greybg"
+        android:layout_marginTop="5dp">
 
-            </FrameLayout>
-        </LinearLayout>
-    </TabHost>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:textColor="@color/bluecolor"
+            android:text="Transport"
+            android:id="@+id/delivery"
+            android:layout_alignParentLeft="true" />
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:textColor="@color/bluecolor"
+            android:id="@+id/deliveryprice"
+            android:layout_alignParentRight="true"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:paddingRight="15dp"
-        android:id="@+id/deliveryProductPageTextView"
-        android:layout_above="@+id/pret"
-        android:layout_alignRight="@+id/tabHost"
-        android:layout_alignEnd="@+id/tabHost"
-        android:layout_below="@+id/tabHost" />
+    </RelativeLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingRight="15dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/priceProductPageTextView"
-        android:layout_alignTop="@+id/pret"
-        android:layout_alignRight="@+id/tabHost"
-        android:layout_alignEnd="@+id/tabHost" />
+    <RelativeLayout
+        android:id="@+id/productpagebuttons"
+        android:layout_width="fill_parent"
+        android:layout_height="35dp"
+        android:paddingTop="10dp"
+        android:layout_alignParentBottom="true">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/buttonProductPageAddToCart"
-        android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/deliveryProductPageTextView"
-        android:text="Adauga in cos"/>
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="25dp"
+            android:id="@+id/buttonproductpageback"
+            android:layout_alignParentLeft="true"
+            android:text="Inapoi"
+            android:textColor="#ffffff"
+            android:textSize="20dp"
+            android:background="@color/bluecolor"/>
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="25dp"
+            android:id="@+id/buttonProductPageAddToCart"
+            android:layout_alignParentRight="true"
+            android:text="Cumpara"
+            android:textSize="20dp"
+            android:textColor="#ffffff"
+            android:background="@color/bluecolor"/>
+
+        </RelativeLayout>
 
 
 </RelativeLayout>

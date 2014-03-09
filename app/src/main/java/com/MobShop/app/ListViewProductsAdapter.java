@@ -42,8 +42,12 @@ public class ListViewProductsAdapter extends ArrayAdapter<Product> {
         objectItem = data[position];
         // get the TextView and then set the text (item name) and tag (item ID) values
         TextView textViewItem = (TextView) convertView.findViewById(R.id.listViewProductSubCategoryTextView);
+        TextView descriptionViewItem = (TextView) convertView.findViewById(R.id.listViewProductSubCategoryDescription);
+        TextView priceViewItem = (TextView) convertView.findViewById(R.id.listViewProductsBubCategoryPrice);
         ImageView img = (ImageView) convertView.findViewById(R.id.listViewProductSubCategoryImageView);
         String name = objectItem.getProductName();
+        String description = objectItem.getDescription();
+        Double price = objectItem.getPrice();
 
         String URL = objectItem.getProductPhotoURL();
         if (URL.equals("null")) {
@@ -52,6 +56,8 @@ public class ListViewProductsAdapter extends ArrayAdapter<Product> {
             imgLoader.SetImage(URL, loader, img);
         }
         textViewItem.setText(name);
+        descriptionViewItem.setText(description);
+        priceViewItem.setText("Price: "+price+" lei");
 
         return convertView;
     }

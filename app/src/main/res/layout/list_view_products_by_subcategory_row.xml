@@ -1,19 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="90dp"
+    android:isScrollContainer="true"
+    android:paddingTop="5dp">
+
     <ImageView
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:id="@+id/listViewProductSubCategoryImageView"
         android:src="@drawable/blue_team"
+        android:paddingLeft="5dp"
         />
-    <TextView
-        android:id="@+id/listViewProductSubCategoryTextView"
+
+    <RelativeLayout
+        android:id="@+id/textlayout"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_toRightOf="@+id/listViewProductSubCategoryImageView"
+        android:padding="10dp"
+        >
+
+        <TextView
+            android:id="@+id/listViewProductSubCategoryTextView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Item name here..."
+            android:textSize="15dp"
+            />
+
+        <TextView
+            android:id="@+id/listViewProductSubCategoryDescription"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:text="Description"
+            android:textSize="12dp"
+            android:textColor="@color/descriptiontext"
+            android:layout_below="@+id/listViewProductSubCategoryTextView"
+            android:paddingTop="5dp"/>
+
+
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/listViewProductsBubCategoryPrice"
+        android:layout_width="70dp"
         android:layout_height="wrap_content"
-        android:text="Item name here..."
+        android:text="Price"
         android:textSize="15dp"
+        android:layout_alignParentRight="true"
+        android:padding="10dp"
         />
-</LinearLayout>
+
+
+</RelativeLayout>

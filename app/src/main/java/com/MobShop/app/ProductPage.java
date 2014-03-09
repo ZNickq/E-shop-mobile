@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.apache.http.HttpEntity;
@@ -57,7 +59,9 @@ public class ProductPage extends Fragment {
     private Integer mProductID;
     private Context ctxt;
 
-    public TextView productCategoryTextView, productDeliveryTextView, productPriceTextView, productNameTextView;
+
+    public TextView productCategoryTextView, productDeliveryTextView, productPriceTextView, productNameTextView, productDescriptionTextView;
+    public ImageView productImageView;
 
     public ProductPage() {
 
@@ -83,6 +87,10 @@ public class ProductPage extends Fragment {
             mProductID = savedInstanceState.getInt(ARG_PRODUCT_ID_NUMBER);
             mFromSavedInstanceState = true;
         }
+
+
+
+
         /*TabHost tabHost = new TabHost(getActivity());
         TabWidget tabWidget = new TabWidget(getActivity());
         tabWidget.setId(android.R.id.tabs);
@@ -106,10 +114,15 @@ public class ProductPage extends Fragment {
         View rootView = inflater.inflate(R.layout.product_fragment, container, false);
         productCategoryTextView = (TextView) rootView.findViewById(R.id.productPageProductCategory);
         productNameTextView = (TextView) rootView.findViewById(R.id.productName);
-        productDeliveryTextView = (TextView) rootView.findViewById(R.id.deliveryProductPageTextView);
-        productPriceTextView = (TextView) rootView.findViewById(R.id.priceProductPageTextView);
+        productDeliveryTextView = (TextView) rootView.findViewById(R.id.deliveryprice);
+        productPriceTextView = (TextView) rootView.findViewById(R.id.price);
+        productDescriptionTextView = (TextView) rootView.findViewById(R.id.productPageDescription);
+        productImageView = (ImageView) rootView.findViewById(R.id.productImage);
         ProductByID getProduct = new ProductByID();
         getProduct.execute(new String[]{"getproductbyid"});
+
+
+
 
         return rootView;
     }
@@ -118,6 +131,7 @@ public class ProductPage extends Fragment {
         //ActionBar actionBar = getActionBar();
         mProductID = number;
         this.ctxt = context;
+
     }
 
     private class ProductByID extends AsyncTask<String, Void, Product> {
@@ -214,15 +228,19 @@ public class ProductPage extends Fragment {
 
         @Override
         protected void onPostExecute(Product result) {
-            String category = "Toate categoriile > " + result.getProductCategoryName() + " > " + result.getProductSubCategoryName();
+            String category = result.getProductCategoryName() + "  >  " + result.getProductSubCategoryName();
             String productName = result.getProductName();
             Double price = result.getPrice();
-            String productPrice = price.toString();
+            String description = result.getDescription();
             productCategoryTextView.setText(category);
             productNameTextView.setText(productName);
-            productPriceTextView.setText(productPrice);
+            productPriceTextView.setText(price + " lei");
             productDeliveryTextView.setText("19 lei");
+            productDescriptionTextView.setText(description);
+
+
         }
+
     }
 
 }
