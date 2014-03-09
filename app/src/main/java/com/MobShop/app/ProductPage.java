@@ -118,10 +118,9 @@ public class ProductPage extends Fragment {
         productPriceTextView = (TextView) rootView.findViewById(R.id.price);
         productDescriptionTextView = (TextView) rootView.findViewById(R.id.productPageDescription);
         productImageView = (ImageView) rootView.findViewById(R.id.productImage);
+        productNameTextView = (TextView) rootView.findViewById(R.id.productPageProductName);
         ProductByID getProduct = new ProductByID();
         getProduct.execute(new String[]{"getproductbyid"});
-
-
 
 
         return rootView;
@@ -225,7 +224,6 @@ public class ProductPage extends Fragment {
             }
             return product;
         }
-
         @Override
         protected void onPostExecute(Product result) {
             String category = result.getProductCategoryName() + "  >  " + result.getProductSubCategoryName();
@@ -237,8 +235,7 @@ public class ProductPage extends Fragment {
             productPriceTextView.setText(price + " lei");
             productDeliveryTextView.setText("19 lei");
             productDescriptionTextView.setText(description);
-
-
+            productNameTextView.setText(result.getProductName());
         }
 
     }

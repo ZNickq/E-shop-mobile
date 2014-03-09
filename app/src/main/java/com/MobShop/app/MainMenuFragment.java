@@ -17,7 +17,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
-
+import android.widget.TextView;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
@@ -151,7 +151,8 @@ public class MainMenuFragment extends Fragment {
         viewPager.startAutoScroll(2000);
         viewPager.setScrollDurationFactor(5);
         viewPager.setBorderAnimation(false);
-
+        TextView adv = (TextView) rootView.findViewById(R.id.advText);
+        adv.setText("50% Discount");
         return rootView;
     }
 

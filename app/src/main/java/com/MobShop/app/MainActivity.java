@@ -82,7 +82,6 @@ public class MainActivity extends Activity
                     .replace(R.id.container, MainMenuFragment.newInstance(1))
                     .commit();
         }
-
     }
 
     private boolean isInternetConnection() {
