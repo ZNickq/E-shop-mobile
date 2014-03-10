@@ -169,9 +169,13 @@ public class NavigationDrawerFragment extends Fragment {
             @Override
             public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
                 groupName = groupList.get(i);
+
                 if (groupName.equals("Acasa")) {
                     mDrawerLayout.closeDrawers();
                     mCallbacks.onNavigationDrawerItemSelected("Acasa", 1);
+                }else if(groupName.equals("Log in")){
+                    mDrawerLayout.closeDrawers();
+                    mCallbacks.onNavigationDrawerItemSelected("Log in", 6);
                 }
                 return false;
             }
@@ -189,10 +193,6 @@ public class NavigationDrawerFragment extends Fragment {
                     GetSubCategoriesTask getSub = new GetSubCategoriesTask();
                     getSub.execute(new String[]{"getsubcategorybyname"});
                     subcategoryView.setVisibility(View.VISIBLE);
-                    backNavigationDrawer.setVisibility(View.VISIBLE);
-                }else if(groupName.equals("Acasa")){
-                    mDrawerLayout.closeDrawers();
-                    mCallbacks.onNavigationDrawerItemSelected("Acasa", 1);
                     backNavigationDrawer.setVisibility(View.VISIBLE);
                 }
                 return false;
@@ -261,7 +261,7 @@ public class NavigationDrawerFragment extends Fragment {
         groupList.add("Cont"); //3
         groupList.add("Comenzi"); //4
         groupList.add("Harta"); //5
-        groupList.add("Log in/Log out"); //6
+        groupList.add("Log in"); //6
     }
 
 

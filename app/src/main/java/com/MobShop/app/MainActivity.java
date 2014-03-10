@@ -136,6 +136,7 @@ public class MainActivity extends Activity
                     .commit();
         } else {
             Intent i;
+            FragmentManager fragmentManager;
             switch (position) {
                 case 1:
                     i = new Intent(MainActivity.this, MainActivity.class);
@@ -145,10 +146,28 @@ public class MainActivity extends Activity
 
                     startActivity(i);
                     break;
+
+                case 6:
+                    //Login
+                    fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.container, LogIn.newInstance(getApplicationContext()))
+                            .addToBackStack(null)
+                            .commit();
+                    break;
                 case 7:
-                    FragmentManager fragmentManager = getFragmentManager();
+                    //CartPage
+                    fragmentManager = getFragmentManager();
                     fragmentManager.beginTransaction()
                             .replace(R.id.container, CartPage.newInstance(getApplicationContext()))
+                            .addToBackStack(null)
+                            .commit();
+                    break;
+                case 9:
+                    //Register
+                    fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.container, Register.newInstance(getApplicationContext()))
                             .addToBackStack(null)
                             .commit();
                     break;
