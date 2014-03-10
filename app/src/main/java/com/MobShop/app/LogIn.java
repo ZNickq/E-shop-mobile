@@ -42,6 +42,7 @@ public class LogIn extends Fragment {
     public Context ctxt;
     public Context rootViewContext;
     private NavigationDrawerFragment.NavigationDrawerCallbacks mCallbacks;
+    private LogInCallbacks logInCallbacks;
 
     public LogIn(){
 
@@ -77,7 +78,6 @@ public class LogIn extends Fragment {
         Button loginButton = (Button) rootView.findViewById(R.id.logInPageLogin);
         final EditText emailEditText = (EditText) rootView.findViewById(R.id.logInPageEmail);
         final EditText passwordEditText = (EditText) rootView.findViewById(R.id.logInPagePassword);
-        String email, password;
         rootViewContext = rootView.getContext();
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,17 +108,25 @@ public class LogIn extends Fragment {
         } catch (ClassCastException e) {
             throw new ClassCastException("Activity must implement ListOfProductsCallbacks.");
         }
+
+        try{
+            logInCallbacks = (LogInCallbacks) activity;
+        }catch (ClassCastException e){
+            throw new ClassCastException("Activity must implement ListOfProductsCallbacks.");
+        }
+
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
         mCallbacks = null;
+        logInCallbacks = null;
     }
 
     private class LoginTask extends AsyncTask<String, Void, String> {
         private ProgressDialog dialog;
-
+        String function, email, password;
         protected void onPreExecute() {
             this.dialog = new ProgressDialog(rootViewContext);
             this.dialog.setMessage("Log In");
@@ -126,9 +134,9 @@ public class LogIn extends Fragment {
         }
 
         protected String doInBackground(String... functions) {
-            String function = functions[0];
-            String email = functions[1];
-            String password = null;
+            function = functions[0];
+            email = functions[1];
+            password = null;
             try {
                 password = SimpleCrypto.md5(functions[2]);
             } catch (Exception e) {
@@ -197,11 +205,24 @@ public class LogIn extends Fragment {
             }
             if(result.equals("1")){
                 Toast toast = Toast.makeText(rootViewContext, "Logat cu succes", Toast.LENGTH_LONG);
+                User user = new User(email);
+                user.setLoggedIn(true);
                 toast.show();
+                logInCallbacks.onLogIn();
             }else{
                 Toast toast = Toast.makeText(rootViewContext, "Nu am putut gasi datele furnizate", Toast.LENGTH_LONG);
                 toast.show();
             }
         }
     }
+    /**
+     * Callbacks interface that all activities using this fragment must implement.
+     */
+    public static interface LogInCallbacks {
+        /**
+         * Called when an item in the navigation drawer is selected.
+         */
+        void onLogIn();
+    }
+
 }
