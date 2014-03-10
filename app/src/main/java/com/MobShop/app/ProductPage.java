@@ -170,12 +170,10 @@ public class ProductPage extends Fragment {
                         product.setProductPhotoURL(productMain.getProductPhotoURL());
                         product.setDescription(productMain.getDescription());
                         product.setPrice(productMain.getPrice());
-                        cart = new Cart(rootViewContext);
-                        try {
-                            cart.addProduct(product);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        SharedPerferencesExecutor<Cart> cartSharedPerferencesExecutor = new SharedPerferencesExecutor<Cart>(rootViewContext);
+                        cart = cartSharedPerferencesExecutor.retreive("eshop", Cart.class);
+                        cart.addProduct(product);
+                        cartSharedPerferencesExecutor.save("eshop", cart);
                         Toast toast = Toast.makeText(rootViewContext, quantityList.get(p) + " " + productMain.getProductName() + " au fost adaugate in cos", Toast.LENGTH_LONG);
                         toast.show();
                         dialog.dismiss();

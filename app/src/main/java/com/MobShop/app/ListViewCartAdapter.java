@@ -10,10 +10,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.IOException;
-
-import javax.xml.transform.TransformerException;
-
 /**
  * Created by Segarceanu Calin on 3/10/14.
  */
@@ -55,15 +51,11 @@ public class ListViewCartAdapter extends ArrayAdapter<Product> {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Cart cart = new Cart(ctxt);
-                try {
-                    cart.deleteProduct(position);
-                    mCallBack.onNavigationDrawerItemSelected("Cart", 7);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (TransformerException e) {
-                    e.printStackTrace();
-                }
+                SharedPerferencesExecutor<Cart> cartSharedPerferencesExecutor = new SharedPerferencesExecutor<Cart>(ctxt);
+                Cart cart = cartSharedPerferencesExecutor.retreive("eshop", Cart.class);
+                cart.deleteProduct(position);
+                cartSharedPerferencesExecutor.save("eshop", cart);
+                mCallBack.onNavigationDrawerItemSelected("Cart", 7);
             }
         });
         String name = objectItem.getProductName();

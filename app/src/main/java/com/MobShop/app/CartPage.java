@@ -9,9 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import org.xml.sax.SAXException;
-
-import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -41,9 +38,6 @@ public class CartPage extends Fragment {
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
 
-
-
-
     }
 
     @Override
@@ -56,14 +50,10 @@ public class CartPage extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.cart_page, container, false);
-        Cart cart = new Cart(ctxt);
-        try {
-            products = cart.getData();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
-            e.printStackTrace();
-        }
+        SharedPerferencesExecutor<Cart> cartSharedPerferencesExecutor = new SharedPerferencesExecutor<Cart>(ctxt);
+        Cart cart = cartSharedPerferencesExecutor.retreive("eshop", Cart.class);
+        cartSharedPerferencesExecutor.save("eshop", cart);
+        products = cart.getProducts();
         Product[] productArray = new Product[products.size()];
         productArray = products.toArray(productArray);
         ListViewCartAdapter adapter = new ListViewCartAdapter(ctxt,R.layout.list_view_cart_page_row, productArray, mCallbacks);

@@ -1,5 +1,4 @@
 package com.MobShop.app;
-
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentManager;
@@ -81,6 +80,14 @@ public class MainActivity extends Activity
             fragmentManager.beginTransaction()
                     .replace(R.id.container, MainMenuFragment.newInstance(1))
                     .commit();
+
+            SharedPerferencesExecutor<Cart> cartSharedPerferencesExecutor = new SharedPerferencesExecutor<Cart>(getApplicationContext());
+            //cartSharedPerferencesExecutor.delete("eshop");
+            Cart cart = cartSharedPerferencesExecutor.retreive("eshop", Cart.class);
+            if(cart == null){
+                cart = new Cart();
+                cartSharedPerferencesExecutor.save("eshop", cart);
+            }
         }
     }
 
@@ -165,7 +172,7 @@ public class MainActivity extends Activity
                             .commit();
                     break;
                 case 8:
-                     //Log out
+                    //Log out
                     break;
                 case 9:
                     //Register
