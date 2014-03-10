@@ -261,7 +261,14 @@ public class NavigationDrawerFragment extends Fragment {
         groupList.add("Cont"); //3
         groupList.add("Comenzi"); //4
         groupList.add("Harta"); //5
-        groupList.add("Log in"); //6
+        User user = new User();
+        boolean loggedIn = user.getLoggedIn();
+        Log.d("URL", String.valueOf(loggedIn));
+        if(loggedIn == true){
+            groupList.add("Log out"); //8
+        }else {
+            groupList.add("Log in"); //6
+        }
     }
 
 

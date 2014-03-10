@@ -13,6 +13,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.ViewDragHelper;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,7 +24,7 @@ import java.lang.reflect.Field;
 
 
 public class MainActivity extends Activity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks, ListOfProducts.ListOfProductsCallbacks {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks, ListOfProducts.ListOfProductsCallbacks, LogIn.LogInCallbacks {
 
     public static Bitmap originalScreen;
 
@@ -163,6 +164,9 @@ public class MainActivity extends Activity
                             .addToBackStack(null)
                             .commit();
                     break;
+                case 8:
+                     //Log out
+                    break;
                 case 9:
                     //Register
                     fragmentManager = getFragmentManager();
@@ -272,5 +276,15 @@ public class MainActivity extends Activity
                 .replace(R.id.container, ProductPage.newInstance(id, getApplicationContext()))
                 .addToBackStack(null)
                 .commit();
+    }
+
+    @Override
+    public void onLogIn() {
+        // Set up the drawer.
+        Log.d("URL", "1");
+        NavigationDrawerFragment mNavigationDrawerFragment2 = (NavigationDrawerFragment) getFragmentManager().findFragmentById(R.id.navigation_drawer);
+        mNavigationDrawerFragment2.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        setDrawerLeftEdgeSize(this, mDrawerLayout, 0.1f);
     }
 }
