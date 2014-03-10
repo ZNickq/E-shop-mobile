@@ -18,6 +18,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
@@ -142,30 +143,31 @@ public class MainMenuFragment extends Fragment {
         });
 
         GetCategoriesAndSubCategoriesTask getData = new  GetCategoriesAndSubCategoriesTask();
-        getData.execute(new String[] { "getallcategorieswithsubcategoriesandphotos"});
+        getData.execute(new String[]{"getallcategorieswithsubcategoriesandphotos"});
 
 
         AutoScrollViewPager viewPager = (AutoScrollViewPager) rootView.findViewById(R.id.view_pager);
-        ViewAdapter adapter = new ViewAdapter(this.gridcontext);
+        ViewAdapter adapter = new ViewAdapter(this.gridcontext, rootView);
         viewPager.setAdapter(adapter);
         viewPager.startAutoScroll(2000);
         viewPager.setScrollDurationFactor(5);
         viewPager.setBorderAnimation(false);
-        TextView adv = (TextView) rootView.findViewById(R.id.advText);
-        adv.setText("50% Discount");
+
         return rootView;
     }
 
     public class ViewAdapter extends PagerAdapter {
         Context context;
+        View rootView;
         private int[] pics = new int[]{
                 R.drawable.cartslidingbutton,
                 R.drawable.filterbutton,
                 R.drawable.cartbutton,
                 R.drawable.blue_team
         };
-        ViewAdapter(Context context){
+        ViewAdapter(Context context, View root){
             this.context=context;
+            this.rootView = root;
         }
         @Override
         public int getCount() {
@@ -185,6 +187,8 @@ public class MainMenuFragment extends Fragment {
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageView.setImageResource(pics[position]);
             (container).addView(imageView, 0);
+            TextView adv = (TextView) rootView.findViewById(R.id.advText);
+            adv.setText(String.valueOf(position + 1) + "0% Discount");
             return imageView;
         }
 
@@ -307,8 +311,9 @@ public class MainMenuFragment extends Fragment {
         @Override
         protected void onPostExecute(ArrayList<Category> result) {
             categories = result;
+            dashlistview.setAdapter(new ListViewDashAdapter(gridcontext, result));
             gridView.setAdapter(new GridViewContent(gridcontext, result));
-            dashlistview.setAdapter(new ListViewDashAdapter(listcontext, result));
+
         }
     }
 }

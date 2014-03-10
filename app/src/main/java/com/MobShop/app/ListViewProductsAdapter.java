@@ -2,6 +2,7 @@ package com.MobShop.app;
 
 import android.app.Activity;
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,7 +57,7 @@ public class ListViewProductsAdapter extends ArrayAdapter<Product> {
             imgLoader.SetImage(URL, loader, img);
         }
         textViewItem.setText(name);
-        descriptionViewItem.setText(description);
+        descriptionViewItem.setText(Html.fromHtml(description));
         priceViewItem.setText("Price: "+price+" lei");
 
         return convertView;

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="90dp"
+    android:isScrollContainer="true"
+    android:paddingTop="5dp">
+
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:id="@+id/listViewCartPageImageView"
+        android:src="@drawable/blue_team"
+        android:paddingLeft="5dp"
+        />
+
+    <RelativeLayout
+        android:id="@+id/textlayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_toRightOf="@+id/listViewCartPageImageView"
+        android:padding="10dp"
+        >
+
+        <TextView
+            android:id="@+id/listViewCartPageTextView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Item name here..."
+            android:textSize="15dp"
+            />
+
+        <TextView
+            android:id="@+id/listViewCartPageDescription"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:text="Description"
+            android:textSize="12dp"
+            android:textColor="@color/descriptiontext"
+            android:layout_below="@+id/listViewCartPageTextView"
+            android:paddingTop="5dp"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sterge"
+            android:id="@+id/deleteProductCartPage"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/listViewCartPagePrice"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:text="Price"
+        android:textSize="15dp"
+        android:layout_alignParentRight="true"
+        android:padding="10dp"
+        />
+
+</RelativeLayout>

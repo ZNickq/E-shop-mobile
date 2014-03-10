@@ -4,7 +4,6 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.SearchManager;
-import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -136,14 +135,22 @@ public class MainActivity extends Activity
                     .addToBackStack(null)
                     .commit();
         } else {
+            Intent i;
             switch (position) {
                 case 1:
-                    Intent i = new Intent(MainActivity.this, MainActivity.class);
+                    i = new Intent(MainActivity.this, MainActivity.class);
 
                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
                     startActivity(i);
+                    break;
+                case 7:
+                    FragmentManager fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.container, CartPage.newInstance(getApplicationContext()))
+                            .addToBackStack(null)
+                            .commit();
                     break;
             }
         }
@@ -203,7 +210,7 @@ public class MainActivity extends Activity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-
+        Intent i;
         switch (item.getItemId()){
 
             case R.id.action_search:
@@ -211,7 +218,11 @@ public class MainActivity extends Activity
                 return true;
 
             case R.id.action_cart:
-
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, CartPage.newInstance(getApplicationContext()))
+                        .addToBackStack(null)
+                        .commit();
                 return true;
 
             case R.id.action_filter:

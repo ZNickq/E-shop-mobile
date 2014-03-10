@@ -1,18 +1,25 @@
 package com.MobShop.app;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -58,13 +65,14 @@ public class ProductPage extends Fragment {
     private boolean mFromSavedInstanceState;
     private Integer mProductID;
     private Context ctxt;
-
+    public Product productMain;
+    public Cart cart;
 
     public TextView productCategoryTextView, productDeliveryTextView, productPriceTextView, productNameTextView, productDescriptionTextView;
     public ImageView productImageView;
+    public Button buttonAddToCart;
 
     public ProductPage() {
-
     }
 
     public static ProductPage newInstance(int productId, Context context) {
@@ -88,17 +96,6 @@ public class ProductPage extends Fragment {
             mFromSavedInstanceState = true;
         }
 
-
-
-
-        /*TabHost tabHost = new TabHost(getActivity());
-        TabWidget tabWidget = new TabWidget(getActivity());
-        tabWidget.setId(android.R.id.tabs);
-        tabHost.addView(tabWidget);
-        TabHost.TabSpec tabSpec = tabHost.newTabSpec("Detalii");
-        tabHost.addTab(tabSpec);
-        tabSpec=tabHost.newTabSpec("Produse similare");
-        tabHost.addTab(tabSpec);*/
     }
 
     @Override
@@ -107,21 +104,87 @@ public class ProductPage extends Fragment {
         // Indicate that this fragment would like to influence the set of actions in the action bar.
         setHasOptionsMenu(true);
     }
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.product_fragment, container, false);
+        final Context rootViewContext = rootView.getContext();
         productCategoryTextView = (TextView) rootView.findViewById(R.id.productPageProductCategory);
         productNameTextView = (TextView) rootView.findViewById(R.id.productName);
         productDeliveryTextView = (TextView) rootView.findViewById(R.id.deliveryprice);
         productPriceTextView = (TextView) rootView.findViewById(R.id.price);
         productDescriptionTextView = (TextView) rootView.findViewById(R.id.productPageDescription);
         productImageView = (ImageView) rootView.findViewById(R.id.productImage);
-        productNameTextView = (TextView) rootView.findViewById(R.id.productPageProductName);
         ProductByID getProduct = new ProductByID();
         getProduct.execute(new String[]{"getproductbyid"});
+        buttonAddToCart = (Button) rootView.findViewById(R.id.buttonProductPageAddToCart);
 
+        buttonAddToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // custom dialog
+                final Dialog dialog = new Dialog(rootViewContext);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.dialog_add_to_cart);
+                final Spinner spinner = (Spinner) dialog.findViewById(R.id.addToCartSpinner);
+                Button closeButton = (Button) dialog.findViewById(R.id.dialogAddToCartCloseButton);
+                Button addButton = (Button) dialog.findViewById(R.id.dialogAddToCartButton);
+
+                final List<String> quantityList = new ArrayList<String>();
+                Integer N = productMain.getProductQuantity();
+                for(int i = 0; i < N; i++){
+                    quantityList.add(String.valueOf(i + 1));
+                    if(i >= 20){
+                        i += 4;
+                    }
+                }
+
+                ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(rootViewContext,android.R.layout.simple_spinner_item, quantityList);
+                dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner.setAdapter(dataAdapter);
+                closeButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+
+                addButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int p = spinner.getSelectedItemPosition();
+                        Product product = new Product(productMain.getProductId(), productMain.getProductName());
+                        product.setQuantity(p);
+                        product.setProductPhotoURL(productMain.getProductPhotoURL());
+                        product.setDescription(productMain.getDescription());
+                        product.setPrice(productMain.getPrice());
+                        cart = new Cart(rootViewContext);
+                        try {
+                            cart.addProduct(product);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        Toast toast = Toast.makeText(rootViewContext, quantityList.get(p) + " " + productMain.getProductName() + " au fost adaugate in cos", Toast.LENGTH_LONG);
+                        toast.show();
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.show();
+            }
+        });
 
         return rootView;
     }
@@ -215,6 +278,11 @@ public class ProductPage extends Fragment {
                 product.setProductSale(sale);
                 product.setProductDiscount(discount);
                 product.setProductPhotoURLS(photosURLArray);
+                if(photosURLArray[0] != null){
+                    product.setProductPhotoURL(photosURLArray[0]);
+                }else{
+                    product.setProductPhotoURL("");
+                }
                 product.setProductCategoryName(categoryName);
                 product.setProductSubCategoryName(subCategoryName);
             } catch (JSONException e) {
@@ -226,6 +294,7 @@ public class ProductPage extends Fragment {
         }
         @Override
         protected void onPostExecute(Product result) {
+            productMain = result;
             String category = result.getProductCategoryName() + "  >  " + result.getProductSubCategoryName();
             String productName = result.getProductName();
             Double price = result.getPrice();
@@ -234,8 +303,7 @@ public class ProductPage extends Fragment {
             productNameTextView.setText(productName);
             productPriceTextView.setText(price + " lei");
             productDeliveryTextView.setText("19 lei");
-            productDescriptionTextView.setText(description);
-            productNameTextView.setText(result.getProductName());
+            productDescriptionTextView.setText(Html.fromHtml(description));
         }
 
     }

@@ -52,25 +52,20 @@ public class ListViewDashAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View v;
         Category category = categories.get(position);
-        if (convertView == null) {
 
-            LayoutInflater li = LayoutInflater.from(context);
-            v = li.inflate(R.layout.list_view_dash_row, null);
-            ImageView categoryImage = (ImageView) v.findViewById(R.id.imageListViewDash);
-            TextView categoryText = (TextView) v.findViewById(R.id.categoryListViewDash);
+        LayoutInflater li = LayoutInflater.from(context);
+        v = li.inflate(R.layout.list_view_dash_row, null);
+        ImageView categoryImage = (ImageView) v.findViewById(R.id.imageListViewDash);
+        TextView categoryText = (TextView) v.findViewById(R.id.categoryListViewDash);
 
-
-            String URL = categories.get(position).getPhotoURL();
-            if (URL.equals("null")) {
-                categoryImage.setImageResource(R.drawable.ic_launcher);
-            } else {
-                imgLoader.SetImage(URL, loader, categoryImage);
-            }
-            categoryText.setText(category.getCategoryName());
-
+        String URL = category.getPhotoURL();
+        if (URL.equals("null")) {
+            categoryImage.setImageResource(R.drawable.ic_launcher);
         } else {
-            v = convertView;
+            imgLoader.SetImage(URL, loader, categoryImage);
         }
+        categoryText.setText(category.getCategoryName());
+
         return v;
     }
 }

@@ -79,7 +79,7 @@ public class Product {
         return productPrice;
     }
 
-    public Integer getQuantity() {
+    public Integer getProductQuantity() {
         return productQuantity;
     }
 

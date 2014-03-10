@@ -181,17 +181,16 @@ public class NavigationDrawerFragment extends Fragment {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int group_position, int child_position, long id) {
                 groupName = groupList.get(group_position);
-                Log.d("URL", groupName);
                 if (groupName.equals("Categorii")) {
                     category = pubCategories.get(child_position);
                     categoryString = category.get(WebApiModel.CATEGORY_NAME);
                     mDrawerExpandableListView.setVisibility(View.GONE);
-                    cartSlidingButton.setVisibility(View.GONE);
+                    //cartSlidingButton.setVisibility(View.GONE);
                     GetSubCategoriesTask getSub = new GetSubCategoriesTask();
                     getSub.execute(new String[]{"getsubcategorybyname"});
                     subcategoryView.setVisibility(View.VISIBLE);
+                    backNavigationDrawer.setVisibility(View.VISIBLE);
                 }else if(groupName.equals("Acasa")){
-                    Log.d("URL", "ACASA");
                     mDrawerLayout.closeDrawers();
                     mCallbacks.onNavigationDrawerItemSelected("Acasa", 1);
                     backNavigationDrawer.setVisibility(View.VISIBLE);
@@ -203,8 +202,9 @@ public class NavigationDrawerFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 subcategoryView.setVisibility(View.GONE);
+                backNavigationDrawer.setVisibility(View.GONE);
                 mDrawerExpandableListView.setVisibility(View.VISIBLE);
-                cartSlidingButton.setVisibility(View.VISIBLE);
+                //cartSlidingButton.setVisibility(View.VISIBLE);
             }
         });
 
@@ -214,6 +214,13 @@ public class NavigationDrawerFragment extends Fragment {
                 SubCategory sub = subCategoriesArray[position];
                 mDrawerLayout.closeDrawers();
                 mCallbacks.onNavigationDrawerItemSelected("Subcategories: " + sub.getSubCategoryName(), sub.getSubCategoryId());
+            }
+        });
+
+        cartSlidingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mCallbacks.onNavigationDrawerItemSelected("Cart", 7);
             }
         });
         return item;
@@ -246,15 +253,6 @@ public class NavigationDrawerFragment extends Fragment {
         });
 
     }
-
-    /*private void loadChild( ArrayList<HashMap<String, String>> categories) {
-        for(int i = 0; i < categories.size(); i++){
-            HashMap<String, String> map= categories.get(i);
->>>>>>> back button drawer,tap helpoverlay
-            childList.add(map);
-        }
-
-    }*/
 
     private void createGroupList() {
         groupList = new ArrayList<String>();

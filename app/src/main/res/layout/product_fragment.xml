@@ -19,7 +19,7 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="150dp"
-        android:id="@+id/mainlayout"
+        android:id="@+id/mainLayoutProductPage"
         android:layout_below="@+id/productPageProductCategory"
         android:padding="10dp"
         android:orientation="horizontal">
@@ -66,7 +66,7 @@
         android:id="@+id/productdescriptionlayout"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/mainlayout"
+        android:layout_below="@+id/mainLayoutProductPage"
         android:layout_above="@+id/productPagePriceLayout"
         android:isScrollContainer="true">
         <TextView
