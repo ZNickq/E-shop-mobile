@@ -51,28 +51,25 @@ public class GridViewContent extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View v;
         Category category = categories.get(position);
         if (convertView == null) {
-
             LayoutInflater li = LayoutInflater.from(context);
-            v = li.inflate(R.layout.grid_view_row, null);
-            ImageView categoryImage = (ImageView) v.findViewById(R.id.imageGridViewContent);
-            TextView categoryText = (TextView) v.findViewById(R.id.categoryGridViewContent);
-
-            ImageView imageView = new ImageView(context);
-
-            String URL = categories.get(position).getPhotoURL();
-            if (URL.equals("null")) {
-                categoryImage.setImageResource(R.drawable.ic_launcher);
-            } else {
-                imgLoader.SetImage(URL, loader, categoryImage);
-            }
-            categoryText.setText(category.getCategoryName());
-
-        } else {
-            v = convertView;
+            convertView = li.inflate(R.layout.grid_view_row, null);
         }
-        return v;
+        ImageView categoryImage = (ImageView) convertView.findViewById(R.id.imageGridViewContent);
+        TextView categoryText = (TextView) convertView.findViewById(R.id.categoryGridViewContent);
+
+        ImageView imageView = new ImageView(context);
+
+        String URL = categories.get(position).getPhotoURL();
+        if (URL.equals("null")) {
+            categoryImage.setImageResource(R.drawable.ic_launcher);
+        } else {
+            imgLoader.SetImage(URL, loader, categoryImage);
+        }
+        categoryText.setText(category.getCategoryName());
+
+
+        return convertView;
     }
 }
