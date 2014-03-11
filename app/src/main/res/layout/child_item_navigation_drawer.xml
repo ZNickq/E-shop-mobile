@@ -11,6 +11,8 @@
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:paddingLeft="25dp"
+        android:paddingBottom="3dp"
+        android:paddingTop="3dp"
         android:textColor="#FFFFFF"
         android:divider="@drawable/expendablelist_divider"
         android:fontFamily="sans-serif"

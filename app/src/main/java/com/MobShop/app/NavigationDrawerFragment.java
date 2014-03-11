@@ -85,7 +85,7 @@ public class NavigationDrawerFragment extends Fragment {
     public RelativeLayout item;
     public LinearLayout subcategoryView;
     public View firstView;
-    public Button backNavigationDrawer;
+    public ImageButton backNavigationDrawer;
     public ImageButton cartSlidingButton;
     public ListView listSubcategory;
 
@@ -152,7 +152,7 @@ public class NavigationDrawerFragment extends Fragment {
         item = (RelativeLayout) firstView.findViewById(R.id.relativeLayoutNavigationDrawer);
         mDrawerExpandableListView = (ExpandableListView) item.findViewById(R.id.slideMenuExpandableListView);
         subcategoryView = (LinearLayout) firstView.findViewById(R.id.layout_drawer_subcategory);
-
+        backNavigationDrawer = (ImageButton) firstView.findViewById(R.id.backButtonNavigationDrawer);
         cartSlidingButton = (ImageButton) firstView.findViewById(R.id.cartSlidingButton);
         listSubcategory = (ListView) firstView.findViewById(R.id.listViewNavigationDrawer);
         createGroupList();
@@ -229,7 +229,7 @@ public class NavigationDrawerFragment extends Fragment {
     private void createCollection() throws IOException {
         api = new WebApiModel("http://dragomircristian.net/calin/api/");
         ArrayList<HashMap<String, String>> categories =  api.getCategories("getallcategories");
-        backNavigationDrawer = (Button) firstView.findViewById(R.id.backButtonNavigationDrawer);
+       // backNavigationDrawer = (Button) firstView.findViewById(R.id.backButtonNavigationDrawer);
         this.pubCategories = categories;
 
         menuCollection = new HashMap<String, ArrayList<HashMap<String, String>>>();
