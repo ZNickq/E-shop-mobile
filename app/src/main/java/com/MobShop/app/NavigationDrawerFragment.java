@@ -19,7 +19,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -53,7 +52,7 @@ import java.util.Map;
  * See the <a href="https://developer.android.com/design/patterns/navigation-drawer.html#Interaction">
  * design guidelines</a> for a complete explanation of the behaviors implemented here.
  */
-public class NavigationDrawerFragment extends Fragment {
+public class NavigationDrawerFragment extends Fragment{
 
     /**
      * Remember the position of the selected item.
@@ -99,7 +98,7 @@ public class NavigationDrawerFragment extends Fragment {
     private String menuItemSelected = "";
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
-    public boolean ok = true;
+    public boolean ok = false;
     public String groupName;
     public HashMap<String, String> category = null;
     public String categoryString;
@@ -176,6 +175,12 @@ public class NavigationDrawerFragment extends Fragment {
                 }else if(groupName.equals("Log in")){
                     mDrawerLayout.closeDrawers();
                     mCallbacks.onNavigationDrawerItemSelected("Log in", 6);
+                }else if(groupName.equals("Log out")){
+                    mDrawerLayout.closeDrawers();
+                    mCallbacks.onNavigationDrawerItemSelected("Log out", 8);
+                }else if(groupName.equals("Register")){
+                    mDrawerLayout.closeDrawers();
+                    mCallbacks.onNavigationDrawerItemSelected("Log in", 9);
                 }
                 return false;
             }
@@ -227,11 +232,11 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
     private void createCollection() throws IOException {
-        api = new WebApiModel("http://dragomircristian.net/calin/api/");
-        ArrayList<HashMap<String, String>> categories =  api.getCategories("getallcategories");
-       // backNavigationDrawer = (Button) firstView.findViewById(R.id.backButtonNavigationDrawer);
-        this.pubCategories = categories;
-
+        if(ok == false){
+            api = new WebApiModel("http://dragomircristian.net/calin/api/");
+            ArrayList<HashMap<String, String>> categories = api.getCategories("getallcategories");
+            this.pubCategories = categories;
+        }
         menuCollection = new HashMap<String, ArrayList<HashMap<String, String>>>();
 
         for (String item : groupList) {
@@ -255,18 +260,18 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
     private void createGroupList() {
-        groupList = new ArrayList<String>();
+        groupList = new ArrayList<String>(10);
         groupList.add("Acasa"); //1
         groupList.add("Categorii"); //2
-        groupList.add("Cont"); //3
-        groupList.add("Comenzi"); //4
         groupList.add("Harta"); //5
         User user = new User();
         boolean loggedIn = user.getLoggedIn();
-        Log.d("URL", String.valueOf(loggedIn));
         if(loggedIn == true){
-            groupList.add("Log out"); //8
+            groupList.add("Cont"); //3
+            groupList.add("Comenzi"); //4
+            //groupList.add("Log out"); //8
         }else {
+            groupList.add("Register"); //9
             groupList.add("Log in"); //6
         }
     }
@@ -428,6 +433,35 @@ public class NavigationDrawerFragment extends Fragment {
     private ActionBar getActionBar() {
         return getActivity().getActionBar();
     }
+
+    public void onLogIn() {
+        groupList.clear();
+        createGroupList();
+        try {
+            menuCollection.clear();
+            createCollection();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        final ExpandableListAdapter expListAdapter = new ExpandableListAdapter(getActivity(), groupList, menuCollection);
+        mDrawerExpandableListView.setAdapter(expListAdapter);
+    }
+
+    public void onLogOut(){
+        User user = new User();
+        user.setLoggedIn(false);
+        groupList.clear();
+        createGroupList();
+        try {
+            menuCollection.clear();
+            createCollection();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        final ExpandableListAdapter expListAdapter = new ExpandableListAdapter(getActivity(), groupList, menuCollection);
+        mDrawerExpandableListView.setAdapter(expListAdapter);
+    }
+
 
     /**
      * Callbacks interface that all activities using this fragment must implement.

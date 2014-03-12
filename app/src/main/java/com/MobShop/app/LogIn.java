@@ -103,17 +103,19 @@ public class LogIn extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        try {
-            mCallbacks = (NavigationDrawerFragment.NavigationDrawerCallbacks) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException("Activity must implement ListOfProductsCallbacks.");
-        }
 
         try{
             logInCallbacks = (LogInCallbacks) activity;
         }catch (ClassCastException e){
-            throw new ClassCastException("Activity must implement ListOfProductsCallbacks.");
+            throw new ClassCastException("Activity must implement LogInCallbacks.");
         }
+
+        try {
+            mCallbacks = (NavigationDrawerFragment.NavigationDrawerCallbacks) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException("Activity must implement NavigationDrawerCallbacks.");
+        }
+
 
     }
 
@@ -124,7 +126,7 @@ public class LogIn extends Fragment {
         logInCallbacks = null;
     }
 
-    private class LoginTask extends AsyncTask<String, Void, String> {
+    private class LoginTask extends AsyncTask<String, Void, String[]> {
         private ProgressDialog dialog;
         String function, email, password;
         protected void onPreExecute() {
@@ -133,7 +135,7 @@ public class LogIn extends Fragment {
             this.dialog.show();
         }
 
-        protected String doInBackground(String... functions) {
+        protected String[] doInBackground(String... functions) {
             function = functions[0];
             email = functions[1];
             password = null;
@@ -183,12 +185,20 @@ public class LogIn extends Fragment {
                 // TODO Auto-generated catch block
                 Log.i("HTTP Failed", e.toString());
             }
-            String res = "";
+            String[] res = new String[10];
             //add data to jsonlist, in order to easily proccessing
             try {
                 try {
                     JSONObject c = new JSONObject(builder.toString());
-                    res = c.getString("result");
+                    res[0] = c.getString("result");
+                    res[1] = c.getString("name");
+                    res[2] = c.getString("surname");
+                    res[3] = c.getString("email");
+                    res[4] = c.getString("password");
+                    res[5] = c.getString("city");
+                    res[6] = c.getString("district");
+                    res[7] = c.getString("address");
+                    res[8] = c.getString("phone");
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -199,14 +209,20 @@ public class LogIn extends Fragment {
             return res;
         }
         @Override
-        protected void onPostExecute(String result) {
+        protected void onPostExecute(String[] result) {
             if (dialog.isShowing()) {
                 dialog.dismiss();
             }
-            if(result.equals("1")){
+            if(result[0].equals("1")){
                 Toast toast = Toast.makeText(rootViewContext, "Logat cu succes", Toast.LENGTH_LONG);
                 User user = new User(email);
                 user.setLoggedIn(true);
+                user.setName(result[1]);
+                user.setSurname(result[2]);
+                user.setCity(result[5]);
+                user.setDistrict(result[6]);
+                user.setAddress(result[7]);
+                user.setPhoneNumber(result[8]);
                 toast.show();
                 logInCallbacks.onLogIn();
             }else{
@@ -215,13 +231,8 @@ public class LogIn extends Fragment {
             }
         }
     }
-    /**
-     * Callbacks interface that all activities using this fragment must implement.
-     */
+
     public static interface LogInCallbacks {
-        /**
-         * Called when an item in the navigation drawer is selected.
-         */
         void onLogIn();
     }
 

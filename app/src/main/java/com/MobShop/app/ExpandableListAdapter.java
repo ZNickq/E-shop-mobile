@@ -57,6 +57,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             var = menuCollection.get(groupParent.get(groupPosition)).size();
         } catch (NullPointerException npe) {
             var = 0;
+        }catch (IndexOutOfBoundsException e){
+            var = 4;
         }
         return var;
     }
