@@ -68,14 +68,15 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/mainLayoutProductPage"
         android:layout_above="@+id/productPagePriceLayout"
-        android:isScrollContainer="true">
+        >
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:id="@+id/productPageDescription"
             android:background="@color/descriptionbackground"
             android:text="Descriere Produs..."
-            android:padding="10dp"/>
+            android:padding="10dp"
+            android:isScrollContainer="true"/>
     </RelativeLayout>
 
 

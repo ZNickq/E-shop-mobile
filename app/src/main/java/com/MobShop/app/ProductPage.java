@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Html;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -126,6 +127,7 @@ public class ProductPage extends Fragment {
         productDeliveryTextView = (TextView) rootView.findViewById(R.id.deliveryprice);
         productPriceTextView = (TextView) rootView.findViewById(R.id.price);
         productDescriptionTextView = (TextView) rootView.findViewById(R.id.productPageDescription);
+        productDescriptionTextView.setMovementMethod(new ScrollingMovementMethod());
         productImageView = (ImageView) rootView.findViewById(R.id.productImage);
         ProductByID getProduct = new ProductByID();
         getProduct.execute(new String[]{"getproductbyid"});
