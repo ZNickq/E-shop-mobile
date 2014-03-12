@@ -80,6 +80,12 @@ public class Register extends Fragment {
         final EditText nameEditText = (EditText) rootView.findViewById(R.id.registerPageName);
         final EditText surNameEditText = (EditText) rootView.findViewById(R.id.registerPageSurName);
 
+        final EditText cityEditText = (EditText) rootView.findViewById(R.id.registerPageCity);
+        final EditText districtEditText = (EditText) rootView.findViewById(R.id.registerPageDistrict);
+
+        final EditText addressEditText = (EditText) rootView.findViewById(R.id.registerPageAddress);
+        final EditText phoneNumberEditText = (EditText) rootView.findViewById(R.id.registerPagePhone);
+
         rootViewContext = rootView.getContext();
 
         String email, password;
@@ -90,8 +96,18 @@ public class Register extends Fragment {
                 String p = passwordEditText.getText().toString();
                 String n = nameEditText.getText().toString();
                 String s = surNameEditText.getText().toString();
-                RegisterTask sendData = new  RegisterTask();
-                sendData.execute(new String[]{"registeruser", e, p, n, s});
+
+                String c = cityEditText.getText().toString();
+                String d = districtEditText.getText().toString();
+                String a = addressEditText.getText().toString();
+                String ph = phoneNumberEditText.getText().toString();
+                if(e.contains("@") && p.length() >= 4 && n.length() >= 4 && s.length() >= 4 && c.length() >= 4 && d.length() >= 4 && a.length() >= 4 && ph.length() >= 4 ) {
+                    RegisterTask sendData = new RegisterTask();
+                    sendData.execute(new String[]{"registeruser", e, p, n, s, c, d, a, ph});
+                }else{
+                    Toast toast = Toast.makeText(rootViewContext, "Va rugam completati formularul cu responsabilitate", Toast.LENGTH_LONG);
+                    toast.show();
+                }
             }
         });
 
@@ -145,6 +161,13 @@ public class Register extends Fragment {
             }
             String name = functions[3];
             String surName = functions[4];
+
+            String city = functions[5];
+            String district = functions[6];
+
+            String address = functions[7];
+            String phoneNumber = functions[8];
+
             StringBuilder builder = new StringBuilder();
             //create url from base url
             String url = NavigationDrawerFragment.URL + function;
@@ -161,6 +184,12 @@ public class Register extends Fragment {
                 nameValuePairs.add(new BasicNameValuePair("surname", surName));
                 nameValuePairs.add(new BasicNameValuePair("email", email));
                 nameValuePairs.add(new BasicNameValuePair("password", password));
+
+                nameValuePairs.add(new BasicNameValuePair("city", city));
+                nameValuePairs.add(new BasicNameValuePair("district", district));
+                nameValuePairs.add(new BasicNameValuePair("address", address));
+                nameValuePairs.add(new BasicNameValuePair("phoneNumber", phoneNumber));
+
                 httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
                 try {
                     httpResponse = httpClient.execute(httpPost);
