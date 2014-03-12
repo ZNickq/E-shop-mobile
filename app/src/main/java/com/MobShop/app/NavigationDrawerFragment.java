@@ -172,6 +172,9 @@ public class NavigationDrawerFragment extends Fragment{
                 if (groupName.equals("Acasa")) {
                     mDrawerLayout.closeDrawers();
                     mCallbacks.onNavigationDrawerItemSelected("Acasa", 1);
+                }else if(groupName.equals("Cont")) {
+                    mDrawerLayout.closeDrawers();
+                    mCallbacks.onNavigationDrawerItemSelected("Cont", 3);
                 }else if(groupName.equals("Log in")){
                     mDrawerLayout.closeDrawers();
                     mCallbacks.onNavigationDrawerItemSelected("Log in", 6);
@@ -194,7 +197,6 @@ public class NavigationDrawerFragment extends Fragment{
                     category = pubCategories.get(child_position);
                     categoryString = category.get(WebApiModel.CATEGORY_NAME);
                     mDrawerExpandableListView.setVisibility(View.GONE);
-                    //cartSlidingButton.setVisibility(View.GONE);
                     GetSubCategoriesTask getSub = new GetSubCategoriesTask();
                     getSub.execute(new String[]{"getsubcategorybyname"});
                     subcategoryView.setVisibility(View.VISIBLE);
@@ -209,7 +211,6 @@ public class NavigationDrawerFragment extends Fragment{
                 subcategoryView.setVisibility(View.GONE);
                 backNavigationDrawer.setVisibility(View.GONE);
                 mDrawerExpandableListView.setVisibility(View.VISIBLE);
-                //cartSlidingButton.setVisibility(View.VISIBLE);
             }
         });
 

@@ -16,6 +16,7 @@
     <string name="search_hint">Type Text Here</string>
     <string name="yes_login">Login</string>
     <string name="no_login">Inchide</string>
+    <string name="yes_user">Da, sunt de accord</string>
 
 
     <string-array name="jazzy_effects">

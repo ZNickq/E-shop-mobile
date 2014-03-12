@@ -153,7 +153,14 @@ public class MainActivity extends Activity
 
                     startActivity(i);
                     break;
-
+                case 3:
+                    //Cont
+                    fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.container, UserPage.newInstance(getApplicationContext()))
+                            .addToBackStack(null)
+                            .commit();
+                    break;
                 case 6:
                     //Login
                     fragmentManager = getFragmentManager();
