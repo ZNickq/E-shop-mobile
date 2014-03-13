@@ -160,10 +160,9 @@ public class MainMenuFragment extends Fragment {
         Context context;
         View rootView;
         private int[] pics = new int[]{
-                R.drawable.cartslidingbutton,
-                R.drawable.filterbutton,
-                R.drawable.cartbutton,
-                R.drawable.blue_team
+                R.drawable.oferta1,
+                R.drawable.oferta2,
+                R.drawable.oferta3
         };
         ViewAdapter(Context context, View root){
             this.context=context;
@@ -187,8 +186,7 @@ public class MainMenuFragment extends Fragment {
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageView.setImageResource(pics[position]);
             (container).addView(imageView, 0);
-            TextView adv = (TextView) rootView.findViewById(R.id.advText);
-            adv.setText(String.valueOf(position + 1) + "0% Discount");
+
             return imageView;
         }
 
