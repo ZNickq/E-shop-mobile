@@ -16,8 +16,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -148,9 +150,12 @@ public class ProductPage extends Fragment {
                 final Dialog dialog = new Dialog(rootViewContext);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(R.layout.dialog_add_to_cart);
+                final TextView titleTextView = (TextView) dialog.findViewById(R.id.addToCartName);
+                titleTextView.setText(productMain.getProductName());
+                final TextView priceTextView = (TextView) dialog.findViewById(R.id.addToCartPrice);
                 final Spinner spinner = (Spinner) dialog.findViewById(R.id.addToCartSpinner);
-                Button closeButton = (Button) dialog.findViewById(R.id.dialogAddToCartCloseButton);
-                Button addButton = (Button) dialog.findViewById(R.id.dialogAddToCartButton);
+                ImageButton addButton = (ImageButton) dialog.findViewById(R.id.dialogAddToCartButton);
+
 
                 final List<String> quantityList = new ArrayList<String>();
                 Integer N = productMain.getProductQuantity();
@@ -161,15 +166,28 @@ public class ProductPage extends Fragment {
                     }
                 }
 
+
+                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                        priceTextView.setText( ((i+1) * productMain.getPrice()) +" lei" );
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
                 ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(rootViewContext,android.R.layout.simple_spinner_item, quantityList);
                 dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinner.setAdapter(dataAdapter);
-                closeButton.setOnClickListener(new View.OnClickListener() {
+                /*closeButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         dialog.dismiss();
                     }
-                });
+                });*/
 
                 addButton.setOnClickListener(new View.OnClickListener() {
                     @Override
