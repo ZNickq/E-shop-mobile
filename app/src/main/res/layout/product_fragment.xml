@@ -24,19 +24,20 @@
         android:padding="10dp"
         android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/productImage"
-            android:src="@drawable/star"
+        <com.MobShop.app.AutoScrollViewPager
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/product_pager"
             android:layout_width="150dp"
-            android:layout_height="150dp"/>
+            android:layout_height="150dp"
+            android:paddingBottom="5dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="60dp"
-            android:layout_toRightOf="@+id/productImage"
+            android:layout_toRightOf="@+id/product_pager"
             android:textSize="25dp"
             android:textColor="@color/bluecolor"
-            android:text="Large Text"
+            android:text="Product Title"
             android:paddingTop="15dp"
             android:paddingLeft="15dp"
             android:paddingBottom="10dp"
@@ -46,7 +47,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_below="@+id/productName"
-            android:layout_toRightOf="@+id/productImage"
+            android:layout_toRightOf="@+id/product_pager"
             android:paddingLeft="20dp"
             android:src="@drawable/star"
             android:id="@+id/smallimage1"/>

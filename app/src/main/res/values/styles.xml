@@ -2,6 +2,7 @@
 
     <!-- Base application theme.-->
     <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+        <item name="android:windowBackground">@color/white</item>
         <item name="android:popupMenuStyle">@style/PopupMenu</item>
         <item name="android:actionBarStyle">@style/ActionBar</item>
         <item name="android:actionOverflowButtonStyle">@style/MyOverflow</item>
@@ -19,6 +20,8 @@
 
     <style name="MyActionBarTitleText">
         <item name="android:textColor">@color/actiontext</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:paddingLeft">30dp</item>
         <item name="android:showAsAction">ifRoom</item>
     </style>
 

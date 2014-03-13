@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.view.PagerAdapter;
 import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -39,6 +40,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,15 +65,20 @@ public class ProductPage extends Fragment {
     public static final String PRODUCT_CATEGORYNAME = "category_name";
     public static final String PRODUCT_SUBCATEGORYNAME = "subcategory_name";
 
+    public static String uri = "http://dragomircristian.net/calin/assets/uploads/products/";
+
     private boolean mFromSavedInstanceState;
     private Integer mProductID;
-    private Context ctxt;
+    private Context ctxt, rootViewContext;
     public Product productMain;
     public Cart cart;
-
+    public View rootView;
     public TextView productCategoryTextView, productDeliveryTextView, productPriceTextView, productNameTextView, productDescriptionTextView;
     public ImageView productImageView;
     public Button buttonAddToCart;
+
+    int loader = R.drawable.loader;
+    ImageLoader imgLoader;
 
     public ProductPage() {
     }
@@ -120,15 +127,16 @@ public class ProductPage extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.product_fragment, container, false);
-        final Context rootViewContext = rootView.getContext();
+        rootView = inflater.inflate(R.layout.product_fragment, container, false);
+        rootViewContext = rootView.getContext();
         productCategoryTextView = (TextView) rootView.findViewById(R.id.productPageProductCategory);
         productNameTextView = (TextView) rootView.findViewById(R.id.productName);
         productDeliveryTextView = (TextView) rootView.findViewById(R.id.deliveryprice);
         productPriceTextView = (TextView) rootView.findViewById(R.id.price);
         productDescriptionTextView = (TextView) rootView.findViewById(R.id.productPageDescription);
         productDescriptionTextView.setMovementMethod(new ScrollingMovementMethod());
-        productImageView = (ImageView) rootView.findViewById(R.id.productImage);
+        //productImageView = (ImageView) rootView.findViewById(R.id.productImage);
+        productMain = null;
         ProductByID getProduct = new ProductByID();
         getProduct.execute(new String[]{"getproductbyid"});
         buttonAddToCart = (Button) rootView.findViewById(R.id.buttonProductPageAddToCart);
@@ -186,6 +194,15 @@ public class ProductPage extends Fragment {
             }
         });
 
+
+        /*
+        AutoScrollViewPager viewProductPager = (AutoScrollViewPager) rootView.findViewById(R.id.product_pager);
+        ViewProductAdapter adapter = new ViewProductAdapter(rootViewContext, rootView, urls);
+        viewProductPager.setAdapter(adapter);
+        viewProductPager.startAutoScroll(2000);
+        viewProductPager.setScrollDurationFactor(5);
+        viewProductPager.setBorderAnimation(false);
+*/
         return rootView;
     }
 
@@ -197,6 +214,9 @@ public class ProductPage extends Fragment {
     }
 
     private class ProductByID extends AsyncTask<String, Void, Product> {
+
+        ImageView productImages[];
+
         @Override
         protected Product doInBackground(String... functions) {
             StringBuilder builder = new StringBuilder();
@@ -261,13 +281,14 @@ public class ProductPage extends Fragment {
                 String subCategoryName = c.getString(PRODUCT_SUBCATEGORYNAME);
                 Integer sale = c.getInt(PRODUCT_SALE);
                 Integer discount = c.getInt(PRODUCT_DISCOUNT);
-                JSONArray subCategories = c.getJSONArray(PRODUCT_PHOTOSURLS);
-                String[] photosURLArray;
-                photosURLArray = new String[subCategories.length()];
-                for (int j = 0; j < subCategories.length(); j++) {
-                    JSONObject c2 = subCategories.getJSONObject(j);
+                JSONArray photos = c.getJSONArray(PRODUCT_PHOTOSURLS);
+                String[] photosURL;
+                photosURL = new String[photos.length()];
+                productImages = new ImageView[photos.length()];
+                for (int j = 0; j < photos.length(); j++) {
+                    JSONObject c2 = photos.getJSONObject(j);
                     String URL = c2.getString("URL");
-                    photosURLArray[j] = URL;
+                    photosURL[j] = uri + URL;
                 }
                 product = new Product(id, name);
                 product.setDescription(description);
@@ -277,12 +298,7 @@ public class ProductPage extends Fragment {
                 product.setSubCategories(subcategories);
                 product.setProductSale(sale);
                 product.setProductDiscount(discount);
-                product.setProductPhotoURLS(photosURLArray);
-                if(photosURLArray[0] != null){
-                    product.setProductPhotoURL(photosURLArray[0]);
-                }else{
-                    product.setProductPhotoURL("");
-                }
+                product.setProductPhotoURLS(photosURL);
                 product.setProductCategoryName(categoryName);
                 product.setProductSubCategoryName(subCategoryName);
             } catch (JSONException e) {
@@ -290,6 +306,7 @@ public class ProductPage extends Fragment {
             } catch (NullPointerException e) {
                 e.printStackTrace();
             }
+
             return product;
         }
         @Override
@@ -304,8 +321,54 @@ public class ProductPage extends Fragment {
             productPriceTextView.setText(price + " lei");
             productDeliveryTextView.setText("19 lei");
             productDescriptionTextView.setText(Html.fromHtml(description));
+
+
         }
 
+    }
+
+
+    public class ViewProductAdapter extends PagerAdapter {
+        Context context;
+        View rootView;
+        String[] productPhotoURLS;
+        ImageView[] productImages;
+
+        ViewProductAdapter(Context context, View root, String[] photoURLS){
+            this.context=context;
+            this.rootView = root;
+            productPhotoURLS = new String[photoURLS.length];
+            for(int i = 0; i < photoURLS.length; i++){
+                productPhotoURLS[i] = photoURLS[i];
+            }
+        }
+        @Override
+        public int getCount() {
+            return productPhotoURLS.length;
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return view == (object);
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            ImageView imageView = new ImageView(context);
+            int padding = context.getResources().getDimensionPixelSize(R.dimen.activity_vertical_margin);
+            imageView.setPadding(padding, padding, padding, padding);
+            imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+
+            imgLoader.SetImage(productPhotoURLS[position], loader, imageView);
+            Log.d("URL", "p" + position);
+            (container).addView(imageView, 0);
+            return imageView;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            (container).removeView((ImageView) object);
+        }
     }
 
 }

@@ -1,5 +1,7 @@
 package com.MobShop.app;
 
+import android.util.Log;
+
 /**
  * Created by Segarceanu Calin on 2/25/14.
  */
@@ -56,7 +58,10 @@ public class Product {
     }
 
     public void setProductPhotoURLS(String[] photoURLS) {
-        this.productPhotoURLS = photoURLS;
+            productPhotoURLS = new String[photoURLS.length];
+            for(int i = 0; i < photoURLS.length; i++){
+                productPhotoURLS[i] = photoURLS[i];
+            }
     }
 
     public void setProductCategoryName(String name){ this.productCategoryName = name;}
@@ -102,6 +107,8 @@ public class Product {
     public String getProductPhotoURL() {
         return productPhotoURL;
     }
+
+    public String[] getProductPhotoURLS(){return productPhotoURLS;}
 
     public String getProductCategoryName(){return productCategoryName;}
 

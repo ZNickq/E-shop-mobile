@@ -69,7 +69,7 @@ public class MainActivity extends Activity
             mainView.setDrawingCacheEnabled(true);
             mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager().findFragmentById(R.id.navigation_drawer);
             //mTitle = getTitle();
-            mTitle = "Dashbord";
+            //mTitle = "Dashbord";
             // Set up the drawer.
             mNavigationDrawerFragment.setUp(R.id.navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout));
             mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -210,7 +210,7 @@ public class MainActivity extends Activity
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setHomeButtonEnabled(true);
-        actionBar.setTitle(mTitle);
+        actionBar.setTitle(R.string.app_name);
         actionBar.setLogo(R.drawable.logodash);
         actionBar.setIcon(R.drawable.arrow);
         mymenu.findItem(R.id.action_list).setVisible(false);
