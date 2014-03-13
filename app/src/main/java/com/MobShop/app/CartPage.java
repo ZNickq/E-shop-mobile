@@ -3,8 +3,10 @@ package com.MobShop.app;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +22,7 @@ import java.util.ArrayList;
  */
 public class CartPage extends Fragment {
     public ArrayList<Product> products;
-    public Context ctxt;
+    public Context ctxt, rootViewContext;
     public NavigationDrawerFragment.NavigationDrawerCallbacks mCallbacks;
     public ListView listView;
     public Button checkoutButton;
@@ -44,18 +46,11 @@ public class CartPage extends Fragment {
         super.onCreate(bundle);
 
     }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        // Indicate that this fragment would like to influence the set of actions in the action bar.
-        setHasOptionsMenu(true);
-    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.cart_page, container, false);
-        final Context rootViewContext = rootView.getContext();
+        rootViewContext = rootView.getContext();
         SharedPerferencesExecutor<Cart> cartSharedPerferencesExecutor = new SharedPerferencesExecutor<Cart>(ctxt);
         Cart cart = cartSharedPerferencesExecutor.retreive("eshop", Cart.class);
         cartSharedPerferencesExecutor.save("eshop", cart);
@@ -71,7 +66,8 @@ public class CartPage extends Fragment {
             public void onClick(View view) {
                 User user = new User();
                 if(user.getLoggedIn() == true){
-
+                    CheckoutTask sendData = new CheckoutTask();
+                    sendData.execute(new String[]{"checkout"});
                 }else{
                     new AlertDialog.Builder(rootViewContext)
                             .setTitle("Log In")
@@ -97,6 +93,7 @@ public class CartPage extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        ((MainActivity) getActivity()).setActionBar(7);
         try {
             mCallbacks = (NavigationDrawerFragment.NavigationDrawerCallbacks) activity;
         } catch (ClassCastException e) {
@@ -108,6 +105,23 @@ public class CartPage extends Fragment {
     public void onDetach() {
         super.onDetach();
         mCallbacks = null;
+    }
+
+    private class CheckoutTask extends AsyncTask<String, Void, String> {
+        private ProgressDialog dialog;
+
+        protected void onPreExecute() {
+            this.dialog = new ProgressDialog(rootViewContext);
+            this.dialog.setMessage("Comanda se trimite catre server");
+            this.dialog.show();
+        }
+        protected String doInBackground(String... functions) {
+            return "";
+        }
+        @Override
+        protected void onPostExecute(String result) {
+
+        }
     }
 
 }

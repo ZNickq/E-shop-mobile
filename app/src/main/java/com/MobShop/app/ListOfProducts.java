@@ -3,6 +3,7 @@ package com.MobShop.app;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -64,7 +65,7 @@ public class ListOfProducts extends Fragment {
 
     public Product[] productArray;
 
-    public Context ctxt;
+    public Context ctxt, rootViewContext;
     private ListOfProductsCallbacks mCallbacks;
 
     int loader = R.drawable.loader;
@@ -109,6 +110,7 @@ public class ListOfProducts extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.list_of_products_by_subcategory, container, false);
+        rootViewContext = rootView.getContext();
         listOfProductsView = (ListView) rootView.findViewById(R.id.listViewProductBySubCategory);
 
         imgLoader = new ImageLoader(ctxt);
@@ -143,6 +145,7 @@ public class ListOfProducts extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        ((MainActivity) getActivity()).setActionBar(2);
         try {
             mCallbacks = (ListOfProductsCallbacks) activity;
         } catch (ClassCastException e) {
@@ -164,6 +167,15 @@ public class ListOfProducts extends Fragment {
     }
 
     private class ListOfProductsBySubCategories extends AsyncTask<String, Void, ArrayList<Product>> {
+
+        private ProgressDialog dialog;
+
+        protected void onPreExecute() {
+            this.dialog = new ProgressDialog(rootViewContext);
+            this.dialog.setMessage("Loading");
+            this.dialog.show();
+        }
+
         @Override
         protected ArrayList<Product> doInBackground(String... functions) {
             StringBuilder builder = new StringBuilder();
@@ -262,6 +274,7 @@ public class ListOfProducts extends Fragment {
             productArray = result.toArray(productArray);
             ListViewProductsAdapter listViewAdapter = new ListViewProductsAdapter(getActivity(), R.layout.list_view_products_by_subcategory_row, productArray);
             listOfProductsView.setAdapter(listViewAdapter);
+            dialog.dismiss();
         }
     }
 

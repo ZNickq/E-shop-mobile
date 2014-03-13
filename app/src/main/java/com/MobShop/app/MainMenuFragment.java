@@ -201,6 +201,7 @@ public class MainMenuFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        ((MainActivity) getActivity()).setActionBar(1);
         try {
             mCallbacks = (NavigationDrawerFragment.NavigationDrawerCallbacks) activity;
         } catch (ClassCastException e) {

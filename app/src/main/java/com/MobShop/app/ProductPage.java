@@ -40,7 +40,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -115,7 +114,7 @@ public class ProductPage extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-
+        ((MainActivity) getActivity()).setActionBar(7);
     }
 
     @Override

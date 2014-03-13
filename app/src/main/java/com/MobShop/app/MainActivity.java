@@ -1,4 +1,5 @@
 package com.MobShop.app;
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentManager;
@@ -12,6 +13,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.ViewDragHelper;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,10 +39,15 @@ public class MainActivity extends Activity
 
     public Menu mymenu;
 
+    public Integer kindOfMenu;
+
+    public FragmentManager fragmentManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         boolean webConnection = isInternetConnection();
+        kindOfMenu = 1;
         if (webConnection == false) {
             //In case that there isn't any internet connection, it displays a message and retry button
             setContentView(R.layout.internet_connection);
@@ -75,9 +82,10 @@ public class MainActivity extends Activity
             mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
             setDrawerLeftEdgeSize(this, mDrawerLayout, 0.1f);
 
-            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction()
-                    .replace(R.id.container, MainMenuFragment.newInstance(1))
+                    .replace(R.id.container, MainMenuFragment.newInstance(1), "MainFragment")
+                    .addToBackStack("MainFragment")
                     .commit();
 
             SharedPerferencesExecutor<Cart> cartSharedPerferencesExecutor = new SharedPerferencesExecutor<Cart>(getApplicationContext());
@@ -136,14 +144,14 @@ public class MainActivity extends Activity
             String categoryToWeb = "";
             categoryToWeb = subCategory.toString();
             mTitle = categoryToWeb;
-            FragmentManager fragmentManager = getFragmentManager();
+            fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction()
-                    .replace(R.id.container, ListOfProducts.newInstance(position, categoryToWeb, getApplicationContext()))
-                    .addToBackStack(null)
+                    .replace(R.id.container, ListOfProducts.newInstance(position, categoryToWeb, getApplicationContext()), "List of Products")
+                    .addToBackStack("List of Products")
                     .commit();
         } else {
             Intent i;
-            FragmentManager fragmentManager;
+
             switch (position) {
                 case 1:
                     i = new Intent(MainActivity.this, MainActivity.class);
@@ -157,24 +165,24 @@ public class MainActivity extends Activity
                     //Cont
                     fragmentManager = getFragmentManager();
                     fragmentManager.beginTransaction()
-                            .replace(R.id.container, UserPage.newInstance(getApplicationContext()))
-                            .addToBackStack(null)
+                            .replace(R.id.container, UserPage.newInstance(getApplicationContext()), "UserPage")
+                            .addToBackStack("UserPage")
                             .commit();
                     break;
                 case 6:
                     //Login
                     fragmentManager = getFragmentManager();
                     fragmentManager.beginTransaction()
-                            .replace(R.id.container, LogIn.newInstance(getApplicationContext()))
-                            .addToBackStack(null)
+                            .replace(R.id.container, LogIn.newInstance(getApplicationContext()), "LogIn")
+                            .addToBackStack("LogIn")
                             .commit();
                     break;
                 case 7:
                     //CartPage
                     fragmentManager = getFragmentManager();
                     fragmentManager.beginTransaction()
-                            .replace(R.id.container, CartPage.newInstance(getApplicationContext()))
-                            .addToBackStack(null)
+                            .replace(R.id.container, CartPage.newInstance(getApplicationContext()), "CartPage")
+                            .addToBackStack("CartPage")
                             .commit();
                     break;
                 case 8:
@@ -185,8 +193,8 @@ public class MainActivity extends Activity
                     //Register
                     fragmentManager = getFragmentManager();
                     fragmentManager.beginTransaction()
-                            .replace(R.id.container, Register.newInstance(getApplicationContext()))
-                            .addToBackStack(null)
+                            .replace(R.id.container, Register.newInstance(getApplicationContext()), "Register")
+                            .addToBackStack("Register")
                             .commit();
                     break;
             }
@@ -216,21 +224,38 @@ public class MainActivity extends Activity
         mymenu.findItem(R.id.action_list).setVisible(false);
     }
 
+    public void setActionBar(int i){
+         kindOfMenu = i;
+         invalidateOptionsMenu();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        SearchManager searchManager;
+        SearchView searchView;
         try {
             if (!mNavigationDrawerFragment.isDrawerOpen()) {
                 // Only show items in the action bar relevant to this screen
                 // if the drawer is not showing. Otherwise, let the drawer
                 // decide what to show in the action bar.
-                getMenuInflater().inflate(R.menu.main, menu);
-
+                switch (kindOfMenu) {
+                    case 1:
+                        getMenuInflater().inflate(R.menu.main, menu);
+                        searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+                        searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+                        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+                        break;
+                    case 2:
+                        getMenuInflater().inflate(R.menu.incomplete, menu);
+                        searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+                        searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+                        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+                        break;
+                    case 7:
+                        getMenuInflater().inflate(R.menu.simple, menu);
+                        break;
+                }
                 mymenu = menu;
-
-                SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-                SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-                searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 
 
                 restoreActionBar();
@@ -240,6 +265,28 @@ public class MainActivity extends Activity
             e.printStackTrace();
         }
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public void onBackPressed() {
+        getFragmentManager().popBackStack();
+        FragmentManager.BackStackEntry backEntry;
+        backEntry = getFragmentManager().getBackStackEntryAt(this.getFragmentManager().getBackStackEntryCount()-2);
+        String str = backEntry.getName();
+        Log.d("URL", str);
+        if(str.equals("Register")){
+            this.setActionBar(7);
+        }else if(str.equals("CartPage")){
+            this.setActionBar(7);
+        }else if(str.equals("LogIn")){
+            this.setActionBar(7);
+        }else if(str.equals("UserPage")){
+            this.setActionBar(7);
+        }else if(str.equals("List of Products")){
+            this.setActionBar(2);
+        }else if(str.equals("MainFragment")){
+            this.setActionBar(1);
+        }
     }
 
     @Override
@@ -285,10 +332,10 @@ public class MainActivity extends Activity
 
     @Override
     public void onListOfProductsItemSelected(Integer id) {
-        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.container, ProductPage.newInstance(id, getApplicationContext()))
-                .addToBackStack(null)
+                .replace(R.id.container, ProductPage.newInstance(id, getApplicationContext()), "ProductPage")
+                .addToBackStack("ProductPage")
                 .commit();
     }
 
