@@ -4,4 +4,6 @@
     <color name="descriptiontext">#777777</color>
     <color name="descriptionbackground">#d8d8d8</color>
     <color name="bluecolor">#056699</color>
+    <color name="blueborder">#0d85c4</color>
+    <color name="white">#ffffff</color>
 </resources>

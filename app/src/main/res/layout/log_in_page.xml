@@ -3,37 +3,101 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Conectare"
+        android:textSize="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="15dp"/>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp">
+
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:textSize="20dp"
             android:text="Email"
-            />
+            android:layout_centerVertical="true"
+            android:paddingLeft="10dp"
+            android:id="@+id/logInPageEmailTitle"/>
         <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:inputType="textEmailAddress"
+            android:layout_toRightOf="@+id/logInPageEmailTitle"
+            android:layout_marginRight="10dp"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
             android:id="@+id/logInPageEmail"
-        />
+            android:background="@drawable/edit_text_border"
+            />
+
+    </RelativeLayout>
+
+
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp">
+
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:textSize="20dp"
             android:text="Parola"
-            />
+            android:layout_centerVertical="true"
+            android:paddingLeft="10dp"
+            android:id="@+id/logInPagePasswordTitle"/>
         <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/logInPagePassword"
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:layout_toRightOf="@+id/logInPagePasswordTitle"
+            android:layout_marginRight="10dp"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
             android:inputType="textPassword"
+            android:id="@+id/logInPagePassword"
+            android:background="@drawable/edit_text_border"
             />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingRight="15dp"
+        android:paddingLeft="15dp"
+        android:paddingTop="20dp">
+
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="130dp"
+            android:layout_height="30dp"
+            android:textColor="@color/white"
+            android:background="@color/bluecolor"
             android:id="@+id/logInPageRegister"
-            android:text="Register"
+            android:text="Inregistrare"
+            android:layout_alignParentLeft="true"
             />
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="130dp"
+            android:layout_height="30dp"
             android:id="@+id/logInPageLogin"
-            android:text="Log In"
+            android:text="Conectare"
+            android:textColor="@color/white"
+            android:background="@color/bluecolor"
+            android:layout_alignParentRight="true"
             />
+    </RelativeLayout>
+
 </LinearLayout>

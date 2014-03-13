@@ -1,107 +1,310 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="fill_parent"
-    android:isScrollContainer="true">
+android:orientation="vertical" android:layout_width="match_parent"
+android:layout_height="match_parent">
+
+<TextView
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:text="Inregistrare Cont"
+    android:textSize="30dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginTop="20dp"
+    android:layout_marginBottom="15dp"/>
+
+<RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="5dp">
+
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:text="Nume"/>
+        android:layout_alignParentLeft="true"
+        android:textSize="20dp"
+        android:text="Nume"
+        android:layout_centerVertical="true"
+        android:paddingLeft="10dp"
+        android:id="@+id/registerPageNameTitle"/>
     <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"
+        android:layout_toRightOf="@+id/registerPageNameTitle"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp"
         android:id="@+id/registerPageName"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/edit_text_border"
         />
+</RelativeLayout>
+
+<RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="5dp">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:text="Prenume"/>
+        android:layout_alignParentLeft="true"
+        android:textSize="20dp"
+        android:text="Prenume"
+        android:layout_centerVertical="true"
+        android:paddingLeft="10dp"
+        android:id="@+id/registerPageSurNameTitle"/>
     <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"
+        android:layout_toRightOf="@+id/registerPageSurNameTitle"
+        android:layout_marginRight="10dp"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp"
         android:id="@+id/registerPageSurName"
+        android:background="@drawable/edit_text_border"
         />
 
+</RelativeLayout>
+
+<RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="5dp">
+
+
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:textSize="20dp"
         android:text="Email"
-        />
+        android:layout_centerVertical="true"
+        android:paddingLeft="10dp"
+        android:id="@+id/registerPageEmailTitle"/>
+    />
     <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"
+        android:layout_toRightOf="@+id/registerPageEmailTitle"
+        android:layout_marginRight="10dp"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp"
         android:id="@+id/registerPageEmail"
+        android:inputType="textEmailAddress"
+        android:background="@drawable/edit_text_border"
         />
+
+</RelativeLayout>
+
+
+
+<RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="5dp">
+
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:text="Parola"
-        />
+        android:layout_alignParentLeft="true"
+        android:textSize="20dp"
+        android:text="Password"
+        android:layout_centerVertical="true"
+        android:paddingLeft="10dp"
+        android:id="@+id/registerPagePasswordTitle"/>
+    />
     <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"
+        android:layout_toRightOf="@+id/registerPagePasswordTitle"
+        android:layout_marginRight="10dp"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp"
         android:id="@+id/registerPagePassword"
         android:inputType="textPassword"
+        android:background="@drawable/edit_text_border"
         />
 
+
+</RelativeLayout>
+
+<RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="5dp">
+
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:textSize="20dp"
         android:text="Oras"
-        />
+        android:layout_centerVertical="true"
+        android:paddingLeft="10dp"
+        android:id="@+id/registerPageCityTitle"/>
+
     <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"
+        android:layout_toRightOf="@+id/registerPageCityTitle"
+        android:layout_marginRight="10dp"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp"
         android:id="@+id/registerPageCity"
+        android:background="@drawable/edit_text_border"
         />
 
+</RelativeLayout>
+
+<RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="5dp">
+
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:textSize="20dp"
         android:text="Judet"
-        />
+        android:layout_centerVertical="true"
+        android:paddingLeft="10dp"
+        android:id="@+id/registerPageDistrictTitle"/>
+
     <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"
+        android:layout_toRightOf="@+id/registerPageDistrictTitle"
+        android:layout_marginRight="10dp"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp"
         android:id="@+id/registerPageDistrict"
+        android:background="@drawable/edit_text_border"
         />
 
+</RelativeLayout>
+
+<RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="5dp">
+
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:textSize="20dp"
         android:text="Adresa"
-        />
+        android:layout_centerVertical="true"
+        android:paddingLeft="10dp"
+        android:id="@+id/registerPageAddressTitle"/>
+
     <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"
+        android:layout_toRightOf="@+id/registerAddressTitle"
+        android:layout_marginRight="10dp"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp"
         android:id="@+id/registerPageAddress"
+        android:background="@drawable/edit_text_border"
         />
 
+</RelativeLayout>
+
+<RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="5dp">
+
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:text="Nr de telefon"
-        />
+        android:layout_alignParentLeft="true"
+        android:textSize="20dp"
+        android:text="Oras"
+        android:layout_centerVertical="true"
+        android:paddingLeft="10dp"
+        android:id="@+id/registerPagePhoneTitle"/>
+
     <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"
+        android:layout_toRightOf="@+id/registerPhoneTitle"
+        android:layout_marginRight="10dp"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp"
         android:id="@+id/registerPagePhone"
+        android:background="@drawable/edit_text_border"
         />
+
+</RelativeLayout>
+
+<RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="5dp">
+
+    <TextView
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:textSize="20dp"
+        android:text="Adresa"
+        android:layout_centerVertical="true"
+        android:paddingLeft="10dp"
+        android:id="@+id/registerPageAddressTitle"/>
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="30dp"
+        android:layout_toRightOf="@+id/registerPageAddressTitle"
+        android:layout_marginRight="10dp"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp"
+        android:id="@+id/registerPageAddress"
+        android:background="@drawable/edit_text_border"
+        />
+
+</RelativeLayout>
+
+<RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:paddingRight="15dp"
+    android:paddingLeft="15dp"
+    android:paddingTop="20dp">
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:textColor="@color/white"
+        android:background="@color/bluecolor"
         android:id="@+id/registerPageReset"
         android:text="Reset"
+        android:layout_alignParentLeft="true"
         />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
         android:id="@+id/registerPageRegister"
         android:text="Register"
+        android:textColor="@color/white"
+        android:background="@color/bluecolor"
+        android:layout_alignParentRight="true"
         />
+
+
+</RelativeLayout>
 
 </LinearLayout>
