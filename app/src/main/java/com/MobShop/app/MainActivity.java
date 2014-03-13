@@ -13,7 +13,6 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.ViewDragHelper;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -273,7 +272,6 @@ public class MainActivity extends Activity
         FragmentManager.BackStackEntry backEntry;
         backEntry = getFragmentManager().getBackStackEntryAt(this.getFragmentManager().getBackStackEntryCount()-2);
         String str = backEntry.getName();
-        Log.d("URL", str);
         if(str.equals("Register")){
             this.setActionBar(7);
         }else if(str.equals("CartPage")){

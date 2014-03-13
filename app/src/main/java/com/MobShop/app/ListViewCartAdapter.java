@@ -63,11 +63,13 @@ public class ListViewCartAdapter extends ArrayAdapter<Product> {
         Double price = objectItem.getPrice();
 
         String URL = objectItem.getProductPhotoURL();
-        if (URL.equals("null")) {
-            img.setImageResource(R.drawable.ic_launcher);
-        } else {
-            //imgLoader.SetImage(URL, loader, img);
+
+        if(URL.equals("null")){
+
+        }else {
+            imgLoader.SetImage(URL, loader, img);
         }
+
         textViewItem.setText(name);
         descriptionViewItem.setText(Html.fromHtml(description));
         priceViewItem.setText("Price: "+price+" lei");

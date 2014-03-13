@@ -170,7 +170,7 @@ public class ProductPage extends Fragment {
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                        priceTextView.setText( ((i+1) * productMain.getPrice()) +" lei" );
+                        priceTextView.setText(((i + 1) * productMain.getPrice()) + " lei");
                     }
 
                     @Override
@@ -181,18 +181,13 @@ public class ProductPage extends Fragment {
                 ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(rootViewContext,android.R.layout.simple_spinner_item, quantityList);
                 dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinner.setAdapter(dataAdapter);
-                /*closeButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        dialog.dismiss();
-                    }
-                });*/
 
                 addButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         int p = spinner.getSelectedItemPosition();
                         Product product = new Product(productMain.getProductId(), productMain.getProductName());
+                        Log.d("URL", productMain.getProductPhotoURL());
                         product.setQuantity(p);
                         product.setProductPhotoURL(productMain.getProductPhotoURL());
                         product.setDescription(productMain.getDescription());
@@ -316,6 +311,7 @@ public class ProductPage extends Fragment {
                 product.setProductSale(sale);
                 product.setProductDiscount(discount);
                 product.setProductPhotoURLS(photosURL);
+                product.setProductPhotoURL(photosURL[0]);
                 product.setProductCategoryName(categoryName);
                 product.setProductSubCategoryName(subCategoryName);
             } catch (JSONException e) {
@@ -339,7 +335,16 @@ public class ProductPage extends Fragment {
             productDeliveryTextView.setText("19 lei");
             productDescriptionTextView.setText(Html.fromHtml(description));
 
+            imgLoader = new ImageLoader(ctxt);
 
+            String[] urls = productMain.getProductPhotoURLS();
+
+            AutoScrollViewPager viewProductPager = (AutoScrollViewPager) rootView.findViewById(R.id.product_pager);
+            ViewProductAdapter adapter = new ViewProductAdapter(rootViewContext, rootView, urls);
+            viewProductPager.setAdapter(adapter);
+            viewProductPager.startAutoScroll(2000);
+            viewProductPager.setScrollDurationFactor(5);
+            viewProductPager.setBorderAnimation(false);
         }
 
     }
