@@ -1,12 +1,14 @@
 package com.MobShop.app;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -31,49 +33,54 @@ public class ListViewCartAdapter extends ArrayAdapter<Product> {
         this.mCallBack = callBack;
     }
 
+
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        if (convertView == null) {
-            // inflate the layout
-            LayoutInflater inflater = (LayoutInflater)ctxt.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(layoutResourceId, parent, false);
-        }
 
-        // object item based on the position
-        Product objectItem = null;
-        objectItem = data[position];
-        // get the TextView and then set the text (item name) and tag (item ID) values
-        TextView textViewItem = (TextView) convertView.findViewById(R.id.listViewCartPageTextView);
-        TextView descriptionViewItem = (TextView) convertView.findViewById(R.id.listViewCartPageDescription);
-        TextView priceViewItem = (TextView) convertView.findViewById(R.id.listViewCartPagePrice);
-        ImageView img = (ImageView) convertView.findViewById(R.id.listViewCartPageImageView);
-        Button delete = (Button) convertView.findViewById(R.id.deleteProductCartPage);
-        delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SharedPerferencesExecutor<Cart> cartSharedPerferencesExecutor = new SharedPerferencesExecutor<Cart>(ctxt);
-                Cart cart = cartSharedPerferencesExecutor.retreive("eshop", Cart.class);
-                cart.deleteProduct(position);
-                cartSharedPerferencesExecutor.save("eshop", cart);
-                mCallBack.onNavigationDrawerItemSelected("Cart", 7);
+
+            if (convertView == null) {
+                // inflate the layout
+                LayoutInflater inflater = (LayoutInflater)ctxt.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                convertView = inflater.inflate(layoutResourceId, parent, false);
             }
-        });
-        String name = objectItem.getProductName();
-        String description = objectItem.getDescription();
-        Double price = objectItem.getPrice();
 
-        String URL = objectItem.getProductPhotoURL();
+            // object item based on the position
+            Product objectItem = null;
+            objectItem = data[position];
+            // get the TextView and then set the text (item name) and tag (item ID) values
+            TextView textViewItem = (TextView) convertView.findViewById(R.id.listViewCartPageTextView);
+            TextView quantityTextView = (TextView) convertView.findViewById(R.id.cartPageQuantity);
+            TextView priceViewItem = (TextView) convertView.findViewById(R.id.listViewCartPagePrice);
+            ImageView img = (ImageView) convertView.findViewById(R.id.listViewCartPageImageView);
+            ImageButton delete = (ImageButton) convertView.findViewById(R.id.deleteProductCartPage);
+            delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    SharedPerferencesExecutor<Cart> cartSharedPerferencesExecutor = new SharedPerferencesExecutor<Cart>(ctxt);
+                    Cart cart = cartSharedPerferencesExecutor.retreive("eshop", Cart.class);
+                    cart.deleteProduct(position);
+                    cartSharedPerferencesExecutor.save("eshop", cart);
+                    mCallBack.onNavigationDrawerItemSelected("Cart", 7);
+                }
+            });
+            String name = objectItem.getProductName();
+            int quantity = objectItem.getProductQuantity();
+            Double price = objectItem.getPrice();
 
-        if(URL.equals("null")){
+            String URL = objectItem.getProductPhotoURL();
 
-        }else {
-            imgLoader.SetImage(URL, loader, img);
+            if(URL.equals("null")){
+
+            }else {
+                imgLoader.SetImage(URL, loader, img);
+            }
+
+
+            textViewItem.setText(name);
+            //quantityTextView.setText(quantity);
+            priceViewItem.setText("Price: "+quantity * price+" lei");
+
+            return convertView;
         }
 
-        textViewItem.setText(name);
-        descriptionViewItem.setText(Html.fromHtml(description));
-        priceViewItem.setText("Price: "+price+" lei");
-
-        return convertView;
-    }
 }

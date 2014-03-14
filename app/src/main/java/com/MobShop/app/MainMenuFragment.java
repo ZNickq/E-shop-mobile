@@ -51,7 +51,7 @@ public class MainMenuFragment extends Fragment {
     public static final String CATEGORY_NAME = "name";
     public static final String PHOTO_URL = "photo_url";
     public static final String SUBCATEGORIES = "subcategories";
-
+    public ListViewDashAdapter listViewDashAdapter;
     ArrayList<Category> categories;
 
     private NavigationDrawerFragment.NavigationDrawerCallbacks mCallbacks;
@@ -218,6 +218,10 @@ public class MainMenuFragment extends Fragment {
         getData.cancel(true);
     }
 
+    public void search(String searchText){
+            listViewDashAdapter.getFilter().filter(searchText);
+    }
+
 
     private class GetCategoriesAndSubCategoriesTask extends AsyncTask<String, Void, ArrayList<Category>> {
         protected ArrayList<Category> doInBackground(String... functions) {
@@ -310,7 +314,8 @@ public class MainMenuFragment extends Fragment {
         @Override
         protected void onPostExecute(ArrayList<Category> result) {
             categories = result;
-            dashlistview.setAdapter(new ListViewDashAdapter(gridcontext, result));
+            listViewDashAdapter = new ListViewDashAdapter(gridcontext, result);
+            dashlistview.setAdapter(listViewDashAdapter);
             gridView.setAdapter(new GridViewContent(gridcontext, result));
 
         }

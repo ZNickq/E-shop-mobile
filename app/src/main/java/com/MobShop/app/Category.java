@@ -38,4 +38,13 @@ public class Category {
     public SubCategory[] getSubCategories() {
         return this.subCategories;
     }
+
+    public String toString(){
+        StringBuilder builder = new StringBuilder();
+        builder.append(categoryName);
+        for(SubCategory subCategory: subCategories){
+            builder.append(subCategory.toString());
+        }
+        return builder.toString();
+    }
 }

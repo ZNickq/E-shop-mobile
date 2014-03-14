@@ -13,6 +13,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.ViewDragHelper;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -243,6 +244,32 @@ public class MainActivity extends Activity
                         searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
                         searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
                         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+                        FragmentManager manager;
+                        manager = getFragmentManager();
+                        final MainMenuFragment mainMenuFragment = (MainMenuFragment) manager.findFragmentById(R.id.container);
+                        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                            @Override
+                            public boolean onQueryTextSubmit(String s) {
+                                Log.d("URL", s);
+                                try {
+                                    mainMenuFragment.search(s);
+                                }catch (NullPointerException e){
+                                    e.printStackTrace();
+                                }
+                                return false;
+                            }
+
+                            @Override
+                            public boolean onQueryTextChange(String s) {
+                                try {
+                                    mainMenuFragment.search(s);
+                                }catch (NullPointerException e){
+                                    e.printStackTrace();
+                                }
+                                Log.d("URL", "1"+s);
+                                return false;
+                            }
+                        });
                         break;
                     case 2:
                         getMenuInflater().inflate(R.menu.incomplete, menu);

@@ -27,4 +27,8 @@ public class SubCategory {
     public String getSubCategoryName() {
         return this.name;
     }
+
+    public String toString(){
+        return name;
+    }
 }

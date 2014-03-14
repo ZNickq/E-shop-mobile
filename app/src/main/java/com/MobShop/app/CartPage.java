@@ -8,13 +8,32 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.StatusLine;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -26,6 +45,8 @@ public class CartPage extends Fragment {
     public NavigationDrawerFragment.NavigationDrawerCallbacks mCallbacks;
     public ListView listView;
     public Button checkoutButton;
+    public ListViewCartAdapter adapter;
+    public View rootView;
 
     public CartPage(){
 
@@ -49,18 +70,19 @@ public class CartPage extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.cart_page, container, false);
+        rootView = inflater.inflate(R.layout.cart_page, container, false);
         rootViewContext = rootView.getContext();
+
         SharedPerferencesExecutor<Cart> cartSharedPerferencesExecutor = new SharedPerferencesExecutor<Cart>(ctxt);
         Cart cart = cartSharedPerferencesExecutor.retreive("eshop", Cart.class);
         cartSharedPerferencesExecutor.save("eshop", cart);
         products = cart.getProducts();
         Product[] productArray = new Product[products.size()];
         productArray = products.toArray(productArray);
-        ListViewCartAdapter adapter = new ListViewCartAdapter(ctxt,R.layout.list_view_cart_page_row, productArray, mCallbacks);
+        adapter = new ListViewCartAdapter(ctxt,R.layout.list_view_cart_page_row, productArray, mCallbacks);
         listView = (ListView) rootView.findViewById(R.id.listViewCartPage);
-        checkoutButton = (Button) rootView.findViewById(R.id.buttonCartPageCheckout);
         listView.setAdapter(adapter);
+        checkoutButton = (Button) rootView.findViewById(R.id.buttonCartPageCheckout);
         checkoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -121,6 +143,29 @@ public class CartPage extends Fragment {
         @Override
         protected void onPostExecute(String result) {
 
+        }
+    }
+    private class GetCartTask extends AsyncTask<Void, Void, Void> {
+
+        private ProgressDialog dialog;
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            return null;
+        }
+
+        protected void onPreExecute() {
+            this.dialog = new ProgressDialog(rootViewContext);
+            this.dialog.setMessage("Loading");
+            this.dialog.show();
+        }
+
+
+        protected Void onPostExecute() {
+
+            dialog.dismiss();
+            return null;
         }
     }
 

@@ -77,6 +77,7 @@ public class ProductPage extends Fragment {
     public TextView productCategoryTextView, productDeliveryTextView, productPriceTextView, productNameTextView, productDescriptionTextView;
     public ImageView productImageView;
     public Button buttonAddToCart;
+    public Button buttonBack;
 
     int loader = R.drawable.loader;
     ImageLoader imgLoader;
@@ -141,6 +142,7 @@ public class ProductPage extends Fragment {
         ProductByID getProduct = new ProductByID();
         getProduct.execute(new String[]{"getproductbyid"});
         buttonAddToCart = (Button) rootView.findViewById(R.id.buttonProductPageAddToCart);
+        buttonBack = (Button) rootView.findViewById(R.id.buttonproductpageback);
 
         buttonAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -205,7 +207,6 @@ public class ProductPage extends Fragment {
                 dialog.show();
             }
         });
-
 
         /*
         AutoScrollViewPager viewProductPager = (AutoScrollViewPager) rootView.findViewById(R.id.product_pager);

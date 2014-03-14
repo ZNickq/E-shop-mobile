@@ -18,7 +18,7 @@
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="150dp"
+        android:layout_height="180dp"
         android:id="@+id/mainLayoutProductPage"
         android:layout_below="@+id/productPageProductCategory"
         android:padding="10dp"
@@ -27,8 +27,8 @@
         <com.MobShop.app.AutoScrollViewPager
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/product_pager"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
             android:paddingBottom="5dp"/>
 
         <TextView
@@ -49,6 +49,7 @@
             android:layout_below="@+id/productName"
             android:layout_toRightOf="@+id/product_pager"
             android:paddingLeft="20dp"
+            android:layout_marginTop="40dp"
             android:src="@drawable/star"
             android:id="@+id/smallimage1"/>
 
@@ -56,6 +57,7 @@
         <ImageView
             android:layout_width="60dp"
             android:layout_height="60dp"
+            android:layout_marginTop="40dp"
             android:layout_below="@+id/productName"
             android:layout_toRightOf="@+id/smallimage1"
             android:paddingLeft="20dp"
