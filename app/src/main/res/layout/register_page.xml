@@ -236,7 +236,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:textSize="20dp"
-            android:text="Oras"
+            android:text="Telefon"
             android:layout_centerVertical="true"
             android:paddingLeft="10dp"
             android:id="@+id/registerPagePhoneTitle"/>

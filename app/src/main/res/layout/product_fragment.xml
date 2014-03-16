@@ -142,15 +142,7 @@
         android:paddingTop="10dp"
         android:layout_alignParentBottom="true">
 
-        <Button
-            android:layout_width="100dp"
-            android:layout_height="25dp"
-            android:id="@+id/buttonproductpageback"
-            android:layout_alignParentLeft="true"
-            android:text="Inapoi"
-            android:textColor="#ffffff"
-            android:textSize="20dp"
-            android:background="@color/bluecolor"/>
+        
 
         <Button
             android:layout_width="100dp"

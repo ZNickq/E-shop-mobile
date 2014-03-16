@@ -14,6 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -138,35 +141,86 @@ public class CartPage extends Fragment {
             this.dialog.show();
         }
         protected String doInBackground(String... functions) {
-            return "";
+            SharedPerferencesExecutor<Cart> cartSharedPerferencesExecutor = new SharedPerferencesExecutor<Cart>(ctxt);
+            Cart cart = cartSharedPerferencesExecutor.retreive("eshop", Cart.class);
+            cartSharedPerferencesExecutor.save("eshop", cart);
+            ArrayList<Product> product = cart.getProducts();
+            Gson gson = new Gson();
+            String json = gson.toJson(product);
+            User user = new User();
+            String email = user.getEmail();
+            String function = functions[0];
+
+            StringBuilder builder = new StringBuilder();
+            //create url from base url
+            String url = NavigationDrawerFragment.URL + function;
+            //connect to server
+            DefaultHttpClient httpClient = new DefaultHttpClient();
+            HttpEntity httpEntity = null;
+            HttpResponse httpResponse = null;
+            HttpPost httpPost = new HttpPost(url);
+            try {
+                // Add your data
+                List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
+                nameValuePairs.add(new BasicNameValuePair("json", json));
+                nameValuePairs.add(new BasicNameValuePair("email", email));
+                nameValuePairs.add(new BasicNameValuePair("numberOfProducts", String.valueOf(product.size())));
+                httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                try {
+                    httpResponse = httpClient.execute(httpPost);
+                    StatusLine statusLine = httpResponse.getStatusLine();
+                    int statusCode = statusLine.getStatusCode();
+                    //if ok get data from server
+                    if (statusCode == 200) {
+                        httpEntity = httpResponse.getEntity();
+                        InputStream content = httpEntity.getContent();
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(content));
+                        String line = "";
+                        while ((line = reader.readLine()) != null) {
+                            builder.append(line);
+                        }
+                    } else {
+                        Log.e("==>", "Failed to download file");
+                    }
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
+
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                Log.i("HTTP Failed", e.toString());
+            }
+            String res = "";
+            //add data to jsonlist, in order to easily proccessing
+            try {
+                try {
+                    JSONObject c = new JSONObject(builder.toString());
+                    res = c.getString("result");
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
+
+            return res;
         }
         @Override
         protected void onPostExecute(String result) {
-
+            if (dialog.isShowing()) {
+                dialog.dismiss();
+            }
+            Log.d("URL", result);
+            if(result.equals("1")){
+                Toast toast = Toast.makeText(rootViewContext, "Comanda trimisa cu succes", Toast.LENGTH_LONG);
+                toast.show();
+                SharedPerferencesExecutor<Cart> cartSharedPerferencesExecutor = new SharedPerferencesExecutor<Cart>(rootViewContext);
+                cartSharedPerferencesExecutor.delete("eshop");
+                mCallbacks.onNavigationDrawerItemSelected("CartPage", 7);
+            }
         }
     }
-    private class GetCartTask extends AsyncTask<Void, Void, Void> {
-
-        private ProgressDialog dialog;
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-
-            return null;
-        }
-
-        protected void onPreExecute() {
-            this.dialog = new ProgressDialog(rootViewContext);
-            this.dialog.setMessage("Loading");
-            this.dialog.show();
-        }
-
-
-        protected Void onPostExecute() {
-
-            dialog.dismiss();
-            return null;
-        }
-    }
-
 }

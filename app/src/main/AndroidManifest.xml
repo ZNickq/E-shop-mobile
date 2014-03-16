@@ -65,8 +65,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="MainActivity" />
         </activity>
-        <activity android:name=".Map" android:label="Map">
-
+        <activity android:name=".Map"
+            android:label="Harta"
+            android:parentActivityName="com.MobShop.app.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.MobShop.app.MainActivity" />
         </activity>
     </application>
 

@@ -2,6 +2,7 @@ package com.MobShop.app;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.SearchManager;
 import android.content.Context;
@@ -244,38 +245,43 @@ public class MainActivity extends Activity
                 // Only show items in the action bar relevant to this screen
                 // if the drawer is not showing. Otherwise, let the drawer
                 // decide what to show in the action bar.
+
                 switch (kindOfMenu) {
                     case 1:
                         getMenuInflater().inflate(R.menu.main, menu);
                         searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
                         searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
                         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+
                         FragmentManager manager;
                         manager = getFragmentManager();
-                        final MainMenuFragment mainMenuFragment = (MainMenuFragment) manager.findFragmentById(R.id.container);
-                        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                            @Override
-                            public boolean onQueryTextSubmit(String s) {
-                                Log.d("URL", s);
-                                try {
-                                    mainMenuFragment.search(s);
-                                }catch (NullPointerException e){
-                                    e.printStackTrace();
+                        Fragment f = manager.findFragmentById(R.id.container);
+                        if(f instanceof MainMenuFragment) {
+                            final MainMenuFragment mainMenuFragment = (MainMenuFragment) f;
+                            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                                @Override
+                                public boolean onQueryTextSubmit(String s) {
+                                    Log.d("URL", s);
+                                    try {
+                                        mainMenuFragment.search(s);
+                                    } catch (NullPointerException e) {
+                                        e.printStackTrace();
+                                    }
+                                    return false;
                                 }
-                                return false;
-                            }
 
-                            @Override
-                            public boolean onQueryTextChange(String s) {
-                                try {
-                                    mainMenuFragment.search(s);
-                                }catch (NullPointerException e){
-                                    e.printStackTrace();
+                                @Override
+                                public boolean onQueryTextChange(String s) {
+                                    try {
+                                        mainMenuFragment.search(s);
+                                    } catch (NullPointerException e) {
+                                        e.printStackTrace();
+                                    }
+                                    Log.d("URL", "1" + s);
+                                    return false;
                                 }
-                                Log.d("URL", "1"+s);
-                                return false;
-                            }
-                        });
+                            });
+                        }
                         break;
                     case 2:
                         getMenuInflater().inflate(R.menu.incomplete, menu);

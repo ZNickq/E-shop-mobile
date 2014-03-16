@@ -39,6 +39,7 @@ public class Map extends FragmentActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        getActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void setUp(Context context) {
@@ -57,6 +58,9 @@ public class Map extends FragmentActivity {
             CameraPosition cameraPosition = new CameraPosition.Builder().target(
                     new LatLng(lat, lon)).zoom(12).build();
             googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+            googleMap.setMyLocationEnabled(true);
+
 
             // check if map is created successfully or not
             if (googleMap == null) {

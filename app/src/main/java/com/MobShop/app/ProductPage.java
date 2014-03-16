@@ -142,7 +142,7 @@ public class ProductPage extends Fragment {
         ProductByID getProduct = new ProductByID();
         getProduct.execute(new String[]{"getproductbyid"});
         buttonAddToCart = (Button) rootView.findViewById(R.id.buttonProductPageAddToCart);
-        buttonBack = (Button) rootView.findViewById(R.id.buttonproductpageback);
+        //buttonBack = (Button) rootView.findViewById(R.id.buttonproductpageback);
 
         buttonAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
