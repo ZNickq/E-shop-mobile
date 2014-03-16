@@ -151,6 +151,7 @@ public class MainActivity extends Activity
                     .commit();
         } else {
             Intent i;
+            Intent i2;
 
             switch (position) {
                 case 1:
@@ -168,6 +169,11 @@ public class MainActivity extends Activity
                             .replace(R.id.container, UserPage.newInstance(getApplicationContext()), "UserPage")
                             .addToBackStack("UserPage")
                             .commit();
+                    break;
+                case 5:
+                    i2 = new Intent(this, Map.class);
+                    startActivity(i2);
+                    //map
                     break;
                 case 6:
                     //Login

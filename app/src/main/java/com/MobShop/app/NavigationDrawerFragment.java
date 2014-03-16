@@ -184,6 +184,9 @@ public class NavigationDrawerFragment extends Fragment{
                 }else if(groupName.equals("Register")){
                     mDrawerLayout.closeDrawers();
                     mCallbacks.onNavigationDrawerItemSelected("Log in", 9);
+                }else if(groupName.equals("Harta")){
+                    mDrawerLayout.closeDrawers();
+                    mCallbacks.onNavigationDrawerItemSelected("Harta", 5);
                 }
                 return false;
             }

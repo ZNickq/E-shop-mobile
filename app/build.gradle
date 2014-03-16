@@ -22,4 +22,6 @@ dependencies {
     compile 'com.android.support:support-v4:19.0.+'
     compile fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
     compile 'com.google.code.gson:gson:2.2.+'
+    compile 'com.android.support:appcompat-v7:+'
+    compile 'com.google.android.gms:play-services:4.2.42'
 }
