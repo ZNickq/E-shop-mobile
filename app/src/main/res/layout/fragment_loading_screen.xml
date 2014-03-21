@@ -17,14 +17,7 @@
         android:layout_centerHorizontal="true"
         android:id="@+id/mob_shop" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:src="@drawable/blue_team"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:layout_below="@+id/progress_bar"
-        android:id="@+id/blue_team" />
+
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -41,19 +34,5 @@
         android:layout_marginRight="5dp"
         custom:gif="@drawable/loader" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/star"
-        android:layout_below="@id/blue_team"
-        android:layout_marginTop="100dp"
-        android:layout_alignLeft="@id/mob_shop" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/scoala"
-        android:layout_below="@id/blue_team"
-        android:layout_marginTop="100dp"
-        android:layout_alignRight="@id/mob_shop" />
 </RelativeLayout>

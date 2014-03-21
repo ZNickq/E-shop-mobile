@@ -52,7 +52,7 @@ public class Map extends FragmentActivity {
 
             googleMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
             // create marker
-            MarkerOptions marker = new MarkerOptions().position(new LatLng(lat, lon)).title("Coordonate magazinului");
+            MarkerOptions marker = new MarkerOptions().position(new LatLng(lat, lon)).title("Magazin desfacere");
             // adding marker
             googleMap.addMarker(marker);
             CameraPosition cameraPosition = new CameraPosition.Builder().target(

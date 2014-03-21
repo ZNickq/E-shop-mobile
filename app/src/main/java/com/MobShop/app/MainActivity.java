@@ -346,9 +346,7 @@ public class MainActivity extends Activity
                         .commit();
                 return true;
 
-            case R.id.action_filter:
 
-                return true;
 
             case R.id.action_list:
                 item.setVisible(false);

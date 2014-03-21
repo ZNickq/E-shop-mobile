@@ -41,28 +41,10 @@
             android:paddingTop="15dp"
             android:paddingLeft="15dp"
             android:paddingBottom="10dp"
-            android:id="@+id/productName" />
-
-        <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_below="@+id/productName"
-            android:layout_toRightOf="@+id/product_pager"
-            android:paddingLeft="20dp"
-            android:layout_marginTop="40dp"
-            android:src="@drawable/star"
-            android:id="@+id/smallimage1"/>
+            android:id="@+id/productName"
+            android:layout_centerHorizontal="true"/>
 
 
-        <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="40dp"
-            android:layout_below="@+id/productName"
-            android:layout_toRightOf="@+id/smallimage1"
-            android:paddingLeft="20dp"
-            android:src="@drawable/star"
-            android:id="@+id/smallimage2"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -142,7 +124,7 @@
         android:paddingTop="10dp"
         android:layout_alignParentBottom="true">
 
-        
+
 
         <Button
             android:layout_width="100dp"
