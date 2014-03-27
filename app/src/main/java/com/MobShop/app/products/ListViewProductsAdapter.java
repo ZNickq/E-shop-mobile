@@ -14,9 +14,6 @@ import com.MobShop.app.R;
 import com.MobShop.app.models.Product;
 import com.MobShop.app.util.download.ImageLoader;
 
-/**
- * Created by Segarceanu Calin on 2/25/14.
- */
 public class ListViewProductsAdapter extends ArrayAdapter<Product> {
 
     public Context ctxt = null;
@@ -43,7 +40,7 @@ public class ListViewProductsAdapter extends ArrayAdapter<Product> {
         }
 
         // object item based on the position
-        Product objectItem = null;
+        Product objectItem;
         objectItem = data[position];
         // get the TextView and then set the text (item name) and tag (item ID) values
         TextView textViewItem = (TextView) convertView.findViewById(R.id.listViewProductSubCategoryTextView);

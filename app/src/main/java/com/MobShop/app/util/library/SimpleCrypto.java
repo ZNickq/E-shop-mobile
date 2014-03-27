@@ -5,9 +5,6 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-/**
- * Created by Segarceanu Calin on 3/10/14.
- */
 public class SimpleCrypto {
 
     public static String md5(String string) {

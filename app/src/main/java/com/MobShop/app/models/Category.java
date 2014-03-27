@@ -1,8 +1,5 @@
 package com.MobShop.app.models;
 
-/**
- * Created by Segarceanu Calin on 2/28/14.
- */
 public class Category {
 
     private String categoryName;
@@ -17,10 +14,6 @@ public class Category {
 
     public String getCategoryName() {
         return this.categoryName;
-    }
-
-    public Integer getCategoryId() {
-        return this.categoryId;
     }
 
     public String getPhotoURL() {
@@ -39,10 +32,10 @@ public class Category {
         this.subCategories = array;
     }
 
-    public String toString(){
+    public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append(categoryName);
-        for(SubCategory subCategory: subCategories){
+        for (SubCategory subCategory : subCategories) {
             builder.append(subCategory.toString());
         }
         return builder.toString();

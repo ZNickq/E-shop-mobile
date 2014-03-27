@@ -11,9 +11,6 @@ import android.widget.TextView;
 import com.MobShop.app.R;
 import com.MobShop.app.models.SubCategory;
 
-/**
- * Created by Segarceanu Calin on 2/16/14.
- */
 public class ListViewNavigationDrawerAdapter extends ArrayAdapter<SubCategory> {
 
     public Context ctxt = null;
@@ -39,7 +36,6 @@ public class ListViewNavigationDrawerAdapter extends ArrayAdapter<SubCategory> {
         SubCategory objectItem = data[position];
         // get the TextView and then set the text (item name) and tag (item ID) values
         TextView textViewItem = (TextView) convertView.findViewById(R.id.listViewSubCategoryTextView);
-        String str = objectItem.getSubCategoryName();
         textViewItem.setText(objectItem.getSubCategoryName());
         textViewItem.setTag(objectItem.getSubCategoryId());
 

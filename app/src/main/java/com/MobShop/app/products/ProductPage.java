@@ -4,10 +4,8 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.view.PagerAdapter;
 import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
@@ -53,10 +51,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-
-/**
- * Created by Segarceanu Calin on 2/24/14.
- */
 public class ProductPage extends Fragment {
 
     public static final String PRODUCT_ID = "id";
@@ -77,12 +71,9 @@ public class ProductPage extends Fragment {
     public Cart cart;
     public View rootView;
     public TextView productCategoryTextView, productDeliveryTextView, productPriceTextView, productNameTextView, productDescriptionTextView;
-    public ImageView productImageView;
     public Button buttonAddToCart;
-    public Button buttonBack;
     int loader = R.drawable.loader;
     ImageLoader imgLoader;
-    private boolean mFromSavedInstanceState;
     private Integer mProductID;
     private Context ctxt, rootViewContext;
 
@@ -101,13 +92,8 @@ public class ProductPage extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Read in the flag indicating whether or not the user has demonstrated awareness of the
-        // drawer. See PREF_USER_LEARNED_DRAWER for details.
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
-
         if (savedInstanceState != null) {
             mProductID = savedInstanceState.getInt(ARG_PRODUCT_ID_NUMBER);
-            mFromSavedInstanceState = true;
         }
 
     }
@@ -115,7 +101,6 @@ public class ProductPage extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        // Indicate that this fragment would like to influence the set of actions in the action bar.
         setHasOptionsMenu(true);
     }
     @Override
@@ -144,7 +129,7 @@ public class ProductPage extends Fragment {
         //productImageView = (ImageView) rootView.findViewById(R.id.productImage);
         productMain = null;
         ProductByID getProduct = new ProductByID();
-        getProduct.execute(new String[]{"getproductbyid"});
+        getProduct.execute("getproductbyid");
         buttonAddToCart = (Button) rootView.findViewById(R.id.buttonProductPageAddToCart);
         //buttonBack = (Button) rootView.findViewById(R.id.buttonproductpageback);
 
@@ -242,8 +227,8 @@ public class ProductPage extends Fragment {
                 String url = ListOfProducts.URL + function;
                 //connect to server
                 DefaultHttpClient httpClient = new DefaultHttpClient();
-                HttpEntity httpEntity = null;
-                HttpResponse httpResponse = null;
+                HttpEntity httpEntity;
+                HttpResponse httpResponse;
                 HttpPost httpPost = new HttpPost(url);
                 try {
                     // Add your data
@@ -259,7 +244,7 @@ public class ProductPage extends Fragment {
                             httpEntity = httpResponse.getEntity();
                             InputStream content = httpEntity.getContent();
                             BufferedReader reader = new BufferedReader(new InputStreamReader(content));
-                            String line = "";
+                            String line;
                             while ((line = reader.readLine()) != null) {
                                 builder.append(line);
                             }
@@ -359,15 +344,11 @@ public class ProductPage extends Fragment {
         Context context;
         View rootView;
         String[] productPhotoURLS;
-        ImageView[] productImages;
 
         ViewProductAdapter(Context context, View root, String[] photoURLS){
             this.context=context;
             this.rootView = root;
-            productPhotoURLS = new String[photoURLS.length];
-            for(int i = 0; i < photoURLS.length; i++){
-                productPhotoURLS[i] = photoURLS[i];
-            }
+            productPhotoURLS = photoURLS;
         }
         @Override
         public int getCount() {

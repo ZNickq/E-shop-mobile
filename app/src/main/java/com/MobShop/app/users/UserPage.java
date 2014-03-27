@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.MobShop.app.R;
@@ -40,14 +39,9 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Segarceanu Calin on 3/12/14.
- */
 public class UserPage extends Fragment {
     public Context ctxt, rootViewContext;
     public NavigationDrawerFragment.NavigationDrawerCallbacks mCallbacks;
-    public ListView listView;
-    public Button checkoutButton;
     public EditText emailTextView, nameEditText, surNameEditText, cityEditText, districtEditText, addressEditText, phoneNumberEditText;
 
     public UserPage() {
@@ -124,7 +118,7 @@ public class UserPage extends Fragment {
                                 String ph = phoneNumberEditText.getText().toString();
                                 if (e.contains("@") && n.length() >= 4 && s.length() >= 4 && c.length() >= 4 && d.length() >= 4 && a.length() >= 4 && ph.length() >= 4) {
                                     UpdateTask sendData = new UpdateTask();
-                                    sendData.execute(new String[]{"updateuser", e, n, s, c, d, a, ph});
+                                    sendData.execute("updateuser", e, n, s, c, d, a, ph);
                                 } else {
                                     Toast toast = Toast.makeText(rootViewContext, "Va rugam completati formularul cu responsabilitate", Toast.LENGTH_LONG);
                                     toast.show();
@@ -186,8 +180,8 @@ public class UserPage extends Fragment {
             String url = NavigationDrawerFragment.URL + function;
             //connect to server
             DefaultHttpClient httpClient = new DefaultHttpClient();
-            HttpEntity httpEntity = null;
-            HttpResponse httpResponse = null;
+            HttpEntity httpEntity;
+            HttpResponse httpResponse;
             HttpPost httpPost = new HttpPost(url);
 
             try {
@@ -212,7 +206,7 @@ public class UserPage extends Fragment {
                         httpEntity = httpResponse.getEntity();
                         InputStream content = httpEntity.getContent();
                         BufferedReader reader = new BufferedReader(new InputStreamReader(content));
-                        String line = "";
+                        String line;
                         while ((line = reader.readLine()) != null) {
                             builder.append(line);
                         }

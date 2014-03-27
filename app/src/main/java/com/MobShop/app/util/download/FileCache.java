@@ -1,9 +1,5 @@
 package com.MobShop.app.util.download;
 
-/**
- * Created by Glontz on 2/24/14.
- */
-
 import android.content.Context;
 
 import java.io.File;
@@ -24,8 +20,7 @@ public class FileCache {
 
     public File getFile(String url) {
         String filename = String.valueOf(url.hashCode());
-        File f = new File(cacheDir, filename);
-        return f;
+        return new File(cacheDir, filename);
 
     }
 

@@ -7,7 +7,6 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
@@ -21,19 +20,13 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-/**
- * Created by Segarceanu Calin on 2/12/14.
- */
 public class WebApiModel {
 
     public static final String CATEGORY_ID = "id";
     public static final String CATEGORY_NAME = "name";
-    public static String URL = "http://dragomircristian.net/calin/api/";
-    public InputStream iStream = null;
-    public String json = "";
+    public String URL = "http://dragomircristian.net/calin/api/";
     public DefaultHttpClient httpClient;
     public ArrayList<HashMap<String, String>> jsonGetCategoriesList = new ArrayList<HashMap<String, String>>();
-    private HttpClient client;
 
     public WebApiModel(String URL) {
         this.URL = URL;
@@ -42,13 +35,12 @@ public class WebApiModel {
     public ArrayList<HashMap<String, String>> getCategories(String function) throws IOException {
 
         GetCategoriesTask task = new GetCategoriesTask();
-        task.execute(new String[]{function});
+        task.execute(function);
 
         return jsonGetCategoriesList;
     }
 
     private class GetCategoriesTask extends AsyncTask<String, Void, ArrayList<HashMap<String, String>>> {
-        ArrayList<HashMap<String, String>> jsonlist = new ArrayList<HashMap<String, String>>();
 
         @Override
         protected ArrayList<HashMap<String, String>> doInBackground(String... functions) {
@@ -56,12 +48,12 @@ public class WebApiModel {
 
             for (String function : functions) {
                 //create url from base url
-                String url = WebApiModel.URL + function;
+                String url = URL + function;
 
                 //connect to server
                 httpClient = new DefaultHttpClient();
-                HttpEntity httpEntity = null;
-                HttpResponse httpResponse = null;
+                HttpEntity httpEntity;
+                HttpResponse httpResponse;
                 HttpPost httpPost = new HttpPost(url);
                 try {
                     httpResponse = httpClient.execute(httpPost);
@@ -73,7 +65,7 @@ public class WebApiModel {
                         httpEntity = httpResponse.getEntity();
                         InputStream content = httpEntity.getContent();
                         BufferedReader reader = new BufferedReader(new InputStreamReader(content));
-                        String line = "";
+                        String line;
                         while ((line = reader.readLine()) != null) {
                             builder.append(line);
                         }

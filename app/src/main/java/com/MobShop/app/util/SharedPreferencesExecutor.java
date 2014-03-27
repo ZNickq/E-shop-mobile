@@ -6,9 +6,6 @@ import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
 
-/**
- * Created by Segarceanu Calin on 3/10/14.
- */
 public class SharedPreferencesExecutor<Cart> {
 
     private Context context;
@@ -34,11 +31,11 @@ public class SharedPreferencesExecutor<Cart> {
 
         Gson gson = new Gson();
         String json = appSharedPrefs.getString(key, "");
-        return (Cart) gson.fromJson(json, clazz);
+        return gson.fromJson(json, clazz);
     }
 
-    public void delete(String key){
+    public void delete(String key) {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext());
-        appSharedPrefs.edit().clear().commit();
+        appSharedPrefs.edit().remove(key).commit();
     }
 }

@@ -84,7 +84,7 @@ public class MainMenuFragment extends Fragment {
         dashlistview = (ListView) rootView.findViewById(R.id.listview);
         listcontext = dashlistview.getContext();
         getData = new GetCategoriesAndSubCategoriesTask();
-        getData.execute(new String[]{"getallcategorieswithsubcategoriesandphotos"});
+        getData.execute("getallcategorieswithsubcategoriesandphotos");
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -149,7 +149,7 @@ public class MainMenuFragment extends Fragment {
         });
 
         GetCategoriesAndSubCategoriesTask getData = new GetCategoriesAndSubCategoriesTask();
-        getData.execute(new String[]{"getallcategorieswithsubcategoriesandphotos"});
+        getData.execute("getallcategorieswithsubcategoriesandphotos");
 
 
         AutoScrollViewPager viewPager = (AutoScrollViewPager) rootView.findViewById(R.id.view_pager);
@@ -239,8 +239,8 @@ public class MainMenuFragment extends Fragment {
                 String url = MainMenuFragment.URL + function;
                 //connect to server
                 httpClient = new DefaultHttpClient();
-                HttpEntity httpEntity = null;
-                HttpResponse httpResponse = null;
+                HttpEntity httpEntity;
+                HttpResponse httpResponse;
                 HttpPost httpPost = new HttpPost(url);
                 try {
                     httpResponse = httpClient.execute(httpPost);
@@ -251,7 +251,7 @@ public class MainMenuFragment extends Fragment {
                         httpEntity = httpResponse.getEntity();
                         InputStream content = httpEntity.getContent();
                         BufferedReader reader = new BufferedReader(new InputStreamReader(content));
-                        String line = "";
+                        String line;
                         while ((line = reader.readLine()) != null) {
                             if (isCancelled()) {
                                 break;
@@ -289,9 +289,7 @@ public class MainMenuFragment extends Fragment {
                         String categoryId = c.getString(CATEGORY_ID);
                         String categoryName = c.getString(CATEGORY_NAME);
                         String photoURL = c.getString(PHOTO_URL);
-                        if (photoURL.equals("null")) {
-
-                        } else {
+                        if (!photoURL.equals("null")) {
                             photoURL = uri + photoURL;
                         }
                         JSONArray subCategories = c.getJSONArray(SUBCATEGORIES);

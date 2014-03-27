@@ -45,7 +45,6 @@ public class MainActivity extends Activity
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
-    private CharSequence mTitle;
 
     public static void setDrawerLeftEdgeSize(Activity activity, DrawerLayout drawerLayout, float displayWidthPercentage) {
         if (activity == null || drawerLayout == null)
@@ -78,7 +77,7 @@ public class MainActivity extends Activity
         super.onCreate(savedInstanceState);
         boolean webConnection = isInternetConnection();
         kindOfMenu = 1;
-        if (webConnection == false) {
+        if (!webConnection) {
             //In case that there isn't any internet connection, it displays a message and retry button
             setContentView(R.layout.internet_connection);
 
@@ -145,9 +144,8 @@ public class MainActivity extends Activity
             start = subCategory.indexOf(menuItem);
             end = start + menuItem.length();
             subCategory.replace(start, end, "");
-            String categoryToWeb = "";
+            String categoryToWeb;
             categoryToWeb = subCategory.toString();
-            mTitle = categoryToWeb;
             fragmentManager = getFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.container, ListOfProducts.newInstance(position, categoryToWeb, getApplicationContext()), "List of Products")
@@ -210,19 +208,7 @@ public class MainActivity extends Activity
             }
         }
     }
-    public void onSectionAttached(int number) {
-        switch (number) {
-            case 1:
-                mTitle = getString(R.string.title_section1);
-                break;
-            case 2:
-                mTitle = getString(R.string.title_section2);
-                break;
-            case 3:
-                mTitle = getString(R.string.title_section3);
-                break;
-        }
-    }
+
     public void restoreActionBar() {
         ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
@@ -331,10 +317,6 @@ public class MainActivity extends Activity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        Intent i;
         switch (item.getItemId()){
 
             case R.id.action_search:

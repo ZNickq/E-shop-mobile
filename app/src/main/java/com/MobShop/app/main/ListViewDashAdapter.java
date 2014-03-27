@@ -15,9 +15,6 @@ import com.MobShop.app.util.download.ImageLoader;
 
 import java.util.ArrayList;
 
-/**
- * Created by haplea on 3/8/14.
- */
 public class ListViewDashAdapter extends BaseAdapter {
     public ArrayList<Category> categories; //Original
     public ArrayList<Category> fitems;
@@ -110,13 +107,12 @@ public class ListViewDashAdapter extends BaseAdapter {
                 results.count = ArrayList.size();
             } else {
 
-                final ArrayList<Category> ArrayList = new ArrayList<Category>(refitems);
+                final ArrayList<Category> myList = new ArrayList<Category>(refitems);
 
-                int count = ArrayList.size();
+                int count = myList.size();
                 final ArrayList<Category> nArrayList = new ArrayList<Category>(count);
 
-                for (int i = 0; i < count; i++) {
-                    final Category pkmn = ArrayList.get(i);
+                for (Category pkmn : myList) {
                     final String value = pkmn.toString().toLowerCase();
 
                     if (value.startsWith(prefix)) {
@@ -134,9 +130,7 @@ public class ListViewDashAdapter extends BaseAdapter {
         protected void publishResults(CharSequence constraint, FilterResults results) {
             fitems = (ArrayList<Category>) results.values;
             categories.clear();
-            int count = fitems.size();
-            for (int i = 0; i < count; i++) {
-                Category pkmn = (Category) fitems.get(i);
+            for (Category pkmn : fitems) {
                 add(pkmn);
             }
 

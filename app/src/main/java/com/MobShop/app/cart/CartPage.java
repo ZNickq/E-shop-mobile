@@ -44,10 +44,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-
-/**
- * Created by Segarceanu Calin on 3/9/14.
- */
 public class CartPage extends Fragment {
     public ArrayList<Product> products;
     public Context ctxt, rootViewContext;
@@ -62,7 +58,7 @@ public class CartPage extends Fragment {
     }
 
     public static CartPage newInstance(Context context) {
-        CartPage fragment = new CartPage();        ;
+        CartPage fragment = new CartPage();
         fragment.setUp(context);
         return fragment;
     }
@@ -96,9 +92,9 @@ public class CartPage extends Fragment {
             @Override
             public void onClick(View view) {
                 User user = new User();
-                if(user.getLoggedIn() == true){
+                if (user.getLoggedIn()) {
                     CheckoutTask sendData = new CheckoutTask();
-                    sendData.execute(new String[]{"checkout"});
+                    sendData.execute("checkout");
                 }else{
                     new AlertDialog.Builder(rootViewContext)
                             .setTitle("Log In")
@@ -162,8 +158,8 @@ public class CartPage extends Fragment {
             String url = NavigationDrawerFragment.URL + function;
             //connect to server
             DefaultHttpClient httpClient = new DefaultHttpClient();
-            HttpEntity httpEntity = null;
-            HttpResponse httpResponse = null;
+            HttpEntity httpEntity;
+            HttpResponse httpResponse;
             HttpPost httpPost = new HttpPost(url);
             try {
                 // Add your data
@@ -181,7 +177,7 @@ public class CartPage extends Fragment {
                         httpEntity = httpResponse.getEntity();
                         InputStream content = httpEntity.getContent();
                         BufferedReader reader = new BufferedReader(new InputStreamReader(content));
-                        String line = "";
+                        String line;
                         while ((line = reader.readLine()) != null) {
                             builder.append(line);
                         }

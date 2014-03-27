@@ -14,9 +14,6 @@ import com.MobShop.app.util.download.ImageLoader;
 
 import java.util.ArrayList;
 
-/**
- * Created by Glontz on 2/24/14.
- */
 public class GridViewContent extends BaseAdapter {
 
     public ArrayList<Category> categories;
@@ -62,8 +59,6 @@ public class GridViewContent extends BaseAdapter {
         }
         ImageView categoryImage = (ImageView) convertView.findViewById(R.id.imageGridViewContent);
         TextView categoryText = (TextView) convertView.findViewById(R.id.categoryGridViewContent);
-
-        ImageView imageView = new ImageView(context);
 
         String URL = categories.get(position).getPhotoURL();
         if (URL.equals("null")) {

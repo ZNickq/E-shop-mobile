@@ -1,9 +1,5 @@
 package com.MobShop.app.util.download;
 
-/**
- * Created by haplea on 2/24/14.
- */
-
 import android.graphics.Bitmap;
 
 import java.lang.ref.SoftReference;

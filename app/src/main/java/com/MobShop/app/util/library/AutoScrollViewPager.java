@@ -240,14 +240,6 @@ public class AutoScrollViewPager extends ViewPager {
         this.interval = interval;
     }
 
-    /**
-     * get auto scroll direction
-     *
-     * @return {@link #LEFT} or {@link #RIGHT}, default is {@link #RIGHT}
-     */
-    public int getDirection() {
-        return (direction == LEFT) ? LEFT : RIGHT;
-    }
 
     /**
      * set auto scroll direction
@@ -258,14 +250,6 @@ public class AutoScrollViewPager extends ViewPager {
         this.direction = direction;
     }
 
-    /**
-     * whether automatic cycle when auto scroll reaching the last or first item, default is true
-     *
-     * @return the isCycle
-     */
-    public boolean isCycle() {
-        return isCycle;
-    }
 
     /**
      * set whether automatic cycle when auto scroll reaching the last or first item, default is true
@@ -276,19 +260,11 @@ public class AutoScrollViewPager extends ViewPager {
         this.isCycle = isCycle;
     }
 
-    /**
-     * whether stop auto scroll when touching, default is true
-     *
-     * @return the stopScrollWhenTouch
-     */
-    public boolean isStopScrollWhenTouch() {
-        return stopScrollWhenTouch;
-    }
 
     /**
      * set whether stop auto scroll when touching, default is true
      *
-     * @param stopScrollWhenTouch
+     * @param stopScrollWhenTouch Whether to stop scroll when touching
      */
     public void setStopScrollWhenTouch(boolean stopScrollWhenTouch) {
         this.stopScrollWhenTouch = stopScrollWhenTouch;

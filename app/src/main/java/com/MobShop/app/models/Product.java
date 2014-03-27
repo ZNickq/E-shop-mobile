@@ -1,8 +1,5 @@
 package com.MobShop.app.models;
 
-/**
- * Created by Segarceanu Calin on 2/25/14.
- */
 public class Product {
     private int productId;
     private String productName;
@@ -55,32 +52,16 @@ public class Product {
         return productQuantity;
     }
 
-    public Integer getCategories() {
-        return productCategories;
-    }
-
     public void setCategories(int categories) {
         this.productCategories = categories;
-    }
-
-    public Integer getSubCategories() {
-        return productSubcategories;
     }
 
     public void setSubCategories(int subCategories) {
         this.productSubcategories = subCategories;
     }
 
-    public Integer getProductSale() {
-        return productSale;
-    }
-
     public void setProductSale(int productSale) {
         this.productSale = productSale;
-    }
-
-    public Integer getProductDiscount() {
-        return productDiscount;
     }
 
     public void setProductDiscount(int productDiscount) {
@@ -100,10 +81,7 @@ public class Product {
     }
 
     public void setProductPhotoURLS(String[] photoURLS) {
-        productPhotoURLS = new String[photoURLS.length];
-        for (int i = 0; i < photoURLS.length; i++) {
-            productPhotoURLS[i] = photoURLS[i];
-        }
+        productPhotoURLS = photoURLS;
     }
 
     public String getProductCategoryName() {

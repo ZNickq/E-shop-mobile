@@ -1,14 +1,11 @@
 package com.MobShop.app.products;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,9 +38,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Segarceanu Calin on 2/24/14.
- */
 public class ListOfProducts extends Fragment {
 
     public static final String PRODUCT_ID = "id";
@@ -63,11 +57,8 @@ public class ListOfProducts extends Fragment {
     public ListView listOfProductsView;
     public Product[] productArray;
     public Context ctxt, rootViewContext;
-    int loader = R.drawable.loader;
     ImageLoader imgLoader;
     private int mSubCategoryID = 0;
-    private String mSubCategoryName = "";
-    private boolean mFromSavedInstanceState;
     private ListOfProductsCallbacks mCallbacks;
 
     public ListOfProducts() {
@@ -87,14 +78,9 @@ public class ListOfProducts extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Read in the flag indicating whether or not the user has demonstrated awareness of the
-        // drawer. See PREF_USER_LEARNED_DRAWER for details.
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         if (savedInstanceState != null) {
             mSubCategoryID = savedInstanceState.getInt(ARG_SUB_CATEGORY_NUMBER);
-            mSubCategoryName = savedInstanceState.getString(ARG_SUB_CATEGORY_NAME);
-            mFromSavedInstanceState = true;
         }
     }
 
@@ -115,7 +101,7 @@ public class ListOfProducts extends Fragment {
         imgLoader = new ImageLoader(ctxt);
 
         ListOfProductsBySubCategories getSub = new ListOfProductsBySubCategories();
-        getSub.execute(new String[]{"getproductsbysubcategory"});
+        getSub.execute("getproductsbysubcategory");
         listOfProductsView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -131,14 +117,8 @@ public class ListOfProducts extends Fragment {
     }
 
     public void setUp(int number, String name, Context context) {
-        //ActionBar actionBar = getActionBar();
         mSubCategoryID = number;
-        mSubCategoryName = name;
         this.ctxt = context;
-    }
-
-    private ActionBar getActionBar() {
-        return getActivity().getActionBar();
     }
 
     @Override
@@ -183,8 +163,8 @@ public class ListOfProducts extends Fragment {
                 String url = ListOfProducts.URL + function;
                 //connect to server
                 DefaultHttpClient httpClient = new DefaultHttpClient();
-                HttpEntity httpEntity = null;
-                HttpResponse httpResponse = null;
+                HttpEntity httpEntity;
+                HttpResponse httpResponse;
                 HttpPost httpPost = new HttpPost(url);
 
                 try {
@@ -201,7 +181,7 @@ public class ListOfProducts extends Fragment {
                             httpEntity = httpResponse.getEntity();
                             InputStream content = httpEntity.getContent();
                             BufferedReader reader = new BufferedReader(new InputStreamReader(content));
-                            String line = "";
+                            String line;
                             while ((line = reader.readLine()) != null) {
                                 builder.append(line);
                             }
@@ -242,9 +222,7 @@ public class ListOfProducts extends Fragment {
                         Integer sale = c.getInt(PRODUCT_SALE);
                         Integer discount = c.getInt(PRODUCT_DISCOUNT);
                         String photoURL = c.getString(PRODUCT_PHOTOURL);
-                        if (photoURL.equals("null")) {
-
-                        } else {
+                        if (!photoURL.equals("null")) {
                             photoURL = uri + photoURL;
                         }
                         Product product = new Product(id, name);

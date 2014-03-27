@@ -199,7 +199,7 @@ public class NavigationDrawerFragment extends Fragment {
                     categoryString = category.get(WebApiModel.CATEGORY_NAME);
                     mDrawerExpandableListView.setVisibility(View.GONE);
                     GetSubCategoriesTask getSub = new GetSubCategoriesTask();
-                    getSub.execute(new String[]{"getsubcategorybyname"});
+                    getSub.execute("getsubcategorybyname");
                     subcategoryView.setVisibility(View.VISIBLE);
                     backNavigationDrawer.setVisibility(View.VISIBLE);
                 }
@@ -234,10 +234,9 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
     private void createCollection() throws IOException {
-        if (ok == false) {
+        if (!ok) {
             api = new WebApiModel("http://dragomircristian.net/calin/api/");
-            ArrayList<HashMap<String, String>> categories = api.getCategories("getallcategories");
-            this.pubCategories = categories;
+            this.pubCategories = api.getCategories("getallcategories");
         }
         menuCollection = new HashMap<String, ArrayList<HashMap<String, String>>>();
 
@@ -268,7 +267,7 @@ public class NavigationDrawerFragment extends Fragment {
         groupList.add("Harta"); //5
         User user = new User();
         boolean loggedIn = user.getLoggedIn();
-        if (loggedIn == true) {
+        if (loggedIn) {
             groupList.add("Cont"); //3
             groupList.add("Comenzi"); //4
             //groupList.add("Log out"); //8
@@ -413,12 +412,7 @@ public class NavigationDrawerFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-
-
-        return super.onOptionsItemSelected(item);
+        return mDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 
     /**
@@ -486,8 +480,8 @@ public class NavigationDrawerFragment extends Fragment {
                 String url = NavigationDrawerFragment.URL + function;
                 //connect to server
                 httpClient = new DefaultHttpClient();
-                HttpEntity httpEntity = null;
-                HttpResponse httpResponse = null;
+                HttpEntity httpEntity;
+                HttpResponse httpResponse;
                 HttpPost httpPost = new HttpPost(url);
 
                 try {
@@ -504,7 +498,7 @@ public class NavigationDrawerFragment extends Fragment {
                             httpEntity = httpResponse.getEntity();
                             InputStream content = httpEntity.getContent();
                             BufferedReader reader = new BufferedReader(new InputStreamReader(content));
-                            String line = "";
+                            String line;
                             while ((line = reader.readLine()) != null) {
                                 builder.append(line);
                             }

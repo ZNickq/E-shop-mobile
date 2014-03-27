@@ -1,9 +1,5 @@
 package com.MobShop.app.util.download;
 
-/**
- * Created by Glontz on 2/24/14.
- */
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -28,6 +24,7 @@ import java.util.concurrent.Executors;
 
 public class ImageLoader {
 
+    //TODO delete
     MemoryCache memoryCache = new MemoryCache();
     FileCache fileCache;
     ExecutorService executorService;
@@ -50,6 +47,7 @@ public class ImageLoader {
                 os.write(bytes, 0, count);
             }
         } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
@@ -80,7 +78,7 @@ public class ImageLoader {
 
         //from web
         try {
-            Bitmap bitmap = null;
+            Bitmap bitmap;
             URL imageUrl = new URL(url);
             HttpURLConnection conn = (HttpURLConnection) imageUrl.openConnection();
             conn.setConnectTimeout(30000);
@@ -123,20 +121,16 @@ public class ImageLoader {
             o2.inSampleSize = scale;
             return BitmapFactory.decodeStream(new FileInputStream(f), null, o2);
         } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
         return null;
     }
 
     boolean imageViewReused(PhotoToLoad photoToLoad) {
         String tag = imageViews.get(photoToLoad.imageView);
-        if (tag == null || !tag.equals(photoToLoad.url))
+        if (tag == null)
             return true;
-        return false;
-    }
-
-    public void clearCache() {
-        memoryCache.clear();
-        fileCache.clear();
+        return !tag.equals(photoToLoad.url);
     }
 
     //Task for the queue

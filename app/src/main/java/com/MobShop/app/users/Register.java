@@ -37,13 +37,9 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Segarceanu Calin on 3/10/14.
- */
 public class Register extends Fragment {
     public Context ctxt;
     public Context rootViewContext;
-    private NavigationDrawerFragment.NavigationDrawerCallbacks mCallbacks;
 
     public Register() {
 
@@ -92,7 +88,6 @@ public class Register extends Fragment {
 
         rootViewContext = rootView.getContext();
 
-        String email, password;
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -107,7 +102,7 @@ public class Register extends Fragment {
                 String ph = phoneNumberEditText.getText().toString();
                 if (e.contains("@") && p.length() >= 4 && n.length() >= 4 && s.length() >= 4 && c.length() >= 4 && d.length() >= 4 && a.length() >= 4 && ph.length() >= 4) {
                     RegisterTask sendData = new RegisterTask();
-                    sendData.execute(new String[]{"registeruser", e, p, n, s, c, d, a, ph});
+                    sendData.execute("registeruser", e, p, n, s, c, d, a, ph);
                 } else {
                     Toast toast = Toast.makeText(rootViewContext, "Va rugam completati formularul cu responsabilitate", Toast.LENGTH_LONG);
                     toast.show();
@@ -132,17 +127,11 @@ public class Register extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        try {
-            mCallbacks = (NavigationDrawerFragment.NavigationDrawerCallbacks) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException("Activity must implement ListOfProductsCallbacks.");
-        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mCallbacks = null;
     }
 
     private class RegisterTask extends AsyncTask<String, Void, String> {
@@ -177,8 +166,8 @@ public class Register extends Fragment {
             String url = NavigationDrawerFragment.URL + function;
             //connect to server
             DefaultHttpClient httpClient = new DefaultHttpClient();
-            HttpEntity httpEntity = null;
-            HttpResponse httpResponse = null;
+            HttpEntity httpEntity;
+            HttpResponse httpResponse;
             HttpPost httpPost = new HttpPost(url);
 
             try {
@@ -204,7 +193,7 @@ public class Register extends Fragment {
                         httpEntity = httpResponse.getEntity();
                         InputStream content = httpEntity.getContent();
                         BufferedReader reader = new BufferedReader(new InputStreamReader(content));
-                        String line = "";
+                        String line;
                         while ((line = reader.readLine()) != null) {
                             builder.append(line);
                         }

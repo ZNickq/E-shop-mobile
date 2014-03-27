@@ -1,17 +1,14 @@
 package com.MobShop.app.models;
 
-/**
- * Created by Segarceanu Calin on 3/10/14.
- */
 public class User {
-    public static boolean loggedIn = false;
-    private static String email;
-    private static String name;
-    private static String surname;
-    private static String city;
-    private static String district;
-    private static String address;
-    private static String phoneNumber;
+    private boolean loggedIn;
+    private String email;
+    private String name;
+    private String surname;
+    private String city;
+    private String district;
+    private String address;
+    private String phoneNumber;
 
     public User() {
 
@@ -25,8 +22,8 @@ public class User {
         return loggedIn;
     }
 
-    public void setLoggedIn(boolean val) {
-        this.loggedIn = val;
+    public void setLoggedIn(boolean loggedIn) {
+        this.loggedIn = loggedIn;
     }
 
     public String getEmail() {

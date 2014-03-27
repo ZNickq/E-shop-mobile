@@ -39,9 +39,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Segarceanu Calin on 3/10/14.
- */
 public class LogIn extends Fragment {
 
     public Context ctxt;
@@ -90,7 +87,7 @@ public class LogIn extends Fragment {
                 String e = emailEditText.getText().toString();
                 String p = passwordEditText.getText().toString();
                 LoginTask sendData = new LoginTask();
-                sendData.execute(new String[]{"loginuser", e, p});
+                sendData.execute("loginuser", e, p);
             }
         });
 
@@ -159,8 +156,8 @@ public class LogIn extends Fragment {
             String url = NavigationDrawerFragment.URL + function;
             //connect to server
             DefaultHttpClient httpClient = new DefaultHttpClient();
-            HttpEntity httpEntity = null;
-            HttpResponse httpResponse = null;
+            HttpEntity httpEntity;
+            HttpResponse httpResponse;
             HttpPost httpPost = new HttpPost(url);
 
             try {
@@ -178,7 +175,7 @@ public class LogIn extends Fragment {
                         httpEntity = httpResponse.getEntity();
                         InputStream content = httpEntity.getContent();
                         BufferedReader reader = new BufferedReader(new InputStreamReader(content));
-                        String line = "";
+                        String line;
                         while ((line = reader.readLine()) != null) {
                             builder.append(line);
                         }

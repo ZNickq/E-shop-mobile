@@ -54,10 +54,6 @@ public class GifMovieView extends View {
     private volatile boolean mPaused = false;
     private boolean mVisible = true;
 
-    public GifMovieView(Context context) {
-        this(context, null);
-    }
-
     public GifMovieView(Context context, AttributeSet attrs) {
         this(context, attrs, R.styleable.CustomTheme_gifMoviewViewStyle);
     }
@@ -98,22 +94,9 @@ public class GifMovieView extends View {
         requestLayout();
     }
 
-    public Movie getMovie() {
-        return mMovie;
-    }
-
     public void setMovie(Movie movie) {
         this.mMovie = movie;
         requestLayout();
-    }
-
-    public void setMovieTime(int time) {
-        mCurrentAnimationTime = time;
-        invalidate();
-    }
-
-    public boolean isPaused() {
-        return this.mPaused;
     }
 
     public void setPaused(boolean paused) {
@@ -175,7 +158,7 @@ public class GifMovieView extends View {
 
         } else {
             /*
-			 * No movie set, just set minimum available size.
+             * No movie set, just set minimum available size.
 			 */
             setMeasuredDimension(getSuggestedMinimumWidth(), getSuggestedMinimumHeight());
         }

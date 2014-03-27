@@ -28,11 +28,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     public Object getChild(int groupPosition, int childPosition) {
-        ArrayList<HashMap<String, String>> map = new ArrayList<HashMap<String, String>>();
-        //return menuCollection.get(groupParent.get(groupPosition)).get(childPosition);
-        map = menuCollection.get(groupParent.get(groupPosition));
-        HashMap<String, String> element = new HashMap<String, String>();
-        element = map.get(childPosition);
+        ArrayList<HashMap<String, String>> map = menuCollection.get(groupParent.get(groupPosition));
+        HashMap<String, String> element = map.get(childPosition);
         return element.get(WebApiModel.CATEGORY_NAME);
     }
 

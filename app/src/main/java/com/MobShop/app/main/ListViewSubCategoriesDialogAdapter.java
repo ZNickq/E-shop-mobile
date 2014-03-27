@@ -11,10 +11,6 @@ import android.widget.TextView;
 import com.MobShop.app.R;
 import com.MobShop.app.models.SubCategory;
 
-
-/**
- * Created by Segarceanu Calin on 3/4/14.
- */
 public class ListViewSubCategoriesDialogAdapter extends ArrayAdapter<SubCategory> {
     public Context ctxt = null;
     public SubCategory[] data = null;
@@ -37,7 +33,7 @@ public class ListViewSubCategoriesDialogAdapter extends ArrayAdapter<SubCategory
         }
 
         // object item based on the position
-        SubCategory objectItem = null;
+        SubCategory objectItem;
         objectItem = data[position];
         // get the TextView and then set the text (item name) and tag (item ID) values
         TextView textViewItem = (TextView) convertView.findViewById(R.id.listViewSubCategoriesDialogTextView);
