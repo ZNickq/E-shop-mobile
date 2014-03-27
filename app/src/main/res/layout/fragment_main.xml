@@ -2,47 +2,43 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.MobShop.app.MainActivity$PlaceholderFragment">
 
 
-    <com.MobShop.app.AutoScrollViewPager
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.MobShop.app.util.library.AutoScrollViewPager xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="150dip"
-        android:paddingBottom="5dp"/>
+        android:paddingBottom="5dp" />
 
     <TextView
-        android:layout_below="@+id/view_pager"
         android:id="@+id/section_label"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/view_pager" />
 
     <GridView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_below="@+id/view_pager"
         android:id="@+id/gridview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:numColumns="2"
-        android:horizontalSpacing="5dp"
-        android:verticalSpacing="10dp"
+        android:layout_below="@+id/view_pager"
         android:gravity="center"
-        android:stretchMode="columnWidth"
+        android:horizontalSpacing="5dp"
         android:isScrollContainer="true"
-        >
-    </GridView>
+        android:numColumns="2"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="10dp"></GridView>
 
     <ListView
         android:id="@+id/listview"
-        android:layout_below="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:isScrollContainer="true"/>
-
+        android:layout_below="@+id/view_pager"
+        android:isScrollContainer="true" />
 
 
 </RelativeLayout>

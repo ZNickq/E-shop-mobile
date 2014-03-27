@@ -3,46 +3,45 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin">
+    android:paddingTop="@dimen/activity_vertical_margin">
 
     <TextView
+        android:id="@+id/productPageProductCategory"
         android:layout_width="fill_parent"
         android:layout_height="20dp"
-        android:id="@+id/productPageProductCategory"
         android:layout_alignParentTop="true"
-        android:textColor="@color/descriptiontext"/>
+        android:textColor="@color/descriptiontext" />
 
 
     <RelativeLayout
+        android:id="@+id/mainLayoutProductPage"
         android:layout_width="fill_parent"
         android:layout_height="180dp"
-        android:id="@+id/mainLayoutProductPage"
         android:layout_below="@+id/productPageProductCategory"
-        android:padding="10dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="10dp">
 
-        <com.MobShop.app.AutoScrollViewPager
-            xmlns:android="http://schemas.android.com/apk/res/android"
+        <com.MobShop.app.util.library.AutoScrollViewPager xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/product_pager"
             android:layout_width="180dp"
             android:layout_height="180dp"
-            android:paddingBottom="5dp"/>
+            android:paddingBottom="5dp" />
 
         <TextView
+            android:id="@+id/productName"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
+            android:layout_centerHorizontal="true"
             android:layout_toRightOf="@+id/product_pager"
-            android:textSize="25dp"
-            android:textColor="@color/bluecolor"
-            android:text="Product Title"
-            android:paddingTop="15dp"
-            android:paddingLeft="15dp"
             android:paddingBottom="10dp"
-            android:id="@+id/productName"
-            android:layout_centerHorizontal="true"/>
+            android:paddingLeft="15dp"
+            android:paddingTop="15dp"
+            android:text="Product Title"
+            android:textColor="@color/bluecolor"
+            android:textSize="25dp" />
 
 
     </RelativeLayout>
@@ -51,17 +50,17 @@
         android:id="@+id/productdescriptionlayout"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/mainLayoutProductPage"
         android:layout_above="@+id/productPagePriceLayout"
-        >
+        android:layout_below="@+id/mainLayoutProductPage">
+
         <TextView
+            android:id="@+id/productPageDescription"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:id="@+id/productPageDescription"
             android:background="@color/descriptionbackground"
-            android:text="Descriere Produs..."
+            android:isScrollContainer="true"
             android:padding="10dp"
-            android:isScrollContainer="true"/>
+            android:text="Descriere Produs..." />
     </RelativeLayout>
 
 
@@ -70,25 +69,25 @@
         android:layout_width="fill_parent"
         android:layout_height="30dp"
         android:layout_above="@+id/deliverypricelayout"
-        android:background="@drawable/greybg"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="5dp"
+        android:background="@drawable/greybg">
 
         <TextView
+            android:id="@+id/pricetext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:textColor="@color/bluecolor"
+            android:layout_alignParentLeft="true"
             android:text="Pret"
-            android:id="@+id/pricetext"
-            android:layout_alignParentLeft="true" />
+            android:textColor="@color/bluecolor"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/price"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
+            android:layout_alignParentRight="true"
             android:textColor="@color/bluecolor"
-            android:layout_alignParentRight="true" />
+            android:textSize="20dp" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -96,24 +95,25 @@
         android:layout_width="fill_parent"
         android:layout_height="30dp"
         android:layout_above="@+id/productpagebuttons"
-        android:background="@drawable/greybg"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="5dp"
+        android:background="@drawable/greybg">
 
         <TextView
+            android:id="@+id/delivery"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:textColor="@color/bluecolor"
+            android:layout_alignParentLeft="true"
             android:text="Transport"
-            android:id="@+id/delivery"
-            android:layout_alignParentLeft="true" />
+            android:textColor="@color/bluecolor"
+            android:textSize="20dp" />
+
         <TextView
+            android:id="@+id/deliveryprice"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
+            android:layout_alignParentRight="true"
             android:textColor="@color/bluecolor"
-            android:id="@+id/deliveryprice"
-            android:layout_alignParentRight="true"/>
+            android:textSize="20dp" />
 
     </RelativeLayout>
 
@@ -121,22 +121,21 @@
         android:id="@+id/productpagebuttons"
         android:layout_width="fill_parent"
         android:layout_height="35dp"
-        android:paddingTop="10dp"
-        android:layout_alignParentBottom="true">
-
+        android:layout_alignParentBottom="true"
+        android:paddingTop="10dp">
 
 
         <Button
+            android:id="@+id/buttonProductPageAddToCart"
             android:layout_width="100dp"
             android:layout_height="25dp"
-            android:id="@+id/buttonProductPageAddToCart"
             android:layout_alignParentRight="true"
+            android:background="@color/bluecolor"
             android:text="Cumpara"
-            android:textSize="20dp"
             android:textColor="#ffffff"
-            android:background="@color/bluecolor"/>
+            android:textSize="20dp" />
 
-        </RelativeLayout>
+    </RelativeLayout>
 
 
 </RelativeLayout>

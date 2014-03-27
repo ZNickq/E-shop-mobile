@@ -64,6 +64,7 @@ public class LoadingScreen extends Activity {
 
             Handler handler = new Handler();
 
+            //TODO download the main images here, check for internet connection here
             Runnable r = new Runnable() {
                 public void run() {
                     PlaceholderFragment.this.getActivity().runOnUiThread(new Runnable() {

@@ -7,7 +7,6 @@ import android.app.FragmentManager;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -21,28 +20,58 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.SearchView;
 
+import com.MobShop.app.cart.CartPage;
+import com.MobShop.app.main.MainMenuFragment;
+import com.MobShop.app.models.Cart;
+import com.MobShop.app.navdrawer.NavigationDrawerFragment;
+import com.MobShop.app.products.ListOfProducts;
+import com.MobShop.app.products.ProductPage;
+import com.MobShop.app.users.LogIn;
+import com.MobShop.app.users.Register;
+import com.MobShop.app.users.UserPage;
+import com.MobShop.app.util.SharedPreferencesExecutor;
+
 import java.lang.reflect.Field;
 
 
 public class MainActivity extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks, ListOfProducts.ListOfProductsCallbacks, LogIn.LogInCallbacks {
 
-    public static Bitmap originalScreen;
-
+    public DrawerLayout mDrawerLayout;
+    public Menu mymenu;
+    public Integer kindOfMenu;
+    public FragmentManager fragmentManager;
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
-
     private CharSequence mTitle;
 
-    public DrawerLayout mDrawerLayout;
+    public static void setDrawerLeftEdgeSize(Activity activity, DrawerLayout drawerLayout, float displayWidthPercentage) {
+        if (activity == null || drawerLayout == null)
+            return;
 
-    public Menu mymenu;
-
-    public Integer kindOfMenu;
-
-    public FragmentManager fragmentManager;
+        try {
+            // find ViewDragHelper and set it accessible
+            Field leftDraggerField = drawerLayout.getClass().getDeclaredField("mLeftDragger");
+            leftDraggerField.setAccessible(true);
+            ViewDragHelper leftDragger = (ViewDragHelper) leftDraggerField.get(drawerLayout);
+            // find edgesize and set is accessible
+            Field edgeSizeField = leftDragger.getClass().getDeclaredField("mEdgeSize");
+            edgeSizeField.setAccessible(true);
+            int edgeSize = edgeSizeField.getInt(leftDragger);
+            // set new edgesize
+            Point displaySize = new Point();
+            activity.getWindowManager().getDefaultDisplay().getSize(displaySize);
+            edgeSizeField.setInt(leftDragger, Math.max(edgeSize, (int) (displaySize.x * displayWidthPercentage)));
+        } catch (NoSuchFieldException e) {
+            // ignore
+        } catch (IllegalArgumentException e) {
+            // ignore
+        } catch (IllegalAccessException e) {
+            // ignore
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,12 +118,12 @@ public class MainActivity extends Activity
                     .addToBackStack("MainFragment")
                     .commit();
 
-            SharedPerferencesExecutor<Cart> cartSharedPerferencesExecutor = new SharedPerferencesExecutor<Cart>(getApplicationContext());
-            //cartSharedPerferencesExecutor.delete("eshop");
-            Cart cart = cartSharedPerferencesExecutor.retreive("eshop", Cart.class);
-            if(cart == null){
+            SharedPreferencesExecutor<Cart> cartSharedPreferencesExecutor = new SharedPreferencesExecutor<Cart>(getApplicationContext());
+            //cartSharedPreferencesExecutor.delete("eshop");
+            Cart cart = cartSharedPreferencesExecutor.retreive("eshop", Cart.class);
+            if (cart == null) {
                 cart = new Cart();
-                cartSharedPerferencesExecutor.save("eshop", cart);
+                cartSharedPreferencesExecutor.save("eshop", cart);
             }
         }
     }
@@ -103,32 +132,6 @@ public class MainActivity extends Activity
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
-
-    public static void setDrawerLeftEdgeSize(Activity activity, DrawerLayout drawerLayout, float displayWidthPercentage) {
-        if (activity == null || drawerLayout == null)
-            return;
-
-        try {
-            // find ViewDragHelper and set it accessible
-            Field leftDraggerField = drawerLayout.getClass().getDeclaredField("mLeftDragger");
-            leftDraggerField.setAccessible(true);
-            ViewDragHelper leftDragger = (ViewDragHelper) leftDraggerField.get(drawerLayout);
-            // find edgesize and set is accessible
-            Field edgeSizeField = leftDragger.getClass().getDeclaredField("mEdgeSize");
-            edgeSizeField.setAccessible(true);
-            int edgeSize = edgeSizeField.getInt(leftDragger);
-            // set new edgesize
-            Point displaySize = new Point();
-            activity.getWindowManager().getDefaultDisplay().getSize(displaySize);
-            edgeSizeField.setInt(leftDragger, Math.max(edgeSize, (int) (displaySize.x * displayWidthPercentage)));
-        } catch (NoSuchFieldException e) {
-            // ignore
-        } catch (IllegalArgumentException e) {
-            // ignore
-        } catch (IllegalAccessException e) {
-            // ignore
-        }
     }
 
     @Override

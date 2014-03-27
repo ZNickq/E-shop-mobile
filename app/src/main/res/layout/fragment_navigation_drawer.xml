@@ -1,56 +1,54 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayoutNavigationDrawer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#0c3b54"
-    android:id="@+id/relativeLayoutNavigationDrawer"
-    tools:context="com.MobShop.app.NavigationDrawerFragment">
+    tools:context="com.MobShop.app.navdrawer.NavigationDrawerFragment">
 
 
     <ExpandableListView
+        android:id="@+id/slideMenuExpandableListView"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/slideMenuExpandableListView"
-        android:groupIndicator="@drawable/group_expandablelistview_state_list"
         android:layout_alignParentTop="true"
-        android:transcriptMode="disabled"
+        android:groupIndicator="@drawable/group_expandablelistview_state_list"
         android:paddingBottom="45dp"
         android:paddingTop="10dp"
-        />
+        android:transcriptMode="disabled" />
 
     <ImageButton
         android:id="@+id/cartSlidingButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:src="@drawable/cartslidingbutton"
-        android:background="#05a5f9" />
+        android:layout_gravity="bottom"
+        android:background="#05a5f9"
+        android:src="@drawable/cartslidingbutton" />
 
     <LinearLayout
+        android:id="@+id/layout_drawer_subcategory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/layout_drawer_subcategory"
-        android:visibility="gone"
         android:orientation="vertical"
-        >
+        android:visibility="gone">
 
         <ImageButton
+            android:id="@+id/backButtonNavigationDrawer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/back_bgt"
+            android:layout_margin="15dp"
             android:background="@android:color/transparent"
-            android:id="@+id/backButtonNavigationDrawer"
-            android:layout_margin="15dp"/>
+            android:src="@drawable/back_bgt" />
 
         <ListView
             android:id="@+id/listViewNavigationDrawer"
-            android:paddingLeft="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/backButtonNavigationDrawer"/>
+            android:layout_below="@+id/backButtonNavigationDrawer"
+            android:paddingLeft="15dp" />
 
     </LinearLayout>
 </RelativeLayout>
